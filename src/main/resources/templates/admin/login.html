@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="shortcut icon" href="/static/admin/images/favicon.png"/>
+    <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}"/>
     <title>Tale - 用户登录</title>
     #call cdn_url('login_head')
-    <link href="/static/admin/css/style.min.css?v=${version}" rel="stylesheet" type="text/css">
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet" type="text/css">
     <style type="text/css">
         body,html {
             background: url("/static/admin/images/bg/${random(5, '.png')}") no-repeat;
