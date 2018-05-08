@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Users">
+        <id column="uid" jdbcType="INTEGER" property="uid" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="home_url" jdbcType="VARCHAR" property="home_url" />
+        <result column="screen_name" jdbcType="VARCHAR" property="screen_name" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="activated" jdbcType="INTEGER" property="activated" />
+        <result column="logged" jdbcType="INTEGER" property="logged" />
+        <result column="group_name" jdbcType="VARCHAR" property="group_name" />
+    </resultMap>
+
+    <select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">
+
+        SELECT * from t_users WHERE username = #{username} and password = #{password}
+
+    </select>
+</mapper>

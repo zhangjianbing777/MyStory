@@ -59,7 +59,7 @@ NULL,1,1,0,0,NULL,NULL,'markdown','publish','page',1,'## 友情链接
 ## 基本信息
 
                 网站名称：Tale博客
-                网站地址：https://tale.biezhi.me
+                网站地址：https://story.biezhi.me
 
 请在当页通过评论来申请友链，其他地方不予回复
 

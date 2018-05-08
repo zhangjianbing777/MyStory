@@ -128,16 +128,16 @@ $.tale.prototype.post = function (options) {
  * 显示动画
  */
 $.tale.prototype.showLoading = function () {
-    if ($('#tale-loading').length == 0) {
-        $('body').append('<div id="tale-loading"></div>');
+    if ($('#story-loading').length == 0) {
+        $('body').append('<div id="story-loading"></div>');
     }
-    $('#tale-loading').show();
+    $('#story-loading').show();
 };
 
 /**
  * 隐藏动画
  */
 $.tale.prototype.hideLoading = function () {
-    $('#tale-loading') && $('#tale-loading').hide();
+    $('#story-loading') && $('#story-loading').hide();
 };
 

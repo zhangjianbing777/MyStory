@@ -88,7 +88,7 @@
 2018-05-08 17:37:50:651 INFO - [ _(:3」∠)_ ] c.t.i.SqliteJdbc          | load sqlite database src [jdbc:sqlite://E:\MyBlog\MyStory/tale.db]
 2018-05-08 17:37:50:924 INFO - [ _(:3」∠)_ ] c.t.i.SqliteJdbc          | database path is: E:\MyBlog\MyStory/tale.db
 2018-05-08 17:37:50:937 INFO - [ _(:3」∠)_ ] c.b.j.Base                | ⬢ Blade-JDBC initializing
-2018-05-08 17:37:50:937 INFO - [ _(:3」∠)_ ] c.b.s.n.NettyServer       | ⬢ Register bean: [com.blade.Environment@6fe2f9, com.tale.service.ContentsService@5ab75528, com.tale.init.WebContext@17d3f8ed, com.tale.exception.GolbalExceptionHandler@1eef6b7e, com.tale.service.SiteService@61e82a70, com.tale.controller.admin.AuthController@1963d70, com.tale.service.OptionsService@90aa93f, com.tale.controller.admin.ThemeController@6c5b87fb, com.tale.controller.admin.CategoryController@4c408baa, com.tale.controller.CategoryController@7c0d42ef, com.tale.hooks.BaseWebHook@20125f00, com.tale.controller.IndexController@104660a6, com.tale.service.CommentsService@5813a4df, com.tale.controller.admin.AttachController@4e1f8f08, com.tale.controller.admin.PageController@7c473394, com.tale.controller.admin.IndexController@5f273fea, com.tale.controller.InstallController@1ad74d8d, com.tale.controller.admin.CommentController@2802e610, com.tale.service.MetasService@6d1cbb17, com.tale.init.WebContext@17d3f8ed, com.tale.controller.admin.ArticleController@b220131, com.tale.hooks.BaseWebHook@20125f00, com.tale.controller.admin.TemplateController@2b398efd]
+2018-05-08 17:37:50:937 INFO - [ _(:3」∠)_ ] c.b.s.n.NettyServer       | ⬢ Register bean: [com.blade.Environment@6fe2f9, com.nmys.story.service.ContentsService@5ab75528, com.nmys.story.init.WebContext@17d3f8ed, com.nmys.story.exception.GolbalExceptionHandler@1eef6b7e, com.nmys.story.service.SiteService@61e82a70, com.nmys.story.controller.admin.AuthController@1963d70, com.nmys.story.service.OptionsService@90aa93f, com.nmys.story.controller.admin.ThemeController@6c5b87fb, com.nmys.story.controller.admin.CategoryController@4c408baa, com.nmys.story.controller.CategoryController@7c0d42ef, com.nmys.story.hooks.BaseWebHook@20125f00, com.nmys.story.controller.IndexController@104660a6, com.nmys.story.service.CommentsService@5813a4df, com.nmys.story.controller.admin.AttachController@4e1f8f08, com.nmys.story.controller.admin.PageController@7c473394, com.nmys.story.controller.admin.IndexController@5f273fea, com.nmys.story.controller.InstallController@1ad74d8d, com.nmys.story.controller.admin.CommentController@2802e610, com.nmys.story.service.MetasService@6d1cbb17, com.nmys.story.init.WebContext@17d3f8ed, com.nmys.story.controller.admin.ArticleController@b220131, com.nmys.story.hooks.BaseWebHook@20125f00, com.nmys.story.controller.admin.TemplateController@2b398efd]
 2018-05-08 17:37:51:027 INFO - [ _(:3」∠)_ ] j.t.JetEngineImpl         | JetEngine.version = 2.1.5
 2018-05-08 17:37:51:027 INFO - [ _(:3」∠)_ ] j.t.JetEngineImpl         | JetEngine.loader = jetbrick.template.loader.ClasspathResourceLoader, root = /templates/, reload = true
 2018-05-08 17:37:51:039 INFO - [ _(:3」∠)_ ] j.t.r.c.ClassResolver     | import package: java.lang.*
@@ -96,13 +96,13 @@
 2018-05-08 17:37:51:041 INFO - [ _(:3」∠)_ ] j.t.r.m.MethodInvokerResolver | import 38 methods from class jetbrick.template.runtime.buildin.JetMethods
 2018-05-08 17:37:51:043 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 11 functions from class jetbrick.template.runtime.buildin.JetFunctions
 2018-05-08 17:37:51:044 INFO - [ _(:3」∠)_ ] j.t.r.t.TagInvokerResolver | import 2 tags from class jetbrick.template.runtime.buildin.JetTags
-2018-05-08 17:37:51:045 INFO - [ _(:3」∠)_ ] j.t.r.GlobalResolver      | Scanning @JetMethods, @JetFunctions, @JetTags implements from [com.tale] ...
+2018-05-08 17:37:51:045 INFO - [ _(:3」∠)_ ] j.t.r.GlobalResolver      | Scanning @JetMethods, @JetFunctions, @JetTags implements from [com.nmys.story] ...
 2018-05-08 17:37:51:086 INFO - [ _(:3」∠)_ ] j.t.r.GlobalResolver      | Found 0 annotated classes, time elapsed 39 ms.
 2018-05-08 17:37:51:112 INFO - [ _(:3」∠)_ ] j.t.JetTemplateImpl       | Loading template: /comm/macros.html
-2018-05-08 17:37:51:262 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 21 functions from class com.tale.extension.Commons
-2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 50 functions from class com.tale.extension.Theme
-2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 2 functions from class com.tale.extension.AdminCommons
-2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.t.TagInvokerResolver | import 1 tags from class com.tale.extension.JetTag
+2018-05-08 17:37:51:262 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 21 functions from class com.nmys.story.extension.Commons
+2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 50 functions from class com.nmys.story.extension.Theme
+2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.f.FunctionInvokerResolver | import 2 functions from class com.nmys.story.extension.AdminCommons
+2018-05-08 17:37:51:263 INFO - [ _(:3」∠)_ ] j.t.r.t.TagInvokerResolver | import 1 tags from class com.nmys.story.extension.JetTag
 2018-05-08 17:37:51:271 DEBUG - [ _(:3」∠)_ ] c.b.j.c.ActiveRecord      | ⬢ Execute SQL => SELECT * FROM t_options
 2018-05-08 17:37:51:271 DEBUG - [ _(:3」∠)_ ] c.b.j.c.ActiveRecord      | ⬢ Parameters  => []
 2018-05-08 17:37:51:347 INFO - [ _(:3」∠)_ ] c.b.s.n.NettyServer       | ⬢ Watched environment: true
