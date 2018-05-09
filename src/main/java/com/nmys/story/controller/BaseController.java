@@ -6,6 +6,8 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.utils.MapCache;
 import com.nmys.story.utils.TaleUtils;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by biezhi on 2017/2/21.
  */
@@ -29,12 +31,12 @@ public abstract class BaseController {
         return this;
     }
 
-    public Users user() {
-        return TaleUtils.getLoginUser();
+    public Users user(HttpServletRequest request) {
+        return TaleUtils.getLoginUser(request);
     }
 
-    public Integer getUid(){
-        return this.user().getUid();
+    public Integer getUid(HttpServletRequest request){
+        return this.user(request).getUid();
     }
 
     public String render_404() {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Comments">
+        <id column="coid" jdbcType="INTEGER" property="coid" />
+        <result column="cid" jdbcType="INTEGER" property="cid" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="author_id" jdbcType="INTEGER" property="author_id" />
+        <result column="owner_id" jdbcType="INTEGER" property="owner_id" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="mail" jdbcType="INTEGER" property="mail" />
+        <result column="url" jdbcType="INTEGER" property="url" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="agent" jdbcType="VARCHAR" property="agent" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="parent" jdbcType="VARCHAR" property="parent" />
+    </resultMap>
+
+
+
+    <insert id="saveComment" parameterType="com.nmys.story.model.entity.Comments" useGeneratedKeys="true" keyProperty="coid">
+        insert into t_comments (coid, cid, created,
+                                author, author_id, owner_id,
+                                mail, url, ip, agent,
+                                type, status, parent,
+                                content)
+        values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{created,jdbcType=INTEGER},
+                #{author,jdbcType=VARCHAR}, #{author_id,jdbcType=INTEGER}, #{owner_id,jdbcType=INTEGER},
+                #{mail,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+                #{agent,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{parent,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <delete id="delCommentById">
+        DELETE FROM t_comments WHERE coid = #{id}
+    </delete>
+
+    <!--<insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="uid">-->
+        <!--INSERT INTO t_users (uid, username, password,-->
+        <!--email, home_url, screen_name,-->
+        <!--created, activated, logged,-->
+        <!--group_name)-->
+        <!--VALUES (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},-->
+        <!--#{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},-->
+        <!--#{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},-->
+        <!--#{group_name,jdbcType=VARCHAR})-->
+    <!--</insert>-->
+
+    <!--<select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">-->
+        <!--SELECT * FROM t_users WHERE username = #{username} and password = #{password}-->
+    <!--</select>-->
+
+    <!--<select id="selectUserByUsername" resultMap="BaseResultMap">-->
+        <!--SELECT * FROM t_users WHERE username = #{username}-->
+    <!--</select>-->
+
+    <select id="selectCommentCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_comments
+    </select>
+
+    <select id="selectCommentByid" resultMap="BaseResultMap">
+        SELECT * from t_comments WHERE cid = #{id}
+    </select>
+
+    <select id="selectNewComments" resultMap="BaseResultMap">
+        SELECT * FROM  t_comments ORDER BY created DESC
+    </select>
+</mapper>

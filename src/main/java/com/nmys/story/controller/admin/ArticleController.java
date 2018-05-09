@@ -21,6 +21,7 @@ import com.nmys.story.service.MetasService;
 import com.nmys.story.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,26 +102,27 @@ public class ArticleController extends BaseController {
     @PostRoute(value = "publish")
     @JSON
     public RestResponse publishArticle(@Valid Contents contents) {
-        Users users = this.user();
-        contents.setType(Types.ARTICLE);
-        contents.setAuthorId(users.getUid());
-        if (StringKit.isBlank(contents.getCategories())) {
-            contents.setCategories("默认分类");
-        }
-
-        try {
-            Integer cid = contentsService.publish(contents);
-            siteService.cleanCache(Types.C_STATISTICS);
-            return RestResponse.ok(cid);
-        } catch (Exception e) {
-            String msg = "文章发布失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+//        Users users = this.user();
+//        contents.setType(Types.ARTICLE);
+//        contents.setAuthorId(users.getUid());
+//        if (StringKit.isBlank(contents.getCategories())) {
+//            contents.setCategories("默认分类");
+//        }
+//
+//        try {
+//            Integer cid = contentsService.publish(contents);
+//            siteService.cleanCache(Types.C_STATISTICS);
+//            return RestResponse.ok(cid);
+//        } catch (Exception e) {
+//            String msg = "文章发布失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
+        return null;
     }
 
     /**
@@ -158,11 +160,11 @@ public class ArticleController extends BaseController {
      */
     @Route(value = "delete")
     @JSON
-    public RestResponse delete(@Param int cid, Request request) {
+    public RestResponse delete(@Param int cid, HttpServletRequest request) {
         try {
             contentsService.delete(cid);
             siteService.cleanCache(Types.C_STATISTICS);
-            new Logs(LogActions.DEL_ARTICLE, cid + "", request.address(), this.getUid()).save();
+            new Logs(LogActions.DEL_ARTICLE, cid + "", request.getRemoteAddr(), this.getUid(request)).save();
         } catch (Exception e) {
             String msg = "文章删除失败";
             if (e instanceof TipException) {

@@ -17,4 +17,10 @@ public interface IUserService {
      */
     Users userLogin(String username, String password);
 
+    void saveUser(Users user);
+
+    Users selectUserByUsername(String username);
+
+    boolean updateUser(Users user);
+
 }

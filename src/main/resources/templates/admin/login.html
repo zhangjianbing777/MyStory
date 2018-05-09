@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}"/>
     <title>Tale - 用户登录</title>
-    #call cdn_url('login_head')
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet" type="text/css">
     <style type="text/css">
         body,html {
@@ -96,15 +95,16 @@
     </div>
 </div>
 <!-- Main  -->
-#call cdn_url('login_foot')
 <script th:src="@{/admin/js/base.js}"></script>
 <script type="text/javascript">
     var tale = new $.tale();
     function checkForm() {
+        alert(11111111);
         tale.post({
             url: '/admin/login',
             data: $("#loginForm").serialize(),
             success: function (result) {
+                alert(result);
                 if (result && result.success) {
                     window.location.href = '/admin/index';
                 } else {

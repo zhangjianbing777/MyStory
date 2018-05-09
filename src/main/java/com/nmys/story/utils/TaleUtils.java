@@ -28,12 +28,17 @@ import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.AttributeProviderContext;
 import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -52,6 +57,8 @@ import static com.nmys.story.init.TaleConst.*;
  * Created by biezhi on 2017/2/21.
  */
 public class TaleUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(TaleUtils.class);
 
     /**
      * 一个月
@@ -89,30 +96,40 @@ public class TaleUtils {
         }
     }
 
+
     /**
-     * 返回当前登录用户
-     *
-     * @return
+     * Description:返回当前登录用户
+     * Author:70kg
+     * Param [request]
+     * Return com.nmys.story.model.entity.Users
+     * Date 2018/5/9 10:21
      */
-    public static Users getLoginUser() {
-        Session session = com.blade.mvc.WebContext.request().session();
+    public static Users getLoginUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
         if (null == session) {
             return null;
         }
-        Users user = session.attribute(TaleConst.LOGIN_SESSION_KEY);
-        return user;
+        return (Users) session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
     }
 
     /**
-     * 退出登录状态
-     *
-     * @param session
-     * @param response
+     * Description:退出登录
+     * Author:70kg
+     * Param [session, response]
+     * Return void
+     * Date 2018/5/9 10:27
      */
-    public static void logout(Session session, Response response) {
-        session.removeAttribute(TaleConst.LOGIN_SESSION_KEY);
-        response.removeCookie(TaleConst.USER_IN_COOKIE);
-        response.redirect(Commons.site_url());
+    public static void logout(HttpSession session, HttpServletResponse response) {
+        // 移除session
+        session.removeAttribute(WebConstant.LOGIN_SESSION_KEY);
+        Cookie cookie = new Cookie(WebConstant.USER_IN_COOKIE, "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        try {
+            response.sendRedirect(Commons.site_url());
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     /**

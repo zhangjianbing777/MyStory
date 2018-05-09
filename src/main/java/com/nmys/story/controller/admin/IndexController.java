@@ -25,47 +25,66 @@ import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Users;
-import com.nmys.story.service.OptionsService;
-import com.nmys.story.service.SiteService;
+import com.nmys.story.service.*;
 import jetbrick.util.ShellUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 后台控制器
- * Created by biezhi on 2017/2/21.
+ * Description:进入后台页面
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/9 10:10
  */
 @Slf4j
-@Path("admin")
+@Controller
+@RequestMapping("/admin")
 public class IndexController extends BaseController {
 
     @Inject
     private OptionsService optionsService;
 
     @Inject
+    @Autowired
     private SiteService siteService;
+
+    @Autowired
+    private ICommentService commentService;
+
+    @Autowired
+    private IContentService contentService;
+
+    @Autowired
+    private IUserService userService;
 
     /**
      * 仪表盘
      */
-    @Route(value = {"/", "index"}, method = HttpMethod.GET)
+    @GetMapping(value = {"/", "index"})
     public String index(Request request) {
         List<Comments> comments   = siteService.recentComments(5);
-        List<Contents> contents   = siteService.getContens(Types.RECENT_ARTICLE, 5);
-        Statistics     statistics = siteService.getStatistics();
-        // 取最新的20条日志
-        Page<Logs> logsPage = new Logs().page(1, 20, "id desc");
-        List<Logs> logs     = logsPage.getRows();
-
-        request.attribute("comments", comments);
-        request.attribute("articles", contents);
-        request.attribute("statistics", statistics);
-        request.attribute("logs", logs);
+//        List<Contents> contents   = siteService.getContens(Types.RECENT_ARTICLE, 5);
+//        Statistics     statistics = siteService.getStatistics();
+//        // 取最新的20条日志
+//        Page<Logs> logsPage = new Logs().page(1, 20, "id desc");
+//        List<Logs> logs     = logsPage.getRows();
+//
+//        request.attribute("comments", comments);
+//        request.attribute("articles", contents);
+//        request.attribute("statistics", statistics);
+//        request.attribute("logs", logs);
         return "admin/index";
     }
 
@@ -84,25 +103,33 @@ public class IndexController extends BaseController {
      */
     @Route(value = "setting", method = HttpMethod.POST)
     @JSON
-    public RestResponse saveSetting(@Param String site_theme, Request request) {
-        try {
-            Map<String, List<String>> querys = request.parameters();
-            optionsService.saveOptions(querys);
-
-            Environment config = Environment.of(optionsService.getOptions());
-            TaleConst.OPTIONS = config;
-
-            new Logs(LogActions.SYS_SETTING, JsonKit.toString(querys), request.address(), this.getUid()).save();
-            return RestResponse.ok();
-        } catch (Exception e) {
-            String msg = "保存设置失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+    public RestResponse saveSetting(@Param String site_theme, HttpServletRequest request) {
+//        try {
+//
+////            Map<String, List<String>> querys = request.getParameter();
+//            Map<String, String[]> parameterMap = request.getParameterMap();
+//            Map<String, String> querys = new HashMap<>();
+//            parameterMap.forEach((key, value) -> {
+//                querys.put(key, join(value));
+//            });
+//
+//            optionsService.saveOptions(querys);
+//
+//            Environment config = Environment.of(optionsService.getOptions());
+//            TaleConst.OPTIONS = config;
+//
+//            new Logs(LogActions.SYS_SETTING, JsonKit.toString(querys), request.getRemoteAddr(), this.getUid(request)).save();
+//            return RestResponse.ok();
+//        } catch (Exception e) {
+//            String msg = "保存设置失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
+        return null;
     }
 
     /**
@@ -118,14 +145,17 @@ public class IndexController extends BaseController {
      */
     @Route(value = "profile", method = HttpMethod.POST)
     @JSON
-    public RestResponse saveProfile(@Param String screen_name, @Param String email, Request request) {
-        Users users = this.user();
+    public RestResponse saveProfile(@Param String screen_name, @Param String email, HttpServletRequest request) {
+        Users users = this.user(request);
         if (StringKit.isNotBlank(screen_name) && StringKit.isNotBlank(email)) {
             Users temp = new Users();
             temp.setScreen_name(screen_name);
             temp.setEmail(email);
-            temp.update(users.getUid());
-            new Logs(LogActions.UP_INFO, JsonKit.toString(temp), request.address(), this.getUid()).save();
+            temp.setUid(users.getUid());
+            // 更新用户信息
+            userService.saveUser(temp);
+//            temp.update(users.getUid());
+            new Logs(LogActions.UP_INFO, JsonKit.toString(temp), request.getRemoteAddr(), this.getUid(request)).save();
         }
         return RestResponse.ok();
     }
@@ -135,8 +165,8 @@ public class IndexController extends BaseController {
      */
     @Route(value = "password", method = HttpMethod.POST)
     @JSON
-    public RestResponse upPwd(@Param String old_password, @Param String password, Request request) {
-        Users users = this.user();
+    public RestResponse upPwd(@Param String old_password, @Param String password, HttpServletRequest request) {
+        Users users = this.user(request);
         if (StringKit.isBlank(old_password) || StringKit.isBlank(password)) {
             return RestResponse.fail("请确认信息输入完整");
         }
@@ -152,8 +182,12 @@ public class IndexController extends BaseController {
             Users  temp = new Users();
             String pwd  = EncryptKit.md5(users.getUsername() + password);
             temp.setPassword(pwd);
-            temp.update(users.getUid());
-            new Logs(LogActions.UP_PWD, null, request.address(), this.getUid()).save();
+            temp.setUid(users.getUid());
+            // 更新用户
+            userService.saveUser(temp);
+//            temp.update(users.getUid());
+            // 记录日志功能不完善
+            new Logs(LogActions.UP_PWD, null, request.getRemoteAddr(), this.getUid(request)).save();
             return RestResponse.ok();
         } catch (Exception e) {
             String msg = "密码修改失败";
@@ -174,14 +208,14 @@ public class IndexController extends BaseController {
     @Route(value = "backup", method = HttpMethod.POST)
     @JSON
     public RestResponse backup(@Param String bk_type, @Param String bk_path,
-                               Request request) {
+                               HttpServletRequest request) {
         if (StringKit.isBlank(bk_type)) {
             return RestResponse.fail("请确认信息输入完整");
         }
 
         try {
             BackResponse backResponse = siteService.backup(bk_type, bk_path, "yyyyMMddHHmm");
-            new Logs(LogActions.SYS_BACKUP, null, request.address(), this.getUid()).save();
+            new Logs(LogActions.SYS_BACKUP, null, request.getRemoteAddr(), this.getUid(request)).save();
             return RestResponse.ok(backResponse);
         } catch (Exception e) {
             String msg = "备份失败";
@@ -247,7 +281,7 @@ public class IndexController extends BaseController {
      * @return
      */
     @Route(value = "reload", method = HttpMethod.GET)
-    public void reload(@Param(defaultValue = "0") int sleep, Request request) {
+    public void reload(@Param(defaultValue = "0") int sleep, HttpServletRequest request) {
         if (sleep < 0 || sleep > 999) {
             sleep = 10;
         }
@@ -257,7 +291,7 @@ public class IndexController extends BaseController {
             String cmd     = "sh " + webHome + "/bin story.sh reload " + sleep;
             log.info("execute shell: {}", cmd);
             ShellUtils.shell(cmd);
-            new Logs(LogActions.RELOAD_SYS, "", request.address(), this.getUid()).save();
+            new Logs(LogActions.RELOAD_SYS, "", request.getRemoteAddr(), this.getUid(request)).save();
             TimeUnit.SECONDS.sleep(sleep);
         } catch (Exception e) {
             log.error("重启系统失败", e);

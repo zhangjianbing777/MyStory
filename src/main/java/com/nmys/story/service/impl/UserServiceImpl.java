@@ -6,6 +6,7 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.utils.TaleUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements IUserService {
 
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -33,5 +35,20 @@ public class UserServiceImpl implements IUserService {
             throw new TipException("this user is not exist!");
         }
         return user;
+    }
+
+    @Override
+    public void saveUser(Users user) {
+        userMapper.saveUser(user);
+    }
+
+    @Override
+    public Users selectUserByUsername(String username) {
+        return userMapper.selectUserByUsername(username);
+    }
+
+    @Override
+    public boolean updateUser(Users user) {
+        return userMapper.updateUser(user);
     }
 }

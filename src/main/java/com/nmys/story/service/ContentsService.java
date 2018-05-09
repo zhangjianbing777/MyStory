@@ -136,12 +136,12 @@ public class ContentsService {
      * @param cid 文章id
      */
     public void delete(int cid) {
-        Optional<Contents> contents = this.getContents(cid + "");
-        contents.ifPresent(content -> {
-            new Contents().delete(cid);
-            new Relationships().delete("cid", cid);
-            new Comments().where("cid", cid).delete();
-        });
+//        Optional<Contents> contents = this.getContents(cid + "");
+//        contents.ifPresent(content -> {
+//            new Contents().delete(cid);
+//            new Relationships().delete("cid", cid);
+//            new Comments().where("cid", cid).delete();
+//        });
     }
 
     /**

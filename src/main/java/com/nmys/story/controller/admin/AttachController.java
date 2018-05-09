@@ -24,6 +24,7 @@ import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -77,66 +78,67 @@ public class AttachController extends BaseController {
      */
     @Route(value = "upload", method = HttpMethod.POST)
     @JSON
-    public RestResponse upload(Request request) {
+    public RestResponse upload(HttpServletRequest request) {
 
-        log.info("UPLOAD DIR = {}", TaleUtils.UP_DIR);
-
-        Users                 users       = this.user();
-        Integer               uid         = users.getUid();
-        Map<String, FileItem> fileItemMap = request.fileItems();
-        Collection<FileItem>  fileItems   = fileItemMap.values();
-        List<Attach>          errorFiles  = new ArrayList<>();
-        List<Attach>          urls        = new ArrayList<>();
-        try {
-            fileItems.forEach((FileItem f) -> {
-                String fname = f.getFileName();
-
-                if ((f.getLength() / 1024) <= TaleConst.MAX_FILE_SIZE) {
-                    String fkey = TaleUtils.getFileKey(fname);
-
-                    String ftype    = f.getContentType().contains("image") ? Types.IMAGE : Types.FILE;
-                    String filePath = TaleUtils.UP_DIR + fkey;
-
-                    try {
-                        Files.write(Paths.get(filePath), f.getData());
-                    } catch (IOException e) {
-                        log.error("", e);
-                    }
-
-                    Attach attach = new Attach();
-                    attach.setFname(fname);
-                    attach.setAuthor_id(uid);
-                    attach.setFkey(fkey);
-                    attach.setFtype(ftype);
-                    attach.setCreated(DateKit.nowUnix());
-                    attach.save();
-
-                    urls.add(attach);
-                    siteService.cleanCache(Types.C_STATISTICS);
-                } else {
-                    Attach attach = new Attach();
-                    attach.setFname(fname);
-                    errorFiles.add(attach);
-                }
-            });
-            if (errorFiles.size() > 0) {
-                return RestResponse.builder().success(false).payload(errorFiles).build();
-            }
-            return RestResponse.ok(urls);
-        } catch (Exception e) {
-            String msg = "文件上传失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+//        log.info("UPLOAD DIR = {}", TaleUtils.UP_DIR);
+//
+//        Users                 users       = this.user(request);
+//        Integer               uid         = users.getUid();
+//        Map<String, FileItem> fileItemMap = request.fileItems();
+//        Collection<FileItem>  fileItems   = fileItemMap.values();
+//        List<Attach>          errorFiles  = new ArrayList<>();
+//        List<Attach>          urls        = new ArrayList<>();
+//        try {
+//            fileItems.forEach((FileItem f) -> {
+//                String fname = f.getFileName();
+//
+//                if ((f.getLength() / 1024) <= TaleConst.MAX_FILE_SIZE) {
+//                    String fkey = TaleUtils.getFileKey(fname);
+//
+//                    String ftype    = f.getContentType().contains("image") ? Types.IMAGE : Types.FILE;
+//                    String filePath = TaleUtils.UP_DIR + fkey;
+//
+//                    try {
+//                        Files.write(Paths.get(filePath), f.getData());
+//                    } catch (IOException e) {
+//                        log.error("", e);
+//                    }
+//
+//                    Attach attach = new Attach();
+//                    attach.setFname(fname);
+//                    attach.setAuthor_id(uid);
+//                    attach.setFkey(fkey);
+//                    attach.setFtype(ftype);
+//                    attach.setCreated(DateKit.nowUnix());
+//                    attach.save();
+//
+//                    urls.add(attach);
+//                    siteService.cleanCache(Types.C_STATISTICS);
+//                } else {
+//                    Attach attach = new Attach();
+//                    attach.setFname(fname);
+//                    errorFiles.add(attach);
+//                }
+//            });
+//            if (errorFiles.size() > 0) {
+//                return RestResponse.builder().success(false).payload(errorFiles).build();
+//            }
+//            return RestResponse.ok(urls);
+//        } catch (Exception e) {
+//            String msg = "文件上传失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
+        return null;
     }
 
     @Route(value = "delete")
     @JSON
-    public RestResponse delete(@Param Integer id, Request request) {
+    public RestResponse delete(@Param Integer id, HttpServletRequest request) {
         try {
             Attach attach = new Attach().find(id);
             if (null == attach) {
@@ -151,7 +153,7 @@ public class AttachController extends BaseController {
                 Files.delete(path);
             }
             attach.delete(id);
-            new Logs(LogActions.DEL_ATTACH, fkey, request.address(), this.getUid()).save();
+            new Logs(LogActions.DEL_ATTACH, fkey, request.getRemoteAddr(), this.getUid(request)).save();
         } catch (Exception e) {
             String msg = "附件删除失败";
             if (e instanceof TipException) {

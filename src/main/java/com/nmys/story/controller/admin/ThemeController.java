@@ -19,6 +19,7 @@ import com.nmys.story.model.entity.Logs;
 import com.nmys.story.service.OptionsService;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -94,31 +95,32 @@ public class ThemeController extends BaseController {
      */
     @PostRoute(value = "setting")
     @JSON
-    public RestResponse saveSetting(Request request) {
-        try {
-            Map<String, List<String>> query = request.parameters();
-
-            // theme_milk_options => {  }
-            String currentTheme = Commons.site_theme();
-            String key          = "theme_" + currentTheme + "_options";
-
-            Map<String, String> options = new HashMap<>();
-            query.forEach((k, v) -> options.put(k, v.get(0)));
-
-            optionsService.saveOption(key, JsonKit.toString(options));
-
-            TaleConst.OPTIONS = Environment.of(optionsService.getOptions());
-            new Logs(LogActions.THEME_SETTING, JsonKit.toString(query), request.address(), this.getUid()).save();
-            return RestResponse.ok();
-        } catch (Exception e) {
-            String msg = "主题设置失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+    public RestResponse saveSetting(HttpServletRequest request) {
+//        try {
+//            Map<String, List<String>> query = request.parameters();
+//
+//            // theme_milk_options => {  }
+//            String currentTheme = Commons.site_theme();
+//            String key          = "theme_" + currentTheme + "_options";
+//
+//            Map<String, String> options = new HashMap<>();
+//            query.forEach((k, v) -> options.put(k, v.get(0)));
+//
+//            optionsService.saveOption(key, JsonKit.toString(options));
+//
+//            TaleConst.OPTIONS = Environment.of(optionsService.getOptions());
+//            new Logs(LogActions.THEME_SETTING, JsonKit.toString(query), request.address(), this.getUid()).save();
+//            return RestResponse.ok();
+//        } catch (Exception e) {
+//            String msg = "主题设置失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
+        return null;
     }
 
     /**
@@ -130,7 +132,7 @@ public class ThemeController extends BaseController {
      */
     @PostRoute(value = "active")
     @JSON
-    public RestResponse activeTheme(Request request, @Param String site_theme) {
+    public RestResponse activeTheme(HttpServletRequest request, @Param String site_theme) {
         try {
             optionsService.saveOption("site_theme", site_theme);
             optionsService.deleteOption("theme_option_");
@@ -143,7 +145,7 @@ public class ThemeController extends BaseController {
                 TaleLoader.loadTheme(themePath);
             } catch (Exception e) {
             }
-            new Logs(LogActions.THEME_SETTING, site_theme, request.address(), this.getUid()).save();
+            new Logs(LogActions.THEME_SETTING, site_theme, request.getRemoteAddr(), this.getUid(request)).save();
             return RestResponse.ok();
         } catch (Exception e) {
             String msg = "主题启用失败";

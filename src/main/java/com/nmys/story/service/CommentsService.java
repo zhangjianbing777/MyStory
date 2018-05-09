@@ -12,6 +12,7 @@ import com.nmys.story.model.dto.Comment;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.utils.TaleUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,9 @@ public class CommentsService {
 
     @Inject
     private ContentsService contentsService;
+
+    @Autowired
+    private ICommentService commentService;
 
     /**
      * 保存评论
@@ -50,7 +54,8 @@ public class CommentsService {
             comments.setCreated(DateKit.nowUnix());
             comments.setParent(comments.getCoid());
             comments.setCoid(null);
-            comments.save();
+            commentService.saveComments(comments);
+//            comments.save();
 
             Contents temp = new Contents();
             temp.setCommentsNum(contents.getCommentsNum() + 1);
@@ -68,7 +73,9 @@ public class CommentsService {
      * @throws Exception
      */
     public void delete(Integer coid, Integer cid) {
-        new Comments().delete(coid);
+        // 根据id删除评论
+        boolean flag = commentService.delCommentById(coid);
+//        new Comments().delete(coid);
         Contents contents = new Contents().find(cid);
         if (null != contents && contents.getCommentsNum() > 0) {
             Contents temp = new Contents();
@@ -86,19 +93,19 @@ public class CommentsService {
      * @return
      */
     public Page<Comment> getComments(Integer cid, int page, int limit) {
-        if (null != cid) {
-            Page<Comments> cp = new Comments().where("cid", cid).and("parent", 0).page(page, limit, "coid desc");
-            return cp.map(parent -> {
-                Comment        comment  = new Comment(parent);
-                List<Comments> children = new ArrayList<>();
-                getChildren(children, comment.getCoid());
-                comment.setChildren(children);
-                if (BladeKit.isNotEmpty(children)) {
-                    comment.setLevels(1);
-                }
-                return comment;
-            });
-        }
+//        if (null != cid) {
+//            Page<Comments> cp = new Comments().where("cid", cid).and("parent", 0).page(page, limit, "coid desc");
+//            return cp.map(parent -> {
+//                Comment        comment  = new Comment(parent);
+//                List<Comments> children = new ArrayList<>();
+//                getChildren(children, comment.getCoid());
+//                comment.setChildren(children);
+//                if (BladeKit.isNotEmpty(children)) {
+//                    comment.setLevels(1);
+//                }
+//                return comment;
+//            });
+//        }
         return null;
     }
 
@@ -109,11 +116,11 @@ public class CommentsService {
      * @return
      */
     private void getChildren(List<Comments> list, Integer coid) {
-        List<Comments> cms = new Comments().where("parent", coid).findAll(OrderBy.asc("coid"));
-        if (null != cms) {
-            list.addAll(cms);
-            cms.forEach(c -> getChildren(list, c.getCoid()));
-        }
+//        List<Comments> cms = new Comments().where("parent", coid).findAll(OrderBy.asc("coid"));
+//        if (null != cms) {
+//            list.addAll(cms);
+//            cms.forEach(c -> getChildren(list, c.getCoid()));
+//        }
     }
 
     /**
@@ -124,7 +131,9 @@ public class CommentsService {
      */
     public Comments byId(Integer coid) {
         if (null != coid) {
-            return new Comments().find(coid);
+            // 根据id来查找评论
+            Comments comment = commentService.selectCommentByid(coid);
+            return comment;
         }
         return null;
     }

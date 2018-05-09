@@ -9,6 +9,7 @@ import com.blade.kit.BladeKit;
 import com.blade.kit.DateKit;
 import com.blade.kit.EncryptKit;
 import com.blade.kit.StringKit;
+import com.github.pagehelper.PageInfo;
 import com.nmys.story.controller.admin.AttachController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Theme;
@@ -19,6 +20,8 @@ import com.nmys.story.model.entity.*;
 import com.nmys.story.utils.MapCache;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.ZipUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -33,12 +36,19 @@ import java.util.stream.Collectors;
  * @since 1.3.1
  */
 @Bean
+@Service
 public class SiteService {
 
     @Inject
     private CommentsService commentsService;
 
     public MapCache mapCache = new MapCache();
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private ICommentService commentService;
 
     /**
      * 初始化站点
@@ -50,14 +60,15 @@ public class SiteService {
         users.setPassword(pwd);
         users.setScreen_name(users.getUsername());
         users.setCreated(DateKit.nowUnix());
-        Integer uid = users.save();
+        userService.saveUser(users);
+//        Integer uid = users.save();
 
         try {
-            String cp   = SiteService.class.getClassLoader().getResource("").getPath();
-            File   lock = new File(cp + "install.lock");
+            String cp = SiteService.class.getClassLoader().getResource("").getPath();
+            File lock = new File(cp + "install.lock");
             lock.createNewFile();
             TaleConst.INSTALLED = Boolean.TRUE;
-            new Logs(LogActions.INIT_SITE, null, "", uid.intValue()).save();
+//            new Logs(LogActions.INIT_SITE, null, "", uid.intValue()).save();
         } catch (Exception e) {
             throw new TipException("初始化站点失败");
         }
@@ -72,8 +83,10 @@ public class SiteService {
         if (limit < 0 || limit > 10) {
             limit = 10;
         }
-        Page<Comments> commentsPage = new Comments().page(1, limit, "created desc");
-        return commentsPage.getRows();
+        // 查询最新10条评论
+        PageInfo<Comments> commentsPageInfo = commentService.selectNewComments(1, limit);
+//        Page<Comments> commentsPage = new Comments().page(1, limit, "created desc");
+        return commentsPageInfo.getList();
     }
 
     /**
@@ -118,11 +131,15 @@ public class SiteService {
 
         statistics = new Statistics();
 
-        long articles   = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).count();
-        long pages      = new Contents().where("type", Types.PAGE).and("status", Types.PUBLISH).count();
-        long comments   = new Comments().count();
-        long attachs    = new Attach().count();
-        long tags       = new Metas().where("type", Types.TAG).count();
+        long articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).count();
+        long pages = new Contents().where("type", Types.PAGE).and("status", Types.PUBLISH).count();
+
+//        long comments   = new Comments().count();
+        // 总评论数
+        int comments = commentService.selectCommentCount();
+
+        long attachs = new Attach().count();
+        long tags = new Metas().where("type", Types.TAG).count();
         long categories = new Metas().where("type", Types.CATEGORY).count();
 
         statistics.setArticles(articles);
@@ -153,14 +170,14 @@ public class SiteService {
 
     private Archive parseArchive(Archive archive) {
         String date_str = archive.getDate_str();
-        Date   sd       = DateKit.toDate(date_str + "01", "yyyy年MM月dd");
+        Date sd = DateKit.toDate(date_str + "01", "yyyy年MM月dd");
         archive.setDate(sd);
-        int      start    = DateKit.toUnix(sd);
+        int start = DateKit.toUnix(sd);
         Calendar calender = Calendar.getInstance();
         calender.setTime(sd);
         calender.add(Calendar.MONTH, 1);
         Date endSd = calender.getTime();
-        int  end   = DateKit.toUnix(endSd) - 1;
+        int end = DateKit.toUnix(endSd) - 1;
         List<Contents> contents = new Contents().where("type", Types.ARTICLE)
                 .and("status", Types.PUBLISH)
                 .and("created", ">", start)
@@ -171,14 +188,18 @@ public class SiteService {
         return archive;
     }
 
+
     /**
-     * 查询一条评论
-     *
-     * @param coid 评论主键
+     * Description:查询一条评论
+     * Author:70kg
+     * Param [coid]
+     * Return com.nmys.story.model.entity.Comments
+     * Date 2018/5/9 15:01
      */
     public Comments getComment(Integer coid) {
         if (null != coid) {
-            return new Comments().find(coid);
+            Comments comments = commentService.selectCommentByid(coid);
+            return comments;
         }
         return null;
     }
@@ -216,7 +237,7 @@ public class SiteService {
         // 备份数据库
         if ("db".equals(bkType)) {
             String filePath = "upload/" + DateKit.toString(new Date(), "yyyyMMddHHmmss") + "_" + StringKit.rand(8) + ".db";
-            String cp       = AttachController.CLASSPATH + filePath;
+            String cp = AttachController.CLASSPATH + filePath;
             Files.createDirectory(Paths.get(cp));
             Files.copy(Paths.get(SqliteJdbc.DB_PATH), Paths.get(cp));
             backResponse.setSql_path("/" + filePath);
@@ -273,8 +294,8 @@ public class SiteService {
     /**
      * 获取相邻的文章
      *
-     * @param type 上一篇:prev | 下一篇:next
-     * @param created  当前文章创建时间
+     * @param type    上一篇:prev | 下一篇:next
+     * @param created 当前文章创建时间
      */
     public Contents getNhContent(String type, Integer created) {
         Contents contents = null;

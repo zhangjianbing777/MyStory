@@ -17,6 +17,8 @@ import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 评论管理
  * <p>
@@ -35,10 +37,10 @@ public class CommentController extends BaseController {
     @GetRoute(value = "")
     public String index(@Param(defaultValue = "1") int page,
                         @Param(defaultValue = "15") int limit, Request request) {
-        Users users = this.user();
-
-        Page<Comments> commentPage = new Comments().where("author_id", "<>", users.getUid()).page(page, limit);
-        request.attribute("comments", commentPage);
+//        Users users = this.user();
+//
+//        Page<Comments> commentPage = new Comments().where("author_id", "<>", users.getUid()).page(page, limit);
+//        request.attribute("comments", commentPage);
         return "admin/comment_list";
     }
 
@@ -73,27 +75,27 @@ public class CommentController extends BaseController {
     @PostRoute(value = "status")
     @JSON
     public RestResponse delete(@Param Integer coid, @Param String status) {
-        try {
-            Comments comments = new Comments();
-            comments.setCoid(coid);
-            comments.setStatus(status);
-            comments.update();
-            siteService.cleanCache(Types.C_STATISTICS);
-        } catch (Exception e) {
-            String msg = "操作失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+//        try {
+//            Comments comments = new Comments();
+//            comments.setCoid(coid);
+//            comments.setStatus(status);
+//            comments.update();
+//            siteService.cleanCache(Types.C_STATISTICS);
+//        } catch (Exception e) {
+//            String msg = "操作失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
         return RestResponse.ok();
     }
 
     @PostRoute(value = "")
     @JSON
-    public RestResponse reply(@Param Integer coid, @Param String content, Request request) {
+    public RestResponse reply(@Param Integer coid, @Param String content, HttpServletRequest request) {
         if (null == coid || StringKit.isBlank(content)) {
             return RestResponse.fail("请输入完整后评论");
         }
@@ -105,7 +107,7 @@ public class CommentController extends BaseController {
         if (null == c) {
             return RestResponse.fail("不存在该评论");
         }
-        Users users = this.user();
+        Users users = this.user(request);
         content = TaleUtils.cleanXSS(content);
         content = EmojiParser.parseToAliases(content);
 
@@ -113,7 +115,7 @@ public class CommentController extends BaseController {
         comments.setAuthor(users.getUsername());
         comments.setAuthor_id(users.getUid());
         comments.setCid(c.getCid());
-        comments.setIp(request.address());
+        comments.setIp(request.getRemoteAddr());
         comments.setUrl(users.getHome_url());
         comments.setContent(content);
         if (StringKit.isNotBlank(users.getEmail())) {

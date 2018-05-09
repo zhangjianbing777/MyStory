@@ -14,9 +14,57 @@
         <result column="group_name" jdbcType="VARCHAR" property="group_name" />
     </resultMap>
 
+    <insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="uid">
+        INSERT INTO t_users (uid, username, password,
+                             email, home_url, screen_name,
+                             created, activated, logged,
+                             group_name)
+        VALUES (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},
+                #{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},
+                #{group_name,jdbcType=VARCHAR})
+    </insert>
+
     <select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">
-
-        SELECT * from t_users WHERE username = #{username} and password = #{password}
-
+        SELECT * FROM t_users WHERE username = #{username} and password = #{password}
     </select>
+
+    <select id="selectUserByUsername" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE username = #{username}
+    </select>
+
+    <update id="updateUser" parameterType="com.nmys.story.model.entity.Users">
+        update t_users
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="home_url != null">
+                home_url = #{homeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="screen_name != null">
+                screen_name = #{screenName,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=INTEGER},
+            </if>
+            <if test="activated != null">
+                activated = #{activated,jdbcType=INTEGER},
+            </if>
+            <if test="logged != null">
+                logged = #{logged,jdbcType=INTEGER},
+            </if>
+            <if test="group_name != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=INTEGER}
+    </update>
+
 </mapper>

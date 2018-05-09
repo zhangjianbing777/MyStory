@@ -20,6 +20,7 @@ import com.nmys.story.service.ContentsService;
 import com.nmys.story.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
@@ -65,22 +66,22 @@ public class PageController extends BaseController {
     @JSON
     public RestResponse publishPage(@Valid Contents contents) {
 
-        Users users = this.user();
-        contents.setType(Types.PAGE);
-        contents.setAllowPing(true);
-        contents.setAuthorId(users.getUid());
-        try {
-            contentsService.publish(contents);
-            siteService.cleanCache(Types.C_STATISTICS);
-        } catch (Exception e) {
-            String msg = "页面发布失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
-        }
+//        Users users = this.user();
+//        contents.setType(Types.PAGE);
+//        contents.setAllowPing(true);
+//        contents.setAuthorId(users.getUid());
+//        try {
+//            contentsService.publish(contents);
+//            siteService.cleanCache(Types.C_STATISTICS);
+//        } catch (Exception e) {
+//            String msg = "页面发布失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponse.fail(msg);
+//        }
         return RestResponse.ok();
     }
 
@@ -108,11 +109,11 @@ public class PageController extends BaseController {
 
     @Route(value = "delete")
     @JSON
-    public RestResponse delete(@Param int cid, Request request) {
+    public RestResponse delete(@Param int cid, HttpServletRequest request) {
         try {
             contentsService.delete(cid);
             siteService.cleanCache(Types.C_STATISTICS);
-            new Logs(LogActions.DEL_PAGE, cid + "", request.address(), this.getUid()).save();
+            new Logs(LogActions.DEL_PAGE, cid + "", request.getRemoteAddr(), this.getUid(request)).save();
         } catch (Exception e) {
             String msg = "页面删除失败";
             if (e instanceof TipException) {

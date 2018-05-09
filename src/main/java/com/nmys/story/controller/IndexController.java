@@ -27,6 +27,8 @@ import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
@@ -232,7 +234,7 @@ public class IndexController extends BaseController {
      * @param response
      */
     @Route(value = "logout")
-    public void logout(Session session, Response response) {
+    public void logout(HttpSession session, HttpServletResponse response) {
         TaleUtils.logout(session, response);
     }
 
