@@ -2,8 +2,7 @@ package com.nmys.story.exception;
 
 public class TipException extends RuntimeException {
 
-    public TipException() {
-    }
+    public TipException() {}
 
     public TipException(String message) {
         super(message);

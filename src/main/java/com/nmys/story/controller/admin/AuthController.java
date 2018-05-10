@@ -14,6 +14,7 @@ import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.init.TaleConst;
+import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.LogActions;
 import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Users;
@@ -27,7 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * 登录，退出
@@ -46,25 +50,21 @@ public class AuthController extends BaseController {
      * author: itachi
      * Date: 2018/5/8 下午9:34
      */
-//    @Route(value = "login", method = HttpMethod.GET)
     @GetMapping("/login")
     public String login() {
-//        if (null != this.user()) {
-//            response.redirect("/admin/index");
-//            return null;
-//        }
         return "admin/login";
     }
 
     @PostMapping("/login")
     @ResponseBody
-    public RestResponse doLogin(@RequestParam String username,
-                                @RequestParam String password,
-                                @RequestParam(required = false) String remeberMe,
-                                HttpServletRequest request,
-                                HttpServletResponse response) {
+    public RestResponseBo doLogin(@RequestParam String username,
+                                  @RequestParam String password,
+                                  @RequestParam(required = false) String remeberMe,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
 
         Integer error_count = cache.get("login_error_count");
+        error_count = null == error_count ? 0 : error_count;
         try {
             Users user = userService.userLogin(username, password);
             // 将登录的user放入session中
@@ -74,15 +74,11 @@ public class AuthController extends BaseController {
             if (StringUtils.isNotBlank(remeberMe)) {
                 TaleUtils.setCookie(response, user.getUid());
             }
-
-            error_count = null == error_count ? 0 : error_count;
             if (null != error_count && error_count > 3) {
-                return RestResponse.fail("您输入密码已经错误超过3次，请10分钟后尝试");
+                return RestResponseBo.fail("您输入密码已经错误超过3次，请10分钟后尝试");
             }
 
             // 。。。。记录一下用户登录的日志
-
-
 
         } catch (Exception e) {
             error_count += 1;
@@ -93,9 +89,33 @@ public class AuthController extends BaseController {
             } else {
                 log.error(msg, e);
             }
-            return RestResponse.fail(msg);
+            return RestResponseBo.fail(msg);
         }
-        return RestResponse.ok();
+        return RestResponseBo.ok();
+    }
+
+
+    /**
+     * Description:注销登录
+     * Author:70kg
+     * Param [session, response, request]
+     * Return void
+     * Date 2018/5/10 15:09
+     */
+    @RequestMapping("/logout")
+    public void logout(HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+        session.removeAttribute(WebConstant.LOGIN_SESSION_KEY);
+        Cookie cookie = new Cookie(WebConstant.USER_IN_COOKIE, "");
+        cookie.setValue(null);
+        cookie.setMaxAge(0);// 立即销毁cookie
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        try {
+            response.sendRedirect("/admin/login");
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("注销失败", e);
+        }
     }
 
 }

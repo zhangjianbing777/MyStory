@@ -59,15 +59,15 @@
                             </th:block>
                             </tbody>
                         </table>
-                        <!--<div th:replace="comm/macros :: pageAdminNav(${comments})"></div>-->
+                        <div th:replace="comm/macros :: pageAdminNav(${comments})"></div>
                     </div>
                 </div>
-                <!--<div th:replace="admin/footer :: footer-content"></div>-->
+                <div th:replace="admin/footer :: footer-content"></div>
             </div>
         </div>
     </div>
 </div>
-<div th:include="admin/footer::html"></div>
+<div th:replace="admin/footer :: footer"></div>
 <script type="text/javascript">
     /*<![CDATA[*/
     var tale = new $.tale();

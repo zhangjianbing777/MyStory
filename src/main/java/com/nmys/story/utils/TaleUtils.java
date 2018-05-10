@@ -138,17 +138,35 @@ public class TaleUtils {
      * @param request
      * @return
      */
-    public static Integer getCookieUid(Request request) {
+    public static Integer getCookieUid(HttpServletRequest request) {
         if (null != request) {
-            String value = request.cookie(TaleConst.USER_IN_COOKIE);
-            if (StringKit.isNotBlank(value)) {
+            Cookie cookie = cookieRaw(WebConstant.USER_IN_COOKIE, request);
+            if (cookie != null && cookie.getValue() != null) {
                 try {
-                    long[] ids = HASH_IDS.decode(value);
-                    if (null != ids && ids.length > 0) {
-                        return Long.valueOf(ids[0]).intValue();
-                    }
+                    String uid = Tools.deAes(cookie.getValue(), WebConstant.AES_SALT);
+                    return StringUtils.isNotBlank(uid) && Tools.isNumber(uid) ? Integer.valueOf(uid) : null;
                 } catch (Exception e) {
                 }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 从cookies中获取指定cookie
+     *
+     * @param name    名称
+     * @param request 请求
+     * @return cookie
+     */
+    private static Cookie cookieRaw(String name, HttpServletRequest request) {
+        Cookie[] servletCookies = request.getCookies();
+        if (servletCookies == null) {
+            return null;
+        }
+        for (Cookie c : servletCookies) {
+            if (c.getName().equals(name)) {
+                return c;
             }
         }
         return null;
