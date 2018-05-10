@@ -68,4 +68,8 @@
     <select id="selectNewComments" resultMap="BaseResultMap">
         SELECT * FROM  t_comments ORDER BY created DESC
     </select>
+
+    <select id="selectCommentsByAuthorId" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE author_id != #{authorId}
+    </select>
 </mapper>

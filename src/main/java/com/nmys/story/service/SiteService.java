@@ -9,6 +9,7 @@ import com.blade.kit.BladeKit;
 import com.blade.kit.DateKit;
 import com.blade.kit.EncryptKit;
 import com.blade.kit.StringKit;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.controller.admin.AttachController;
 import com.nmys.story.exception.TipException;
@@ -49,6 +50,9 @@ public class SiteService {
 
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private IContentService contentService;
 
     /**
      * 初始化站点
@@ -96,27 +100,28 @@ public class SiteService {
      * @param limit 获取条数
      */
     public List<Contents> getContens(String type, int limit) {
-
         if (limit < 0 || limit > 20) {
             limit = 10;
         }
-
-        // 最新文章
+        // 最新最近文章
         if (Types.RECENT_ARTICLE.equals(type)) {
-            Page<Contents> contentsPage = new Contents().where("status", Types.PUBLISH)
-                    .and("type", Types.ARTICLE)
-                    .page(1, limit, "created desc");
-            return contentsPage.getRows();
+            PageHelper.startPage(1, limit);
+            // 文章类型和发布状态
+            List<Contents> contentList = contentService.getContentsByType(Types.ARTICLE, Types.PUBLISH);
+            PageInfo<Contents> pageInfo = new PageInfo(contentList);
+//            Page<Contents> contentsPage = new Contents().where("status", Types.PUBLISH).and("type", Types.ARTICLE)
+//                    .page(1, limit, "created desc");
+            return pageInfo.getList();
         }
 
         // 随机文章
-        if (Types.RANDOM_ARTICLE.equals(type)) {
-            List<Integer> cids = new ActiveRecord().queryAll(Integer.class, "select cid from t_contents where type = ? and status = ? order by random() * cid limit ?", Types.ARTICLE, Types.PUBLISH, limit);
-            if (BladeKit.isNotEmpty(cids)) {
-                return new Contents().in("cid", cids).findAll();
-            }
-        }
-        return new ArrayList<>();
+//        if (Types.RANDOM_ARTICLE.equals(type)) {
+//            List<Integer> cids = new ActiveRecord().queryAll(Integer.class, "select cid from t_contents where type = ? and status = ? order by random() * cid limit ?", Types.ARTICLE, Types.PUBLISH, limit);
+//            if (BladeKit.isNotEmpty(cids)) {
+//                return new Contents().in("cid", cids).findAll();
+//            }
+//        }
+        return new ArrayList();
     }
 
     /**

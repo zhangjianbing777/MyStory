@@ -56,7 +56,6 @@ public class IndexController extends BaseController {
     @Inject
     private OptionsService optionsService;
 
-    @Inject
     @Autowired
     private SiteService siteService;
 
@@ -73,17 +72,19 @@ public class IndexController extends BaseController {
      * 仪表盘
      */
     @GetMapping(value = {"/", "index"})
-    public String index(Request request) {
-        List<Comments> comments   = siteService.recentComments(5);
-//        List<Contents> contents   = siteService.getContens(Types.RECENT_ARTICLE, 5);
+    public String index(HttpServletRequest request) {
+        // 获取最新的5条评论
+        List<Comments> comments = siteService.recentComments(5);
+        List<Contents> contents = siteService.getContens(Types.RECENT_ARTICLE, 5);
 //        Statistics     statistics = siteService.getStatistics();
+        Statistics statistics = new Statistics();
 //        // 取最新的20条日志
 //        Page<Logs> logsPage = new Logs().page(1, 20, "id desc");
 //        List<Logs> logs     = logsPage.getRows();
 //
-//        request.attribute("comments", comments);
-//        request.attribute("articles", contents);
-//        request.attribute("statistics", statistics);
+        request.setAttribute("comments", comments);
+        request.setAttribute("articles", contents);
+        request.setAttribute("statistics", statistics);
 //        request.attribute("logs", logs);
         return "admin/index";
     }
@@ -179,8 +180,8 @@ public class IndexController extends BaseController {
         }
 
         try {
-            Users  temp = new Users();
-            String pwd  = EncryptKit.md5(users.getUsername() + password);
+            Users temp = new Users();
+            String pwd = EncryptKit.md5(users.getUsername() + password);
             temp.setPassword(pwd);
             temp.setUid(users.getUid());
             // 更新用户
@@ -288,7 +289,7 @@ public class IndexController extends BaseController {
         try {
             // sh story.sh reload 10
             String webHome = new File(AttachController.CLASSPATH).getParent();
-            String cmd     = "sh " + webHome + "/bin story.sh reload " + sleep;
+            String cmd = "sh " + webHome + "/bin story.sh reload " + sleep;
             log.info("execute shell: {}", cmd);
             ShellUtils.shell(cmd);
             new Logs(LogActions.RELOAD_SYS, "", request.getRemoteAddr(), this.getUid(request)).save();

@@ -62,4 +62,13 @@ public interface ICommentService {
      */
     boolean delCommentById(Integer id);
 
+    /**
+     * Description:查询非自己的评论
+     * Author:70kg
+     * Param [authorId]
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/10 14:10
+     */
+    List<Comments> selectCommentsByAuthorId(Integer authorId);
+
 }

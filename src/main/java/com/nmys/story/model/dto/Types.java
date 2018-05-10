@@ -7,7 +7,11 @@ public interface Types {
 
     String TAG = "tag";
     String CATEGORY = "category";
+
+    // 文章类型
     String ARTICLE = "post";
+
+    // 发布状态
     String PUBLISH = "publish";
     String PAGE = "page";
     String DRAFT = "draft";
@@ -16,7 +20,10 @@ public interface Types {
     String CSRF_TOKEN = "csrf_token";
     String COMMENTS_FREQUENCY = "comments:frequency";
 
+    // 最新最近文章
     String RECENT_ARTICLE = "recent_article";
+
+    // 随机文章
     String RANDOM_ARTICLE = "random_article";
 
     String RECENT_META = "recent_meta";

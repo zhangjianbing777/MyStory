@@ -6,18 +6,28 @@ import com.blade.kit.StringKit;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.CommentsService;
+import com.nmys.story.service.ICommentService;
+import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 评论管理
@@ -25,7 +35,8 @@ import javax.servlet.http.HttpServletRequest;
  * Created by biezhi on 2017/2/26.
  */
 @Slf4j
-@Path("admin/comments")
+@Controller
+@RequestMapping("admin/comments")
 public class CommentController extends BaseController {
 
     @Inject
@@ -34,13 +45,26 @@ public class CommentController extends BaseController {
     @Inject
     private SiteService siteService;
 
-    @GetRoute(value = "")
-    public String index(@Param(defaultValue = "1") int page,
-                        @Param(defaultValue = "15") int limit, Request request) {
-//        Users users = this.user();
-//
-//        Page<Comments> commentPage = new Comments().where("author_id", "<>", users.getUid()).page(page, limit);
-//        request.attribute("comments", commentPage);
+    @Autowired
+    private ICommentService commentService;
+
+    /**
+     * Description:评论管理
+     * Author:70kg
+     * Param [page, limit, request]
+     * Return java.lang.String
+     * Date 2018/5/10 14:05
+     */
+    @GetMapping(value = "")
+    public String index(@RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "5") int limit,
+                        HttpServletRequest request) {
+        // 获取登录人
+        Users user = this.user(request);
+        PageHelper.startPage(page,limit);
+        List<Comments> commentsList = commentService.selectCommentsByAuthorId(user.getUid());
+        PageInfo<Comments> pageInfo = new PageInfo(commentsList);
+        request.setAttribute("comments", pageInfo);
         return "admin/comment_list";
     }
 

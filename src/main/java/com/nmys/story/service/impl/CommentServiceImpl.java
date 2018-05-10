@@ -43,4 +43,9 @@ public class CommentServiceImpl implements ICommentService {
     public boolean delCommentById(Integer id) {
         return false;
     }
+
+    @Override
+    public List<Comments> selectCommentsByAuthorId(Integer authorId) {
+        return commentMapper.selectCommentsByAuthorId(authorId);
+    }
 }

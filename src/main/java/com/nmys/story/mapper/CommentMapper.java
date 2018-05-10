@@ -54,4 +54,13 @@ public interface CommentMapper {
      */
     boolean delCommentById(@Param("id") Integer id);
 
+    /**
+     * Description:查询非己评论
+     * Author:70kg
+     * Param [authorId]
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/10 14:14
+     */
+    List<Comments> selectCommentsByAuthorId(@Param("authorId") Integer authorId);
+
 }
