@@ -3,21 +3,18 @@ package com.nmys.story.utils;
 import com.blade.kit.DateKit;
 import com.blade.kit.Hashids;
 import com.blade.kit.StringKit;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.http.Response;
-import com.blade.mvc.http.Session;
 import com.nmys.story.constant.WebConstant;
-import com.sun.syndication.feed.rss.Channel;
-import com.sun.syndication.feed.rss.Content;
-import com.sun.syndication.feed.rss.Item;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.WireFeedOutput;
 import com.nmys.story.controller.admin.AttachController;
 import com.nmys.story.extension.Commons;
 import com.nmys.story.extension.Theme;
 import com.nmys.story.init.TaleConst;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
+import com.sun.syndication.feed.rss.Channel;
+import com.sun.syndication.feed.rss.Content;
+import com.sun.syndication.feed.rss.Item;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.WireFeedOutput;
 import org.apache.commons.lang3.StringUtils;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -25,8 +22,6 @@ import org.commonmark.node.Link;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.AttributeProvider;
-import org.commonmark.renderer.html.AttributeProviderContext;
-import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +47,9 @@ import java.util.stream.Collectors;
 import static com.nmys.story.init.TaleConst.*;
 
 /**
- * Tale工具类
- * <p>
- * Created by biezhi on 2017/2/21.
+ * Description: tale工具类
+ * author: itachi
+ * Date: 2018/5/10 下午10:36
  */
 public class TaleUtils {
 

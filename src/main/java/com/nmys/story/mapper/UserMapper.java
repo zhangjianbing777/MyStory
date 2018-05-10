@@ -21,4 +21,11 @@ public interface UserMapper {
 
     boolean updateUser(Users user);
 
+    /**
+     * Description: 根据id来查询用户
+     * author: itachi
+     * Date: 2018/5/10 下午10:43
+     */
+    Users selectUserById(@Param("id") Integer id);
+
 }

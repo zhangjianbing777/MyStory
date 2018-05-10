@@ -33,6 +33,10 @@
         SELECT * FROM t_users WHERE username = #{username}
     </select>
 
+    <select id="selectUserById" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE uid = #{id}
+    </select>
+
     <update id="updateUser" parameterType="com.nmys.story.model.entity.Users">
         update t_users
         <set>

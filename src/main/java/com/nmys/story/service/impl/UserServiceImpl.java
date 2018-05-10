@@ -54,4 +54,9 @@ public class UserServiceImpl implements IUserService {
     public boolean updateUser(Users user) {
         return userMapper.updateUser(user);
     }
+
+    @Override
+    public Users selectUserById(Integer id) {
+        return userMapper.selectUserById(id);
+    }
 }
