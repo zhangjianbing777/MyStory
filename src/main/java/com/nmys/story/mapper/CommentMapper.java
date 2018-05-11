@@ -63,4 +63,13 @@ public interface CommentMapper {
      */
     List<Comments> selectCommentsByAuthorId(@Param("authorId") Integer authorId);
 
+    /**
+     * Description:根据文章的id来获取改文章下面的评论
+     * Author:70kg
+     * Param [cid, parentId, status]
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/11 16:18
+     */
+    List<Comments> getCommentsListByContentId(@Param("cid") Integer cid, @Param("parentId") Integer parentId, @Param("status") String status);
+
 }

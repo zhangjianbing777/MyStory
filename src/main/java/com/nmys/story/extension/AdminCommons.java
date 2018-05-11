@@ -2,12 +2,14 @@ package com.nmys.story.extension;
 
 import com.blade.kit.StringKit;
 import com.nmys.story.model.entity.Metas;
+import org.springframework.stereotype.Component;
 
 /**
  * 后台公共函数
  * <p>
  * Created by biezhi on 2017/2/21.
  */
+@Component
 public final class AdminCommons {
 
     /**

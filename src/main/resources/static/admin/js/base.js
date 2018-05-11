@@ -3,22 +3,43 @@
  */
 $.extend({
     tale: function () {
-    },
-    constant: function () { //常量池
-        return {
-            ///-------文件常量----------
-            MAX_FILES: 10,//一次队列最大文件数
-        }
     }
-
 });
+
+/**
+ * tale alert删除  // todo: 减少耦合度,链式操作替代  2017-02-27
+ * @param options
+ */
+// $.tale.prototype.alert_del = function (options) {
+//     swal({
+//         title: options.title || '警告信息',
+//         text: options.text || "确定删除吗？",
+//         type: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: '确定',
+//         cancelButtonText: '取消'
+//     }).then(function () {
+//         $.post(options.url, options.parame, function (result) {
+//             if (result && result.success) {
+//                 swal('提示信息', '删除成功', 'success');
+//                 setTimeout(function () {
+//                     window.location.reload();
+//                 }, 2000);
+//             } else {
+//                 swal("提示消息", result.msg, 'error');
+//             }
+//         });
+//     }).catch(swal.noop);
+// };
 
 /**
  * 成功弹框
  * @param options
  */
 $.tale.prototype.alertOk = function (options) {
-    options = options.length ? {text: options} : ( options || {} );
+    options = options.length ? {text:options} : ( options || {} );
     options.title = options.title || '操作成功';
     options.text = options.text;
     options.showCancelButton = false;
@@ -32,13 +53,11 @@ $.tale.prototype.alertOk = function (options) {
  * @param text
  */
 $.tale.prototype.alertOkAndReload = function (text) {
-    this.alertOk({
-        text: text, then: function () {
+    this.alertOk({text:text, then:function () {
             setTimeout(function () {
                 window.location.reload();
-            }, 700);
-        }
-    });
+            }, 500);
+        }});
 };
 
 /**
@@ -46,7 +65,7 @@ $.tale.prototype.alertOkAndReload = function (text) {
  * @param options
  */
 $.tale.prototype.alertWarn = function (options) {
-    options = options.length ? {text: options} : ( options || {} );
+    options = options.length ? {text:options} : ( options || {} );
     options.title = options.title || '警告信息';
     options.text = options.text;
     options.timer = 3000;
@@ -72,7 +91,7 @@ $.tale.prototype.alertConfirm = function (options) {
  * @param options
  */
 $.tale.prototype.alertError = function (options) {
-    options = options.length ? {text: options} : ( options || {} );
+    options = options.length ? {text:options} : ( options || {} );
     options.title = options.title || '错误信息';
     options.text = options.text;
     options.type = 'error';
@@ -118,8 +137,8 @@ $.tale.prototype.post = function (options) {
             self.hideLoading();
             options.success && options.success(result);
         },
-        error: function (e) {
-            console.log('post异常', e);
+        error: function () {
+            //
         }
     });
 };
@@ -128,16 +147,15 @@ $.tale.prototype.post = function (options) {
  * 显示动画
  */
 $.tale.prototype.showLoading = function () {
-    if ($('#story-loading').length == 0) {
-        $('body').append('<div id="story-loading"></div>');
+    if ($('#tale-loading').length == 0) {
+        $('body').append('<div id="tale-loading"></div>');
     }
-    $('#story-loading').show();
+    $('#tale-loading').show();
 };
 
 /**
  * 隐藏动画
  */
 $.tale.prototype.hideLoading = function () {
-    $('#story-loading') && $('#story-loading').hide();
+    $('#tale-loading') && $('#tale-loading').hide();
 };
-

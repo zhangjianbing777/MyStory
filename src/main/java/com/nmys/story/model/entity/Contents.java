@@ -1,5 +1,7 @@
 package com.nmys.story.model.entity;
 
+import com.blade.jdbc.core.ActiveRecord;
+
 /**
  * Description:文章实体
  * Author:70kg
@@ -7,7 +9,7 @@ package com.nmys.story.model.entity;
  * Return
  * Date 2018/5/11 13:42
  */
-public class Contents {
+public class Contents extends ActiveRecord {
 
     // post表主键
     private Integer cid;

@@ -1,5 +1,7 @@
 package com.nmys.story.model.entity;
 
+import com.blade.jdbc.core.ActiveRecord;
+
 /**
  * Description: 评论实体类
  * Author:70kg
@@ -7,7 +9,7 @@ package com.nmys.story.model.entity;
  * Return
  * Date 2018/5/9 10:30
  */
-public class Comments {
+public class Comments extends ActiveRecord {
 
     // comment表主键
     private Integer coid;

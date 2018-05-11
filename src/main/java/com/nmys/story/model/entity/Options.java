@@ -1,5 +1,7 @@
 package com.nmys.story.model.entity;
 
+import com.blade.jdbc.core.ActiveRecord;
+
 /**
  * Description:配置选项
  * Author:70kg
@@ -7,7 +9,7 @@ package com.nmys.story.model.entity;
  * Return
  * Date 2018/5/11 13:42
  */
-public class Options {
+public class Options extends ActiveRecord {
 
     // 配置名称
     private String name;

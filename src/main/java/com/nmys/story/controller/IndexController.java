@@ -3,6 +3,7 @@ package com.nmys.story.controller;
 import com.blade.ioc.annotation.Inject;
 import com.blade.jdbc.core.OrderBy;
 import com.blade.jdbc.page.Page;
+import com.blade.kit.PatternKit;
 import com.blade.kit.StringKit;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
@@ -16,22 +17,25 @@ import com.nmys.story.constant.WebConstant;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Commons;
 import com.nmys.story.init.TaleConst;
+import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Archive;
 import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.service.*;
+import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,6 +54,8 @@ import java.util.Optional;
 @Controller
 public class IndexController extends BaseController {
 
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+
     @Inject
     private ContentsService contentsService;
 
@@ -65,6 +71,9 @@ public class IndexController extends BaseController {
     @Autowired
     private IContentService contentService;
 
+    @Autowired
+    private ICommentService commentService;
+
     /**
      * Description:博客首页
      * Author:70kg
@@ -73,7 +82,7 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 9:22
      */
     @GetMapping(value = "/")
-    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "6") int limit) {
         return this.index(request, 1, limit);
     }
 
@@ -115,7 +124,7 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 9:44
      */
     @GetMapping(value = "page/{p}")
-    public String index(HttpServletRequest request, @PathVariable int p, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+    public String index(HttpServletRequest request, @PathVariable int p, @RequestParam(value = "limit", defaultValue = "6") int limit) {
         p = p < 0 || p > WebConstant.MAX_PAGE ? 1 : p;
         PageInfo<Contents> articles = contentService.getContentsByPageInfo(p, limit);
         request.setAttribute("articles", articles);
@@ -125,32 +134,29 @@ public class IndexController extends BaseController {
         return this.render("index");
     }
 
+
     /**
-     * 文章页
+     * Description:文章详情页
+     * Author:70kg
+     * Param [request, cid]
+     * Return java.lang.String
+     * Date 2018/5/11 15:54
      */
-    @CsrfToken(newToken = true)
-    @GetRoute(value = {"article/:cid", "article/:cid.html"})
-    public String post(Request request, @PathParam String cid) {
-        Optional<Contents> contentsOptional = contentsService.getContents(cid);
-        if (!contentsOptional.isPresent()) {
+    @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
+    public String getArticle(HttpServletRequest request, @PathVariable String cid) {
+        Contents contents = contentService.getContentById(Integer.parseInt(cid));
+        if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
-        Contents contents = contentsOptional.get();
-        if (Types.DRAFT.equals(contents.getStatus())) {
-            return this.render_404();
-        }
-        request.attribute("article", contents);
-        request.attribute("is_post", true);
-        if (contents.getAllowComment()) {
-            int cp = request.queryInt("cp", 1);
-            request.attribute("cp", cp);
-        }
-        Contents temp = new Contents();
-        temp.setHits(contents.getHits() + 1);
-        temp.setCid(contents.getCid());
-//        temp.update(contents.getCid());
-        contentService.updateContent(temp);
+        request.setAttribute("article", contents);
+        request.setAttribute("is_post", true);
+        // 评论
+        completeArticle(request, contents);
+        // 点击量
+        updateArticleHit(contents.getCid(), contents.getHits());
         return this.render("post");
+
+
     }
 
     /**
@@ -193,7 +199,8 @@ public class IndexController extends BaseController {
      */
     @GetRoute(value = {"archives", "archives.html"})
     public String archives(Request request) {
-        List<Archive> archives = siteService.getArchives();
+        List<Archive> archives = null;
+//        List<Archive> archives = siteService.getArchives();
         request.attribute("archives", archives);
         request.attribute("is_archive", true);
         return this.render("archives");
@@ -227,17 +234,17 @@ public class IndexController extends BaseController {
      */
     @GetRoute(value = {"sitemap", "sitemap.xml"})
     public void sitemap(Response response) {
-//        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-//                .and("allow_feed", true)
-//                .findAll(OrderBy.desc("created"));
-//
-//        try {
-//            String xml = TaleUtils.getSitemapXml(articles);
-//            response.contentType("text/xml; charset=utf-8");
-//            response.body(xml);
-//        } catch (Exception e) {
-//            log.error("生成 sitemap 失败", e);
-//        }
+        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
+                .and("allow_feed", true)
+                .findAll(OrderBy.desc("created"));
+
+        try {
+            String xml = null;//TaleUtils.getSitemapXml(articles);
+            response.contentType("text/xml; charset=utf-8");
+            response.body(xml);
+        } catch (Exception e) {
+            log.error("生成 sitemap 失败", e);
+        }
     }
 
     /**
@@ -254,55 +261,139 @@ public class IndexController extends BaseController {
     /**
      * 评论操作
      */
-    @CsrfToken(valid = true)
-    @PostRoute(value = "comment")
-    @JSON
-    public RestResponse comment(Request request, Response response,
-                                @HeaderParam String Referer, @Valid Comments comments) {
+    @PostMapping(value = "comment")
+    @ResponseBody
+    public RestResponseBo comment(HttpServletRequest request, HttpServletResponse response,
+                                  @RequestParam Integer cid, @RequestParam Integer coid,
+                                  @RequestParam String author, @RequestParam String mail,
+                                  @RequestParam String url, @RequestParam String text, @RequestParam String _csrf_token) {
 
-        if (StringKit.isBlank(Referer)) {
-            return RestResponse.fail(ErrorCode.BAD_REQUEST);
+        String ref = request.getHeader("Referer");
+        if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
+            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
         }
 
-        if (!Referer.startsWith(Commons.site_url())) {
-            return RestResponse.fail("非法评论来源");
+        // ????????
+//        String token = cache.hget(Types.CSRF_TOKEN, _csrf_token);
+//        if (StringUtils.isBlank(token)) {
+//            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
+//        }
+
+        if (null == cid || StringUtils.isBlank(text)) {
+            return RestResponseBo.fail("请输入完整后评论");
         }
 
-        String  val   = request.address() + ":" + comments.getCid();
+        if (StringUtils.isNotBlank(author) && author.length() > 50) {
+            return RestResponseBo.fail("姓名过长");
+        }
+
+        if (StringUtils.isNotBlank(mail) && !TaleUtils.isEmail(mail)) {
+            return RestResponseBo.fail("请输入正确的邮箱格式");
+        }
+
+        if (StringUtils.isNotBlank(url) && !PatternKit.isURL(url)) {
+            return RestResponseBo.fail("请输入正确的URL格式");
+        }
+
+        if (text.length() > 200) {
+            return RestResponseBo.fail("请输入200个字符以内的评论");
+        }
+
+        String val = IPKit.getIpAddrByRequest(request) + ":" + cid;
         Integer count = cache.hget(Types.COMMENTS_FREQUENCY, val);
         if (null != count && count > 0) {
-            return RestResponse.fail("您发表评论太快了，请过会再试");
+            return RestResponseBo.fail("您发表评论太快了，请过会再试");
         }
 
-        comments.setAuthor(TaleUtils.cleanXSS(comments.getAuthor()));
-        comments.setContent(TaleUtils.cleanXSS(comments.getContent()));
+        author = TaleUtils.cleanXSS(author);
+        text = TaleUtils.cleanXSS(text);
 
-        comments.setAuthor(EmojiParser.parseToAliases(comments.getAuthor()));
-        comments.setContent(EmojiParser.parseToAliases(comments.getContent()));
-        comments.setIp(request.address());
-        comments.setParent(comments.getCoid());
+        author = EmojiParser.parseToAliases(author);
+        text = EmojiParser.parseToAliases(text);
 
+        Comments comments = new Comments();
+        comments.setAuthor(author);
+        comments.setCid(cid);
+        comments.setIp(request.getRemoteAddr());
+        comments.setUrl(url);
+        comments.setContent(text);
+        comments.setMail(mail);
+        comments.setParent(coid);
         try {
-            commentsService.saveComment(comments);
-            response.cookie("tale_remember_author", URLEncoder.encode(comments.getAuthor(), "UTF-8"), 7 * 24 * 60 * 60);
-            response.cookie("tale_remember_mail", URLEncoder.encode(comments.getMail(), "UTF-8"), 7 * 24 * 60 * 60);
-            if (StringKit.isNotBlank(comments.getUrl())) {
-                response.cookie("tale_remember_url", URLEncoder.encode(comments.getUrl(), "UTF-8"), 7 * 24 * 60 * 60);
+            String result = commentService.insertComment(comments);
+            cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
+            cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
+            if (StringUtils.isNotBlank(url)) {
+                cookie("tale_remember_url", URLEncoder.encode(url, "UTF-8"), 7 * 24 * 60 * 60, response);
             }
-
-            // 设置对每个文章30秒可以评论一次
-            cache.hset(Types.COMMENTS_FREQUENCY, val, 1, 30);
-            siteService.cleanCache(Types.C_STATISTICS);
-
-            return RestResponse.ok();
+            // 设置对每个文章1分钟可以评论一次
+            cache.hset(Types.COMMENTS_FREQUENCY, val, 1, 60);
+            if (!WebConstant.SUCCESS_RESULT.equals(result)) {
+                return RestResponseBo.fail(result);
+            }
+            return RestResponseBo.ok();
         } catch (Exception e) {
             String msg = "评论发布失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
+            logger.error(msg, e);
+            return RestResponseBo.fail(msg);
+        }
+    }
+
+    /**
+     * Description:设置cookie
+     * Author:70kg
+     * Param [name, value, maxAge, response]
+     * Return void
+     * Date 2018/5/11 17:08
+     */
+    private void cookie(String name, String value, int maxAge, HttpServletResponse response) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setMaxAge(maxAge);
+        cookie.setSecure(false);
+        response.addCookie(cookie);
+    }
+
+    /**
+     * 抽取公共方法
+     *
+     * @param request
+     * @param contents
+     */
+    private void completeArticle(HttpServletRequest request, Contents contents) {
+        if (contents.getAllowComment()) {
+            String cp = request.getParameter("cp");
+            if (StringUtils.isBlank(cp)) {
+                cp = "1";
             }
-            return RestResponse.fail(msg);
+            request.setAttribute("cp", cp);
+            // 每页6条评论
+            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(cp), 6);
+            request.setAttribute("comments", commentsPaginator);
+        }
+    }
+
+
+    /**
+     * Description:更新文章点击量
+     * Author:70kg
+     * Param [cid, chits]
+     * Return void
+     * Date 2018/5/11 17:40
+     */
+    private void updateArticleHit(Integer cid, Integer chits) {
+        Integer hits = cache.hget("article", "hits");
+        if (chits == null) {
+            chits = 0;
+        }
+        hits = null == hits ? 1 : hits + 1;
+        if (hits >= WebConstant.HIT_EXCEED) {
+            Contents temp = new Contents();
+            temp.setCid(cid);
+            temp.setHits(chits + hits);
+            contentService.updateContent(temp);
+            cache.hset("article", "hits", 1);
+        } else {
+            cache.hset("article", "hits", hits);
         }
     }
 

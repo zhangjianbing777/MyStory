@@ -35,4 +35,9 @@ public class ContentServiceImpl implements IContentService {
     public boolean updateContent(Contents content) {
         return contentsMapper.updateContent(content);
     }
+
+    @Override
+    public Contents getContentById(Integer id) {
+        return contentsMapper.getContentById(id);
+    }
 }

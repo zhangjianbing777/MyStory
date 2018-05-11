@@ -19,9 +19,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 主题公共函数
- * <p>
- * Created by 13 on 2017/2/21.
+ * Description:公共主题函数
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 14:37
  */
 @Component
 public final class Commons {

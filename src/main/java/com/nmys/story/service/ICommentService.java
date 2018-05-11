@@ -71,4 +71,22 @@ public interface ICommentService {
      */
     List<Comments> selectCommentsByAuthorId(Integer authorId);
 
+    /**
+     * Description:根据文章的id来获取改文章下面的评论
+     * Author:70kg
+     * Param [contentId, page, limit]
+     * Return com.github.pagehelper.PageInfo<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/11 16:14
+     */
+    PageInfo<Comments> getCommentsListByContentId(Integer contentId, Integer page, Integer limit);
+
+    /**
+     * Description:保存评论并返回结果
+     * Author:70kg
+     * Param [comment]
+     * Return java.lang.String
+     * Date 2018/5/11 17:16
+     */
+    String insertComment(Comments comment);
+
 }

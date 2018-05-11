@@ -132,4 +132,8 @@
     <select id="getContentsByType" resultMap="BaseResultMap">
         SELECT * from t_contents WHERE type = #{type} AND status = #{status} ORDER BY created DESC
     </select>
+
+    <select id="getContentById" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE cid = #{id}
+    </select>
 </mapper>

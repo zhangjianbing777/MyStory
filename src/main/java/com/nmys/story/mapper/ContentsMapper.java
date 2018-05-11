@@ -2,9 +2,11 @@ package com.nmys.story.mapper;
 
 import com.nmys.story.model.entity.Contents;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface ContentsMapper {
 
     /**
@@ -24,5 +26,14 @@ public interface ContentsMapper {
      * Date 2018/5/11 14:02
      */
     boolean updateContent(Contents content);
+
+    /**
+     * Description:根据id获取文章
+     * Author:70kg
+     * Param [id]
+     * Return com.nmys.story.model.entity.Contents
+     * Date 2018/5/11 15:56
+     */
+    Contents getContentById(@Param("id") Integer id);
 
 }

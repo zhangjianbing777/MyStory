@@ -58,7 +58,7 @@ public class WebContext implements BeanProcessor {
 
         Sql2o sql2o = new Sql2o(SqliteJdbc.DB_SRC, null, null);
         Base.open(sql2o);
-        Commons.setSiteService(ioc.getBean(SiteService.class));
+//        Commons.setSiteService(ioc.getBean(SiteService.class));
     }
 
     @Override

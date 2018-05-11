@@ -41,6 +41,14 @@ public interface IContentService {
      */
     boolean updateContent(Contents content);
 
+    /**
+     * Description:根据id来获取文章详情
+     * Author:70kg
+     * Param [id]
+     * Return com.nmys.story.model.entity.Contents
+     * Date 2018/5/11 15:55
+     */
+    Contents getContentById(Integer id);
 
 
 }

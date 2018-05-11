@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
  * Date 2018/5/9 10:10
  */
 @Slf4j
-@Controller
+@Controller("adminIndexController")
 @RequestMapping("/admin")
 public class IndexController extends BaseController {
 

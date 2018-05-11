@@ -286,7 +286,8 @@ public class SiteService {
         if (Types.RANDOM_META.equals(searchType)) {
             List<Integer> mids = new ActiveRecord().queryAll(Integer.class, "select mid from t_metas where type = ? order by random() * mid limit ?", type, limit);
             if (BladeKit.isNotEmpty(mids)) {
-                String in = TaleUtils.listToInSql(mids);
+//                String in = TaleUtils.listToInSql(mids);
+                String in = null;
                 String sql = "select a.*, count(b.cid) as count from t_metas a left join `t_relationships` b on a.mid = b.mid " +
                         "where a.mid in " + in + "group by a.mid order by count desc, a.mid desc";
 

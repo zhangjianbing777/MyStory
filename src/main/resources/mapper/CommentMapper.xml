@@ -72,4 +72,8 @@
     <select id="selectCommentsByAuthorId" resultMap="BaseResultMap">
         SELECT * FROM t_comments WHERE author_id != #{authorId}
     </select>
+
+    <select id="getCommentsListByContentId" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE cid = #{cid} and parent = #{parentId} and status = #{status}
+    </select>
 </mapper>
