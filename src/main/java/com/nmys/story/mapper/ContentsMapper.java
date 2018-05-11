@@ -16,4 +16,13 @@ public interface ContentsMapper {
      */
     List<Contents> getContentsByType(@Param("type") String type, @Param("status") String status);
 
+    /**
+     * Description:更新文章
+     * Author:70kg
+     * Param [content]
+     * Return boolean
+     * Date 2018/5/11 14:02
+     */
+    boolean updateContent(Contents content);
+
 }

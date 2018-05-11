@@ -1,17 +1,13 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.annotation.Table;
-import com.blade.jdbc.core.ActiveRecord;
-import lombok.Data;
-
 /**
- * 配置选项
- *
- * @author biezhi
+ * Description:配置选项
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 13:42
  */
-@Data
-@Table(value = "t_options", pk = "name")
-public class Options extends ActiveRecord {
+public class Options {
 
     // 配置名称
     private String name;
@@ -22,4 +18,27 @@ public class Options extends ActiveRecord {
     // 配置描述
     private String description;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

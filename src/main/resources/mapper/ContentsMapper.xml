@@ -23,6 +23,64 @@
     </resultMap>
 
 
+    <update id="updateContent" parameterType="com.nmys.story.model.entity.Contents">
+        update t_contents
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="slug != null">
+                slug = #{slug,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=INTEGER},
+            </if>
+            <if test="modified != null">
+                modified = #{modified,jdbcType=INTEGER},
+            </if>
+            <if test="authorId != null">
+                author_id = #{authorId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="fmtType != null">
+                fmt_type = #{fmtType,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbImg != null">
+                thumb_img = #{thumbImg,jdbcType=VARCHAR},
+            </if>
+            <if test="categories != null">
+                categories = #{categories,jdbcType=VARCHAR},
+            </if>
+            <if test="hits != null">
+                hits = #{hits,jdbcType=INTEGER},
+            </if>
+            <if test="commentsNum != null">
+                comments_num = #{commentsNum,jdbcType=INTEGER},
+            </if>
+            <if test="allowComment != null">
+                allow_comment = #{allowComment,jdbcType=BIT},
+            </if>
+            <if test="allowPing != null">
+                allow_ping = #{allowPing,jdbcType=BIT},
+            </if>
+            <if test="allowFeed != null">
+                allow_feed = #{allowFeed,jdbcType=BIT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where cid = #{cid,jdbcType=INTEGER}
+    </update>
+
 
     <!--<insert id="saveComment" parameterType="com.nmys.story.model.entity.Comments" useGeneratedKeys="true" keyProperty="coid">-->
         <!--insert into t_comments (coid, cid, created,-->
@@ -72,6 +130,6 @@
         <!--SELECT * FROM  t_comments ORDER BY created DESC-->
     <!--</select>-->
     <select id="getContentsByType" resultMap="BaseResultMap">
-        SELECT * from t_contents WHERE type = #{type} and status = #{status}
+        SELECT * from t_contents WHERE type = #{type} AND status = #{status} ORDER BY created DESC
     </select>
 </mapper>

@@ -34,6 +34,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -462,5 +463,26 @@ public class TaleUtils {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    /**
+     * Description:获取保存文件的位置,jar所在目录的路径
+     * Author:70kg
+     * Param []
+     * Return java.lang.String
+     * Date 2018/5/11 13:36
+     */
+    public static String getUplodFilePath() {
+        String path = TaleUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        path = path.substring(1, path.length());
+        try {
+            path = java.net.URLDecoder.decode(path, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        int lastIndex = path.lastIndexOf("/") + 1;
+        path = path.substring(0, lastIndex);
+        File file = new File("");
+        return file.getAbsolutePath() + "/";
     }
 }

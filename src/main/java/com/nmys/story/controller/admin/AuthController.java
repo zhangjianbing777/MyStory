@@ -20,8 +20,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * 登录，退出
- * Created by biezhi on 2017/2/21.
+ * Description:登录 / 退出
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 9:10
  */
 @Slf4j
 @Controller

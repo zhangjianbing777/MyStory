@@ -11,6 +11,8 @@ import com.blade.mvc.http.Session;
 import com.blade.mvc.ui.RestResponse;
 import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
+import com.github.pagehelper.PageInfo;
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Commons;
 import com.nmys.story.init.TaleConst;
@@ -19,14 +21,18 @@ import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
-import com.nmys.story.service.CommentsService;
-import com.nmys.story.service.ContentsService;
-import com.nmys.story.service.MetasService;
-import com.nmys.story.service.SiteService;
+import com.nmys.story.service.*;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
@@ -34,13 +40,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 首页、归档、Feed、评论
- *
- * @author biezhi
- * @since 1.3.1
+ * Description:博客首页控制层
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 9:21
  */
 @Slf4j
-@Path
+@Controller
 public class IndexController extends BaseController {
 
     @Inject
@@ -55,13 +62,18 @@ public class IndexController extends BaseController {
     @Inject
     private SiteService siteService;
 
+    @Autowired
+    private IContentService contentService;
+
     /**
-     * 首页
-     *
-     * @return
+     * Description:博客首页
+     * Author:70kg
+     * Param [request, limit]
+     * Return java.lang.String
+     * Date 2018/5/11 9:22
      */
-    @GetRoute
-    public String index(Request request, @Param(defaultValue = "12") int limit) {
+    @GetMapping(value = "/")
+    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "12") int limit) {
         return this.index(request, 1, limit);
     }
 
@@ -83,7 +95,9 @@ public class IndexController extends BaseController {
         request.attribute("article", contents);
         Contents temp = new Contents();
         temp.setHits(contents.getHits() + 1);
-        temp.update(contents.getCid());
+        temp.setCid(contents.getCid());
+//        temp.update(contents.getCid());
+        contentService.updateContent(temp);
         if (Types.ARTICLE.equals(contents.getType())) {
             return this.render("post");
         }
@@ -94,23 +108,20 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 首页分页
-     *
-     * @param request
-     * @param page
-     * @param limit
-     * @return
+     * Description:博客首页分页
+     * Author:70kg
+     * Param [request, p, limit]
+     * Return java.lang.String
+     * Date 2018/5/11 9:44
      */
-    @GetRoute(value = {"page/:page", "page/:page.html"})
-    public String index(Request request, @PathParam int page, @Param(defaultValue = "12") int limit) {
-        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
-        if (page > 1) {
-            this.title(request, "第" + page + "页");
+    @GetMapping(value = "page/{p}")
+    public String index(HttpServletRequest request, @PathVariable int p, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        p = p < 0 || p > WebConstant.MAX_PAGE ? 1 : p;
+        PageInfo<Contents> articles = contentService.getContentsByPageInfo(p, limit);
+        request.setAttribute("articles", articles);
+        if (p > 1) {
+            this.title(request, "第" + p + "页");
         }
-        request.attribute("page_num", page);
-        request.attribute("limit", limit);
-        request.attribute("is_home", true);
-        request.attribute("page_prefix", "/page");
         return this.render("index");
     }
 
@@ -136,7 +147,9 @@ public class IndexController extends BaseController {
         }
         Contents temp = new Contents();
         temp.setHits(contents.getHits() + 1);
-        temp.update(contents.getCid());
+        temp.setCid(contents.getCid());
+//        temp.update(contents.getCid());
+        contentService.updateContent(temp);
         return this.render("post");
     }
 
@@ -160,16 +173,16 @@ public class IndexController extends BaseController {
     @GetRoute(value = {"search/:keyword/:page", "search/:keyword/:page.html"})
     public String search(Request request, @PathParam String keyword, @PathParam int page, @Param(defaultValue = "12") int limit) {
 
-        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
-
-        Page<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-                .like("title", "%" + keyword + "%").page(page, limit, "created desc");
-
-        request.attribute("articles", articles);
-
-        request.attribute("type", "搜索");
-        request.attribute("keyword", keyword);
-        request.attribute("page_prefix", "/search/" + keyword);
+//        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
+//
+//        Page<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
+//                .like("title", "%" + keyword + "%").page(page, limit, "created desc");
+//
+//        request.attribute("articles", articles);
+//
+//        request.attribute("type", "搜索");
+//        request.attribute("keyword", keyword);
+//        request.attribute("page_prefix", "/search/" + keyword);
         return this.render("page-category");
     }
 
@@ -194,17 +207,17 @@ public class IndexController extends BaseController {
     @GetRoute(value = {"feed", "feed.xml", "atom.xml"})
     public void feed(Response response) {
 
-        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-                .and("allow_feed", true)
-                .findAll(OrderBy.desc("created"));
-
-        try {
-            String xml = TaleUtils.getRssXml(articles);
-            response.contentType("text/xml; charset=utf-8");
-            response.body(xml);
-        } catch (Exception e) {
-            log.error("生成 rss 失败", e);
-        }
+//        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
+//                .and("allow_feed", true)
+//                .findAll(OrderBy.desc("created"));
+//
+//        try {
+//            String xml = TaleUtils.getRssXml(articles);
+//            response.contentType("text/xml; charset=utf-8");
+//            response.body(xml);
+//        } catch (Exception e) {
+//            log.error("生成 rss 失败", e);
+//        }
     }
 
     /**
@@ -214,17 +227,17 @@ public class IndexController extends BaseController {
      */
     @GetRoute(value = {"sitemap", "sitemap.xml"})
     public void sitemap(Response response) {
-        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-                .and("allow_feed", true)
-                .findAll(OrderBy.desc("created"));
-
-        try {
-            String xml = TaleUtils.getSitemapXml(articles);
-            response.contentType("text/xml; charset=utf-8");
-            response.body(xml);
-        } catch (Exception e) {
-            log.error("生成 sitemap 失败", e);
-        }
+//        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
+//                .and("allow_feed", true)
+//                .findAll(OrderBy.desc("created"));
+//
+//        try {
+//            String xml = TaleUtils.getSitemapXml(articles);
+//            response.contentType("text/xml; charset=utf-8");
+//            response.body(xml);
+//        } catch (Exception e) {
+//            log.error("生成 sitemap 失败", e);
+//        }
     }
 
     /**

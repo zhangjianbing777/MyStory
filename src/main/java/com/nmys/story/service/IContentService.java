@@ -1,5 +1,6 @@
 package com.nmys.story.service;
 
+import com.github.pagehelper.PageInfo;
 import com.nmys.story.model.entity.Contents;
 
 import java.util.List;
@@ -21,5 +22,25 @@ public interface IContentService {
      * Date 2018/5/10 9:48
      */
     List<Contents> getContentsByType(String type, String status);
+
+    /**
+     * Description:博客前台文章分页查询
+     * Author:70kg
+     * Param [page, limit]
+     * Return java.util.List<com.nmys.story.model.entity.Contents>
+     * Date 2018/5/11 9:32
+     */
+    PageInfo<Contents> getContentsByPageInfo(Integer page, Integer limit);
+
+    /**
+     * Description:更新文章内容
+     * Author:70kg
+     * Param [content]
+     * Return boolean
+     * Date 2018/5/11 14:01
+     */
+    boolean updateContent(Contents content);
+
+
 
 }

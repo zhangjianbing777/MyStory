@@ -21,8 +21,8 @@ public abstract class BaseController {
         return THEME + "/" + viewName;
     }
 
-    public BaseController title(Request request, String title) {
-        request.attribute("title", title);
+    public BaseController title(HttpServletRequest request, String title) {
+        request.setAttribute("title", title);
         return this;
     }
 

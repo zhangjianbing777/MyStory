@@ -1,23 +1,13 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.annotation.Table;
-import com.blade.jdbc.core.ActiveRecord;
-import com.blade.validator.annotation.Length;
-import com.blade.validator.annotation.Max;
-import com.blade.validator.annotation.NotEmpty;
-import com.nmys.story.init.TaleConst;
-import lombok.Data;
-
-import static com.nmys.story.init.TaleConst.MAX_TEXT_COUNT;
-import static com.nmys.story.init.TaleConst.MAX_TITLE_COUNT;
-
 /**
- * 内容
- *
- * @author biezhi
+ * Description:文章实体
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 13:42
  */
-@Table(value = "t_contents", pk = "cid")
-public class Contents extends ActiveRecord {
+public class Contents {
 
     // post表主键
     private Integer cid;

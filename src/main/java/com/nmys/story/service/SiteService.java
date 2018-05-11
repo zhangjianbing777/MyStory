@@ -129,69 +129,69 @@ public class SiteService {
      */
     public Statistics getStatistics() {
 
-        Statistics statistics = mapCache.get(Types.C_STATISTICS);
-        if (null != statistics) {
-            return statistics;
-        }
-
-        statistics = new Statistics();
-
-        long articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).count();
-        long pages = new Contents().where("type", Types.PAGE).and("status", Types.PUBLISH).count();
-
-//        long comments   = new Comments().count();
-        // 总评论数
-        int comments = commentService.selectCommentCount();
-
-        long attachs = new Attach().count();
-        long tags = new Metas().where("type", Types.TAG).count();
-        long categories = new Metas().where("type", Types.CATEGORY).count();
-
-        statistics.setArticles(articles);
-        statistics.setPages(pages);
-        statistics.setComments(comments);
-        statistics.setAttachs(attachs);
-        statistics.setTags(tags);
-        statistics.setCategories(categories);
-
-        mapCache.set(Types.C_STATISTICS, statistics);
+//        Statistics statistics = mapCache.get(Types.C_STATISTICS);
+//        if (null != statistics) {
+//            return statistics;
+//        }
+//
+        Statistics statistics = new Statistics();
+//
+//        long articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).count();
+//        long pages = new Contents().where("type", Types.PAGE).and("status", Types.PUBLISH).count();
+//
+////        long comments   = new Comments().count();
+//        // 总评论数
+//        int comments = commentService.selectCommentCount();
+//
+//        long attachs = new Attach().count();
+//        long tags = new Metas().where("type", Types.TAG).count();
+//        long categories = new Metas().where("type", Types.CATEGORY).count();
+//
+//        statistics.setArticles(articles);
+//        statistics.setPages(pages);
+//        statistics.setComments(comments);
+//        statistics.setAttachs(attachs);
+//        statistics.setTags(tags);
+//        statistics.setCategories(categories);
+//
+//        mapCache.set(Types.C_STATISTICS, statistics);
         return statistics;
     }
 
     /**
      * 查询文章归档
      */
-    public List<Archive> getArchives() {
-        String sql = "select strftime('%Y年%m月', datetime(created, 'unixepoch') ) as date_str, count(*) as count  from t_contents " +
-                "where type = 'post' and status = 'publish' group by date_str order by date_str desc";
-        List<Archive> archives = new Archive().queryAll(sql);
-        if (null != archives) {
-            return archives.stream()
-                    .map(this::parseArchive)
-                    .collect(Collectors.toList());
-        }
-        return Collections.EMPTY_LIST;
-    }
+//    public List<Archive> getArchives() {
+//        String sql = "select strftime('%Y年%m月', datetime(created, 'unixepoch') ) as date_str, count(*) as count  from t_contents " +
+//                "where type = 'post' and status = 'publish' group by date_str order by date_str desc";
+//        List<Archive> archives = new Archive().queryAll(sql);
+//        if (null != archives) {
+//            return archives.stream()
+//                    .map(this::parseArchive)
+//                    .collect(Collectors.toList());
+//        }
+//        return Collections.EMPTY_LIST;
+//    }
 
-    private Archive parseArchive(Archive archive) {
-        String date_str = archive.getDate_str();
-        Date sd = DateKit.toDate(date_str + "01", "yyyy年MM月dd");
-        archive.setDate(sd);
-        int start = DateKit.toUnix(sd);
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(sd);
-        calender.add(Calendar.MONTH, 1);
-        Date endSd = calender.getTime();
-        int end = DateKit.toUnix(endSd) - 1;
-        List<Contents> contents = new Contents().where("type", Types.ARTICLE)
-                .and("status", Types.PUBLISH)
-                .and("created", ">", start)
-                .and("created", "<", end)
-                .findAll(OrderBy.desc("created"));
-
-        archive.setArticles(contents);
-        return archive;
-    }
+//    private Archive parseArchive(Archive archive) {
+//        String date_str = archive.getDate_str();
+//        Date sd = DateKit.toDate(date_str + "01", "yyyy年MM月dd");
+//        archive.setDate(sd);
+//        int start = DateKit.toUnix(sd);
+//        Calendar calender = Calendar.getInstance();
+//        calender.setTime(sd);
+//        calender.add(Calendar.MONTH, 1);
+//        Date endSd = calender.getTime();
+//        int end = DateKit.toUnix(endSd) - 1;
+//        List<Contents> contents = new Contents().where("type", Types.ARTICLE)
+//                .and("status", Types.PUBLISH)
+//                .and("created", ">", start)
+//                .and("created", "<", end)
+//                .findAll(OrderBy.desc("created"));
+//
+//        archive.setArticles(contents);
+//        return archive;
+//    }
 
 
     /**
@@ -304,12 +304,12 @@ public class SiteService {
      */
     public Contents getNhContent(String type, Integer created) {
         Contents contents = null;
-        if (Types.NEXT.equals(type)) {
-            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created > ? ORDER BY created ASC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
-        }
-        if (Types.PREV.equals(type)) {
-            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created < ? ORDER BY created DESC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
-        }
+//        if (Types.NEXT.equals(type)) {
+//            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created > ? ORDER BY created ASC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
+//        }
+//        if (Types.PREV.equals(type)) {
+//            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created < ? ORDER BY created DESC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
+//        }
         return contents;
     }
 

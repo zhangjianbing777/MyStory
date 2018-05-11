@@ -38,9 +38,9 @@ public class ContentsService {
     public Optional<Contents> getContents(String id) {
         if (StringKit.isNotBlank(id)) {
             if (StringKit.isNumber(id)) {
-                return Optional.ofNullable(new Contents().find(id));
+//                return Optional.ofNullable(new Contents().find(id));
             } else {
-                return Optional.ofNullable(new Contents().where("slug", id).find());
+//                return Optional.ofNullable(new Contents().where("slug", id).find());
             }
         }
         return Optional.empty();
@@ -82,10 +82,10 @@ public class ContentsService {
                 throw new TipException("您输入的路径不合法");
             }
 
-            long count = new Contents().where("type", contents.getType()).and("slug", contents.getSlug()).count();
-            if (count > 0) {
-                throw new TipException("该路径已经存在，请重新输入");
-            }
+//            long count = new Contents().where("type", contents.getType()).and("slug", contents.getSlug()).count();
+//            if (count > 0) {
+//                throw new TipException("该路径已经存在，请重新输入");
+//            }
         }
 
         contents.setContent(EmojiParser.parseToAliases(contents.getContent()));
@@ -97,12 +97,13 @@ public class ContentsService {
         String tags       = contents.getTags();
         String categories = contents.getCategories();
 
-        Integer cid = contents.save();
+//        Integer cid = contents.save();
 
-        metasService.saveMetas(cid, tags, Types.TAG);
-        metasService.saveMetas(cid, categories, Types.CATEGORY);
+//        metasService.saveMetas(cid, tags, Types.TAG);
+//        metasService.saveMetas(cid, categories, Types.CATEGORY);
 
-        return cid;
+//        return cid;
+        return null;
     }
 
     /**
@@ -120,7 +121,7 @@ public class ContentsService {
         String  categories = contents.getCategories();
         Integer cid        = contents.getCid();
 
-        contents.update(cid);
+//        contents.update(cid);
 
         if (null != contents.getType() && !contents.getType().equals(Types.PAGE)) {
             new Relationships().delete("cid", cid);
@@ -157,7 +158,8 @@ public class ContentsService {
         String sql = "select a.* from t_contents a left join t_relationships b on a.cid = b.cid " +
                 "where b.mid = ? and a.status = 'publish' and a.type = 'post'";
 
-        return new Contents().page(new PageRow(page, limit), sql, "a.created desc", mid);
+//        return new Contents().page(new PageRow(page, limit), sql, "a.created desc", mid);
+        return null;
     }
 
 }
