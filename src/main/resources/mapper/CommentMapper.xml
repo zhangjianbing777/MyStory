@@ -74,6 +74,6 @@
     </select>
 
     <select id="getCommentsListByContentId" resultMap="BaseResultMap">
-        SELECT * FROM t_comments WHERE cid = #{cid} and parent = #{parentId} and status = #{status}
+        SELECT * FROM t_comments WHERE cid = #{cid} and parent = #{parentId} and status = #{status} order by created desc
     </select>
 </mapper>

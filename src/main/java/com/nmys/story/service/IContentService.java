@@ -50,5 +50,12 @@ public interface IContentService {
      */
     Contents getContentById(Integer id);
 
+    /**
+     * Description: 根据文章缩略名来查询文章
+     * author: itachi
+     * Date: 2018/5/13 上午10:25
+     */
+    Contents getContentBySlug(String slug);
+
 
 }

@@ -40,4 +40,9 @@ public class ContentServiceImpl implements IContentService {
     public Contents getContentById(Integer id) {
         return contentsMapper.getContentById(id);
     }
+
+    @Override
+    public Contents getContentBySlug(String slug) {
+        return contentsMapper.getContentBySlug(slug);
+    }
 }

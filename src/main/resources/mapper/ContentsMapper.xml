@@ -150,4 +150,8 @@
         SELECT * FROM t_contents WHERE type = #{type} and status = #{status} and created &gt; #{startTime} and created &lt; #{endTime}
     </select>
 
+    <select id="getContentBySlug" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE slug = #{slug}
+    </select>
+
 </mapper>

@@ -209,6 +209,36 @@ public class IndexController extends BaseController {
     }
 
     /**
+     * Description: 自定义页面,如：前台关于页面
+     * author: itachi
+     * Date: 2018/5/13 上午10:04
+     */
+    @GetMapping(value = "/{pagename}")
+    public String page(@PathVariable String pagename, HttpServletRequest request) {
+        // 根据文章缩略名来查询
+        Contents contents = contentService.getContentBySlug(pagename);
+        if (null == contents) {
+            return this.render_404();
+        }
+        // 该文章是否允许评论
+        if (contents.getAllowComment() == 1) {
+            String cp = request.getParameter("cp");
+            if (StringUtils.isBlank(cp)) {
+                cp = "1";
+            }
+            // 评论集合
+            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(cp), 6);
+            request.setAttribute("comments", commentsPaginator);
+        }
+        request.setAttribute("article", contents);
+        if (!checkHitsFrequency(request, String.valueOf(contents.getCid()))) {
+            // 更新文章点击量
+            updateArticleHit(contents.getCid(), contents.getHits());
+        }
+        return this.render("page");
+    }
+
+    /**
      * feed页
      *
      * @return
@@ -412,6 +442,21 @@ public class IndexController extends BaseController {
         } else {
             cache.hset("article", "hits", hits);
         }
+    }
+
+    /**
+     * Description: 检查同一个ip在两个小时之内是否访问同一篇文章
+     * author: itachi
+     * Date: 2018/5/13 上午10:14
+     */
+    private boolean checkHitsFrequency(HttpServletRequest request, String cid) {
+        String val = IPKit.getIpAddrByRequest(request) + ":" + cid;
+        Integer count = cache.hget(Types.HITS_FREQUENCY, val);
+        if (null != count && count > 0) {
+            return true;
+        }
+        cache.hset(Types.HITS_FREQUENCY, val, 1, WebConstant.HITS_LIMIT_TIME);
+        return false;
     }
 
 }

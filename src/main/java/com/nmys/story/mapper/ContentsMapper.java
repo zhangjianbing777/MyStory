@@ -51,5 +51,12 @@ public interface ContentsMapper {
      */
     List<Contents> getContentsByConditions(@Param("type") String type, @Param("status") String status, @Param("startTime") Integer startTime, @Param("endTime") Integer endTime);
 
+    /**
+     * Description: 根据文章缩略名来查询文章
+     * author: itachi
+     * Date: 2018/5/13 上午10:26
+     */
+    Contents getContentBySlug(@Param("slug") String slug);
+
 
 }

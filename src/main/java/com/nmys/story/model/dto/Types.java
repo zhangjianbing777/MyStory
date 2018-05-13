@@ -22,6 +22,9 @@ public interface Types {
     String CSRF_TOKEN = "csrf_token";
     String COMMENTS_FREQUENCY = "comments:frequency";
 
+    // 文章点击的频率
+    String HITS_FREQUENCY = "hits:frequency";
+
     // 最新最近文章
     String RECENT_ARTICLE = "recent_article";
 
