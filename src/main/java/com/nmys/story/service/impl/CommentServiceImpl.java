@@ -61,8 +61,9 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public PageInfo<Comments> getCommentsListByContentId(Integer contentId, Integer page, Integer limit) {
-        PageHelper.startPage(page,limit);
-        List<Comments> list = commentMapper.getCommentsListByContentId(contentId, 0, "approved");
+        PageHelper.startPage(page, limit);
+        // 去掉父级评论
+        List<Comments> list = commentMapper.getCommentsListByContentId(contentId, "approved");
         PageInfo<Comments> pageInfo = new PageInfo(list);
         return pageInfo;
     }
@@ -96,6 +97,8 @@ public class CommentServiceImpl implements ICommentService {
         comments.setOwner_id(contents.getAuthorId());
         comments.setStatus("not_audit");
         comments.setCreated(DateKit.getCurrentUnixTime());
+        // 非admin用户的评论都设置为0
+        comments.setAuthor_id(0);
         // 保存评论
         commentMapper.saveComment(comments);
 

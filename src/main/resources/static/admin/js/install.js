@@ -1,8 +1,7 @@
 /**
- * Created by biezhi on 2017/2/23.
+ * Created by 13 on 2017/2/23.
  */
 !function ($) {
-
     "use strict";
     var tale = new $.tale();
     var FormWizard = function () {
@@ -15,10 +14,10 @@
                 element.after(error);
             }
         });
-        $form_container.children("div").steps({
+        $("#steps").steps({
             headerTag: "h3",
             bodyTag: "section",
-            transitionEffect: "slideLeft",
+            transitionEffect: "fade",
             labels: {
                 previous: "上一步",
                 next: "下一步",
@@ -29,32 +28,43 @@
             onStepChanging: function (event, currentIndex, newIndex) {
                 tale.showLoading();
                 $form_container.validate().settings.ignore = ":disabled,:hidden";
-                if(currentIndex == 1 && newIndex == 0){
-                    return true;
+                var isValid=true;
+                if(newIndex!=0){
+                     isValid = $form_container.valid();
+                    if(!isValid){
+                        tale.hideLoading();
+                    }
                 }
-                var isValid = $form_container.valid();
-                if(!isValid){
-                    tale.hideLoading();
-                }
-                if (isValid && currentIndex == 0) {
+                if (isValid && currentIndex == 1&&newIndex==2) {
                     isValid = false;
                     var params = $form_container.serialize();
-                    tale.showLoading();
                     tale.post({
-                        url: '/install',
+                        url: '/install/testCon',
                         data: params,
                         success: function (result) {
                             if (result && result.success) {
-                                isValid = true;
+                                tale.showLoading();
+                                tale.post({
+                                    url: '/install',
+                                    data: params,
+                                    success: function (result) {
+                                        if (result && result.success) {
+                                            isValid = true;
+                                        } else {
+                                            if (result.msg) {
+                                                tale.alertError(result.msg || '安装失败');
+                                            }
+                                        }
+                                    }
+                                });
                             } else {
-                                if (result.msg) {
-                                    tale.alertError(result.msg || '安装失败');
-                                }
+                                tale.alertError(result.msg || '测试连接失败');
                             }
                         }
                     });
                     return isValid;
                 } else {
+                    tale.hideLoading();
                     return isValid;
                 }
             },
@@ -76,5 +86,3 @@
         //init
         $.FormWizard = new FormWizard, $.FormWizard.Constructor = FormWizard
 }(window.jQuery), $.FormWizard.init();
-var site_url = document.location.protocol + '//' + document.location.host;
-document.getElementById('site_url').value = site_url;

@@ -1,10 +1,10 @@
 package com.nmys.story.controller.admin;
 
 import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.page.Page;
 import com.blade.kit.StringKit;
-import com.blade.mvc.annotation.*;
-import com.blade.mvc.http.Request;
+import com.blade.mvc.annotation.JSON;
+import com.blade.mvc.annotation.Param;
+import com.blade.mvc.annotation.PostRoute;
 import com.blade.mvc.ui.RestResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,7 +15,6 @@ import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.CommentsService;
 import com.nmys.story.service.ICommentService;
-import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -30,9 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 评论管理
- * <p>
- * Created by biezhi on 2017/2/26.
+ * Description: 博客后台评论管理
+ * author: itachi
+ * Date: 2018/5/13 下午1:18
  */
 @Slf4j
 @Controller
@@ -57,11 +56,12 @@ public class CommentController extends BaseController {
      */
     @GetMapping(value = "")
     public String index(@RequestParam(defaultValue = "1") int page,
-                        @RequestParam(defaultValue = "5") int limit,
+                        @RequestParam(defaultValue = "10") int limit,
                         HttpServletRequest request) {
         // 获取登录人
         Users user = this.user(request);
         PageHelper.startPage(page,limit);
+        // 查询非登录人的评论
         List<Comments> commentsList = commentService.selectCommentsByAuthorId(user.getUid());
         PageInfo<Comments> pageInfo = new PageInfo(commentsList);
         request.setAttribute("comments", pageInfo);

@@ -85,12 +85,12 @@
                                 class="fa fa-dashboard" aria-hidden="true"></i><span> 仪表盘 </span></a>
                     </li>
                     <li class="${active}=='publish'?'active':''">
-                        <a href="@{/admin/article/publish}"
+                        <a th:href="@{/admin/article/publish}"
                            class="${active}=='publish'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-pencil-square-o" aria-hidden="true"></i><span> 发布文章 </span></a>
                     </li>
                     <li class="${active}=='article'?'active':''">
-                        <a href="@{/admin/article}"
+                        <a th:href="@{/admin/article}"
                            class="${active}=='article'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-list" aria-hidden="true"></i><span> 文章管理 </span></a>
                     </li>

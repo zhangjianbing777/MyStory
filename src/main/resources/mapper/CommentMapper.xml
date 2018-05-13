@@ -70,10 +70,10 @@
     </select>
 
     <select id="selectCommentsByAuthorId" resultMap="BaseResultMap">
-        SELECT * FROM t_comments WHERE author_id != #{authorId}
+        SELECT * FROM t_comments WHERE author_id != #{authorId} order by created desc
     </select>
 
     <select id="getCommentsListByContentId" resultMap="BaseResultMap">
-        SELECT * FROM t_comments WHERE cid = #{cid} and parent = #{parentId} and status = #{status} order by created desc
+        SELECT * FROM t_comments WHERE cid = #{cid} and status = #{status} order by created desc
     </select>
 </mapper>

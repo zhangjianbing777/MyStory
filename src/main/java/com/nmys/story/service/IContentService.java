@@ -6,7 +6,7 @@ import com.nmys.story.model.entity.Contents;
 import java.util.List;
 
 /**
- * Description:内容接口
+ * Description:文章内容接口
  * Author:70kg
  * Param
  * Return
@@ -56,6 +56,20 @@ public interface IContentService {
      * Date: 2018/5/13 上午10:25
      */
     Contents getContentBySlug(String slug);
+
+    /**
+     * Description: 根据特定条件来查询文章
+     * author: itachi
+     * Date: 2018/5/13 下午2:24
+     */
+    PageInfo<Contents> getContentsConditions(String type, Integer page, Integer limit);
+
+    /**
+     * Description: 保存文章
+     * author: itachi
+     * Date: 2018/5/13 下午3:22
+     */
+    String saveContent(Contents content);
 
 
 }

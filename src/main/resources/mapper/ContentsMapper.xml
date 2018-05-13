@@ -23,6 +23,22 @@
     </resultMap>
 
 
+    <insert id="saveContent" parameterType="com.nmys.story.model.entity.Contents" useGeneratedKeys="true" keyProperty="cid">
+        insert into t_contents (cid, title, slug,
+        created, modified, author_id,
+        type, status, tags,
+        categories, hits, comments_num,
+        allow_comment, allow_ping, allow_feed,
+        content)
+        values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
+        #{created,jdbcType=INTEGER}, #{modified,jdbcType=INTEGER}, #{authorId,jdbcType=INTEGER},
+        #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},
+        #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER},
+        #{allowComment,jdbcType=INTEGER}, #{allowPing,jdbcType=INTEGER}, #{allowFeed,jdbcType=INTEGER},
+        #{content,jdbcType=LONGVARCHAR})
+    </insert>
+
+
     <update id="updateContent" parameterType="com.nmys.story.model.entity.Contents">
         update t_contents
         <set>
@@ -152,6 +168,14 @@
 
     <select id="getContentBySlug" resultMap="BaseResultMap">
         SELECT * FROM t_contents WHERE slug = #{slug}
+    </select>
+
+    <select id="getContentsConditions" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE type = #{type} order by created desc
+    </select>
+
+    <select id="selectContentByConditions" resultType="java.lang.Long">
+        SELECT count(*) FROM t_contents WHERE type= #{type} and slug = #{slug}
     </select>
 
 </mapper>

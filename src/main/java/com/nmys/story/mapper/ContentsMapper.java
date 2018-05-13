@@ -58,5 +58,26 @@ public interface ContentsMapper {
      */
     Contents getContentBySlug(@Param("slug") String slug);
 
+    /**
+     * Description: 根据特定条件来查询文章列表
+     * author: itachi
+     * Date: 2018/5/13 下午2:28
+     */
+    List<Contents> getContentsConditions(@Param("type") String type);
+
+    /**
+     * Description: 保存文章
+     * author: itachi
+     * Date: 2018/5/13 下午3:25
+     */
+    void saveContent(Contents content);
+
+    /**
+     * Description: 根据条件查询文章的个数
+     * author: itachi
+     * Date: 2018/5/13 下午3:50
+     */
+    long selectContentByConditions(@Param("type") String type, @Param("slug") String slug);
+
 
 }

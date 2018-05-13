@@ -70,6 +70,6 @@ public interface CommentMapper {
      * Return java.util.List<com.nmys.story.model.entity.Comments>
      * Date 2018/5/11 16:18
      */
-    List<Comments> getCommentsListByContentId(@Param("cid") Integer cid, @Param("parentId") Integer parentId, @Param("status") String status);
+    List<Comments> getCommentsListByContentId(@Param("cid") Integer cid, @Param("status") String status);
 
 }

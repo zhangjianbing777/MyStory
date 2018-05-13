@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<header></header>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='评论管理',active='comments'">
+<header th:replace="admin/header::headerFragment(${title},${active})"></header>
 <body class="fixed-left">
 <div id="wrapper">
-    <div th:include="admin/header::html"></div>
+    <div th:replace="admin/header::header-body"></div>
     <div class="content-page">
         <div class="content">
             <div class="container">
@@ -28,11 +28,11 @@
                             <th:block th:each="comment : ${comments.list}">
                                 <tr th:attr="cid=${comment.coid}">
                                     <td>
-                                        <a th:href="www.baidu.com"
-                                           target="_blank" th:utext="${comment.content}"></a>
+                                        <a th:href="@{${commons.site_url('/article/')}+${comment.cid}+'#comments'}"
+                                           target="_blank" th:utext="${commons.article(comment.content)}"></a>
                                     </td>
                                     <td th:text="${comment.author}"></td>
-                                    <td th:text="2018-05-10"></td>
+                                    <td th:text="${commons.fmtdate(comment.created, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     <td th:text="${comment.mail}"></td>
                                     <td><a th:href="@{${comment.url}}" target="_blank" th:text="${comment.url}"></a>
                                     </td>

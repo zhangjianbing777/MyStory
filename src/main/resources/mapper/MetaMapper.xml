@@ -13,7 +13,7 @@
     </resultMap>
 
     <select id="getMetasByType" resultMap="BaseResultMap">
-        SELECT * FROM t_metas WHERE type = #{type}
+        SELECT * FROM t_metas WHERE type = #{type} order by sort desc,mid desc
     </select>
 
 

@@ -14,7 +14,7 @@ public class Comments extends ActiveRecord {
     // comment表主键
     private Integer coid;
 
-    // post表主键,关联字段
+    // post表主键,关联字段,文章的id
     private Integer cid;
 
     // 评论生成时的GMT unix时间戳

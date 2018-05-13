@@ -310,17 +310,22 @@ public class IndexController extends BaseController {
      */
     @PostMapping(value = "comment")
     @ResponseBody
-    public RestResponseBo comment(HttpServletRequest request, HttpServletResponse response,
-                                  @RequestParam Integer cid, @RequestParam Integer coid,
-                                  @RequestParam String author, @RequestParam String mail,
-                                  @RequestParam String url, @RequestParam String text, @RequestParam String _csrf_token) {
+    public RestResponseBo comment(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  @RequestParam Integer cid,
+                                  @RequestParam Integer coid,
+                                  @RequestParam String author,
+                                  @RequestParam String mail,
+                                  @RequestParam String url,
+                                  @RequestParam String text,
+                                  @RequestParam String _csrf_token) {
 
         String ref = request.getHeader("Referer");
         if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
             return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
         }
 
-        // ????????
+        // ?!?!?!?!?!?!?!
 //        String token = cache.hget(Types.CSRF_TOKEN, _csrf_token);
 //        if (StringUtils.isBlank(token)) {
 //            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
@@ -355,7 +360,9 @@ public class IndexController extends BaseController {
         author = TaleUtils.cleanXSS(author);
         text = TaleUtils.cleanXSS(text);
 
+        // 评论人的姓名
         author = EmojiParser.parseToAliases(author);
+        // 评论的内容
         text = EmojiParser.parseToAliases(text);
 
         Comments comments = new Comments();
