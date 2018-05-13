@@ -8,6 +8,7 @@ import com.nmys.story.model.entity.Options;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IOptionService;
 import com.nmys.story.service.IUserService;
+import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.MapCache;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.UUID;
@@ -23,8 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 自定义拦截器
- * Created by BlueT on 2017/3/9.
+ * Description: 自定义拦截器
+ * author: itachi
+ * Date: 2018/5/12 下午4:30
  */
 @Component
 public class BaseInterceptor implements HandlerInterceptor {
@@ -50,7 +52,7 @@ public class BaseInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
 
         LOGGE.info("UserAgent: {}", request.getHeader(USER_AGENT));
-//        LOGGE.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
+        LOGGE.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
 
 
         //请求拦截处理

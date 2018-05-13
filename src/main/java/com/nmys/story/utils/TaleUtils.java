@@ -33,9 +33,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Tale工具类
- * <p>
- * Created by 13 on 2017/2/21.
+ * Description: tale工具类
+ * author: itachi
+ * Date: 2018/5/12 下午4:32
  */
 public class TaleUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaleUtils.class);

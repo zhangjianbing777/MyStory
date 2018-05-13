@@ -1,15 +1,16 @@
 package com.nmys.story.controller;
 
-import com.blade.mvc.WebContext;
-import com.blade.mvc.http.Request;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.utils.MapCache;
 import com.nmys.story.utils.TaleUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * Created by biezhi on 2017/2/21.
+ * Description: 控制层的基类跳转
+ * author: itachi
+ * Date: 2018/5/12 下午8:08
  */
 public abstract class BaseController {
 
@@ -26,8 +27,8 @@ public abstract class BaseController {
         return this;
     }
 
-    public BaseController keywords(Request request, String keywords) {
-        request.attribute("keywords", keywords);
+    public BaseController keywords(HttpServletRequest request, String keywords) {
+        request.setAttribute("keywords", keywords);
         return this;
     }
 

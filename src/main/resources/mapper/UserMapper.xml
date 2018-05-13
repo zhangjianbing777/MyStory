@@ -50,10 +50,10 @@
                 email = #{email,jdbcType=VARCHAR},
             </if>
             <if test="home_url != null">
-                home_url = #{homeUrl,jdbcType=VARCHAR},
+                home_url = #{home_url,jdbcType=VARCHAR},
             </if>
             <if test="screen_name != null">
-                screen_name = #{screenName,jdbcType=VARCHAR},
+                screen_name = #{screen_name,jdbcType=VARCHAR},
             </if>
             <if test="created != null">
                 created = #{created,jdbcType=INTEGER},
@@ -65,7 +65,7 @@
                 logged = #{logged,jdbcType=INTEGER},
             </if>
             <if test="group_name != null">
-                group_name = #{groupName,jdbcType=VARCHAR},
+                group_name = #{group_name,jdbcType=VARCHAR},
             </if>
         </set>
         where uid = #{uid,jdbcType=INTEGER}

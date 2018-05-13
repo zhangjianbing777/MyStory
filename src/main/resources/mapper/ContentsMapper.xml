@@ -17,9 +17,9 @@
         <result column="categories" jdbcType="VARCHAR" property="categories" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="comments_num" jdbcType="INTEGER" property="commentsNum" />
-        <result column="allow_comment" jdbcType="BIT" property="allowComment" />
-        <result column="allow_ping" jdbcType="BIT" property="allowPing" />
-        <result column="allow_feed" jdbcType="BIT" property="allowFeed" />
+        <result column="allow_comment" jdbcType="INTEGER" property="allowComment" />
+        <result column="allow_ping" jdbcType="INTEGER" property="allowPing" />
+        <result column="allow_feed" jdbcType="INTEGER" property="allowFeed" />
     </resultMap>
 
 
@@ -66,13 +66,13 @@
                 comments_num = #{commentsNum,jdbcType=INTEGER},
             </if>
             <if test="allowComment != null">
-                allow_comment = #{allowComment,jdbcType=BIT},
+                allow_comment = #{allowComment,jdbcType=INTEGER},
             </if>
             <if test="allowPing != null">
-                allow_ping = #{allowPing,jdbcType=BIT},
+                allow_ping = #{allowPing,jdbcType=INTEGER},
             </if>
             <if test="allowFeed != null">
-                allow_feed = #{allowFeed,jdbcType=BIT},
+                allow_feed = #{allowFeed,jdbcType=INTEGER},
             </if>
             <if test="content != null">
                 content = #{content,jdbcType=LONGVARCHAR},
@@ -136,4 +136,18 @@
     <select id="getContentById" resultMap="BaseResultMap">
         SELECT * FROM t_contents WHERE cid = #{id}
     </select>
+
+    <resultMap id="archiveBoMap" type="com.nmys.story.model.dto.Archive">
+        <id column="date" property="date"/>
+        <result column="count" property="count"/>
+    </resultMap>
+
+    <select id="selectArchive" resultMap="archiveBoMap">
+        select FROM_UNIXTIME(created, '%Y年%m月') as date, count(*) as count from t_contents where type = 'post' and status = 'publish' group by date order by date desc
+    </select>
+
+    <select id="getContentsByConditions" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE type = #{type} and status = #{status} and created &gt; #{startTime} and created &lt; #{endTime}
+    </select>
+
 </mapper>

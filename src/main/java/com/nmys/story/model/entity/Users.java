@@ -9,7 +9,6 @@ import lombok.Data;
  *
  * @author biezhi
  */
-@Table(value = "t_users", pk = "uid")
 public class Users {
 
     // user表主键

@@ -23,6 +23,7 @@ import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.*;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
@@ -65,7 +66,7 @@ public class IndexController extends BaseController {
     @Inject
     private CommentsService commentsService;
 
-    @Inject
+    @Autowired
     private SiteService siteService;
 
     @Autowired
@@ -73,6 +74,9 @@ public class IndexController extends BaseController {
 
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private IMetaService metaService;
 
     /**
      * Description:博客首页
@@ -97,7 +101,7 @@ public class IndexController extends BaseController {
             return this.render_404();
         }
         Contents contents = contentsOptional.get();
-        if (contents.getAllowComment()) {
+        if (contents.getAllowComment() == 1) {
             int cp = request.queryInt("cp", 1);
             request.attribute("cp", cp);
         }
@@ -193,16 +197,14 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 归档页
-     *
-     * @return
+     * Description: 归档页面
+     * author: itachi
+     * Date: 2018/5/12 下午8:29
      */
-    @GetRoute(value = {"archives", "archives.html"})
-    public String archives(Request request) {
-        List<Archive> archives = null;
-//        List<Archive> archives = siteService.getArchives();
-        request.attribute("archives", archives);
-        request.attribute("is_archive", true);
+    @GetMapping(value = "archives")
+    public String archives(HttpServletRequest request) {
+        List<Archive> list = siteService.getArchives();
+        request.setAttribute("archives", list);
         return this.render("archives");
     }
 
@@ -248,18 +250,33 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 注销
-     *
-     * @param session
-     * @param response
+     * Description: 友链
+     * author: itachi
+     * Date: 2018/5/12 下午7:57
+     */
+    @GetMapping(value = "links")
+    public String links(HttpServletRequest request) {
+        List<Metas> links = metaService.getMetasByType(Types.LINK);
+        request.setAttribute("links", links);
+        return this.render("links");
+    }
+
+
+    /**
+     * Description: 前台注销操作
+     * author: itachi
+     * Date: 2018/5/12 下午6:36
      */
     @Route(value = "logout")
     public void logout(HttpSession session, HttpServletResponse response) {
         TaleUtils.logout(session, response);
     }
 
+
     /**
-     * 评论操作
+     * Description: 前台评论操作
+     * author: itachi
+     * Date: 2018/5/12 下午6:37
      */
     @PostMapping(value = "comment")
     @ResponseBody
@@ -354,13 +371,13 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 抽取公共方法
-     *
-     * @param request
-     * @param contents
+     * Description: 公共方法
+     * author: itachi
+     * Date: 2018/5/12 下午8:26
      */
     private void completeArticle(HttpServletRequest request, Contents contents) {
-        if (contents.getAllowComment()) {
+        // 允许评论
+        if (contents.getAllowComment() == 1) {
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
                 cp = "1";

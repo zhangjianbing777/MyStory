@@ -8,6 +8,8 @@ public interface Types {
     String TAG = "tag";
     String CATEGORY = "category";
 
+    String LINK = "link";
+
     // 文章类型
     String ARTICLE = "post";
 

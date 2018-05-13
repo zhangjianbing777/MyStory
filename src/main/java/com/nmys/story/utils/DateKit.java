@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by Administrator on 2017/3/10 010.
+ * Description: 时间管理工具类
+ * author: itachi
+ * Date: 2018/5/12 下午9:11
  */
 public class DateKit {
     public static final int INTERVAL_DAY = 1;

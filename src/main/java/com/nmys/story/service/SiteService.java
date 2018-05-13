@@ -3,32 +3,27 @@ package com.nmys.story.service;
 import com.blade.ioc.annotation.Bean;
 import com.blade.ioc.annotation.Inject;
 import com.blade.jdbc.core.ActiveRecord;
-import com.blade.jdbc.core.OrderBy;
 import com.blade.jdbc.page.Page;
 import com.blade.kit.BladeKit;
-import com.blade.kit.DateKit;
-import com.blade.kit.EncryptKit;
 import com.blade.kit.StringKit;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nmys.story.controller.admin.AttachController;
-import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Theme;
-import com.nmys.story.init.SqliteJdbc;
 import com.nmys.story.init.TaleConst;
+import com.nmys.story.mapper.ContentsMapper;
 import com.nmys.story.model.dto.*;
-import com.nmys.story.model.entity.*;
+import com.nmys.story.model.entity.Comments;
+import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Metas;
+import com.nmys.story.model.entity.Users;
+import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.MapCache;
-import com.nmys.story.utils.TaleUtils;
-import com.nmys.story.utils.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 站点Service
@@ -54,28 +49,54 @@ public class SiteService {
     @Autowired
     private IContentService contentService;
 
+    @Autowired
+    private ContentsMapper contentsMapper;
+
+    /**
+     * Description: 查询归档
+     * author: itachi
+     * Date: 2018/5/12 下午8:59
+     */
+    public List<Archive> getArchives() {
+        // 获取归档大类
+        List<Archive> archives = contentsMapper.selectArchive();
+        if (null != archives) {
+            for (Archive archive: archives) {
+                String date = archive.getDate();
+                Date sd = DateKit.dateFormat(date, "yyyy年MM月");
+                // 开始时间结束时间
+                int start = DateKit.getUnixTimeByDate(sd);
+                int end = DateKit.getUnixTimeByDate(DateKit.dateAdd(DateKit.INTERVAL_MONTH, sd, 1)) - 1;
+                // 查询符合条件的文章
+                List<Contents> contentList = contentsMapper.getContentsByConditions(Types.ARTICLE, Types.PUBLISH,start,end);
+                archive.setArticles(contentList);
+            }
+        }
+        return archives;
+    }
+
     /**
      * 初始化站点
      *
      * @param users 用户
      */
     public void initSite(Users users) {
-        String pwd = EncryptKit.md5(users.getUsername() + users.getPassword());
-        users.setPassword(pwd);
-        users.setScreen_name(users.getUsername());
-        users.setCreated(DateKit.nowUnix());
-        userService.saveUser(users);
-//        Integer uid = users.save();
-
-        try {
-            String cp = SiteService.class.getClassLoader().getResource("").getPath();
-            File lock = new File(cp + "install.lock");
-            lock.createNewFile();
-            TaleConst.INSTALLED = Boolean.TRUE;
-//            new Logs(LogActions.INIT_SITE, null, "", uid.intValue()).save();
-        } catch (Exception e) {
-            throw new TipException("初始化站点失败");
-        }
+//        String pwd = EncryptKit.md5(users.getUsername() + users.getPassword());
+//        users.setPassword(pwd);
+//        users.setScreen_name(users.getUsername());
+//        users.setCreated(DateKit.nowUnix());
+//        userService.saveUser(users);
+////        Integer uid = users.save();
+//
+//        try {
+//            String cp = SiteService.class.getClassLoader().getResource("").getPath();
+//            File lock = new File(cp + "install.lock");
+//            lock.createNewFile();
+//            TaleConst.INSTALLED = Boolean.TRUE;
+////            new Logs(LogActions.INIT_SITE, null, "", uid.intValue()).save();
+//        } catch (Exception e) {
+//            throw new TipException("初始化站点失败");
+//        }
     }
 
     /**
@@ -217,44 +238,45 @@ public class SiteService {
      * @param fmt
      */
     public BackResponse backup(String bkType, String bkPath, String fmt) throws Exception {
-        BackResponse backResponse = new BackResponse();
-        if ("attach".equals(bkType)) {
-            if (StringKit.isBlank(bkPath)) {
-                throw new TipException("请输入备份文件存储路径");
-            }
-            if (!Files.isDirectory(Paths.get(bkPath))) {
-                throw new TipException("请输入一个存在的目录");
-            }
-            String bkAttachDir = AttachController.CLASSPATH + "upload";
-            String bkThemesDir = AttachController.CLASSPATH + "templates/themes";
-
-            String fname = DateKit.toString(new Date(), fmt) + "_" + StringKit.rand(5) + ".zip";
-
-            String attachPath = bkPath + "/" + "attachs_" + fname;
-            String themesPath = bkPath + "/" + "themes_" + fname;
-
-            ZipUtils.zipFolder(bkAttachDir, attachPath);
-            ZipUtils.zipFolder(bkThemesDir, themesPath);
-
-            backResponse.setAttach_path(attachPath);
-            backResponse.setTheme_path(themesPath);
-        }
-        // 备份数据库
-        if ("db".equals(bkType)) {
-            String filePath = "upload/" + DateKit.toString(new Date(), "yyyyMMddHHmmss") + "_" + StringKit.rand(8) + ".db";
-            String cp = AttachController.CLASSPATH + filePath;
-            Files.createDirectory(Paths.get(cp));
-            Files.copy(Paths.get(SqliteJdbc.DB_PATH), Paths.get(cp));
-            backResponse.setSql_path("/" + filePath);
-            // 10秒后删除备份文件
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    new File(cp).delete();
-                }
-            }, 10 * 1000);
-        }
-        return backResponse;
+//        BackResponse backResponse = new BackResponse();
+//        if ("attach".equals(bkType)) {
+//            if (StringKit.isBlank(bkPath)) {
+//                throw new TipException("请输入备份文件存储路径");
+//            }
+//            if (!Files.isDirectory(Paths.get(bkPath))) {
+//                throw new TipException("请输入一个存在的目录");
+//            }
+//            String bkAttachDir = AttachController.CLASSPATH + "upload";
+//            String bkThemesDir = AttachController.CLASSPATH + "templates/themes";
+//
+//            String fname = DateKit.toString(new Date(), fmt) + "_" + StringKit.rand(5) + ".zip";
+//
+//            String attachPath = bkPath + "/" + "attachs_" + fname;
+//            String themesPath = bkPath + "/" + "themes_" + fname;
+//
+//            ZipUtils.zipFolder(bkAttachDir, attachPath);
+//            ZipUtils.zipFolder(bkThemesDir, themesPath);
+//
+//            backResponse.setAttach_path(attachPath);
+//            backResponse.setTheme_path(themesPath);
+//        }
+//        // 备份数据库
+//        if ("db".equals(bkType)) {
+//            String filePath = "upload/" + DateKit.toString(new Date(), "yyyyMMddHHmmss") + "_" + StringKit.rand(8) + ".db";
+//            String cp = AttachController.CLASSPATH + filePath;
+//            Files.createDirectory(Paths.get(cp));
+//            Files.copy(Paths.get(SqliteJdbc.DB_PATH), Paths.get(cp));
+//            backResponse.setSql_path("/" + filePath);
+//            // 10秒后删除备份文件
+//            new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    new File(cp).delete();
+//                }
+//            }, 10 * 1000);
+//        }
+//        return backResponse;
+        return null;
     }
 
     /**

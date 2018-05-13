@@ -56,13 +56,13 @@ public class Contents extends ActiveRecord {
     private Integer commentsNum;
 
     // 是否允许评论
-    private Boolean allowComment;
+    private Integer allowComment;
 
     // 是否允许ping
-    private Boolean allowPing;
+    private Integer allowPing;
 
     // 允许出现在聚合中
-    private Boolean allowFeed;
+    private Integer allowFeed;
 
     public Integer getCid() {
         return cid;
@@ -184,27 +184,27 @@ public class Contents extends ActiveRecord {
         this.commentsNum = commentsNum;
     }
 
-    public Boolean getAllowComment() {
+    public Integer getAllowComment() {
         return allowComment;
     }
 
-    public void setAllowComment(Boolean allowComment) {
+    public void setAllowComment(Integer allowComment) {
         this.allowComment = allowComment;
     }
 
-    public Boolean getAllowPing() {
+    public Integer getAllowPing() {
         return allowPing;
     }
 
-    public void setAllowPing(Boolean allowPing) {
+    public void setAllowPing(Integer allowPing) {
         this.allowPing = allowPing;
     }
 
-    public Boolean getAllowFeed() {
+    public Integer getAllowFeed() {
         return allowFeed;
     }
 
-    public void setAllowFeed(Boolean allowFeed) {
+    public void setAllowFeed(Integer allowFeed) {
         this.allowFeed = allowFeed;
     }
 }
