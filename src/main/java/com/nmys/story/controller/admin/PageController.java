@@ -1,128 +1,138 @@
 package com.nmys.story.controller.admin;
 
-import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.page.Page;
-import com.blade.mvc.annotation.*;
-import com.blade.mvc.http.HttpMethod;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.ui.RestResponse;
-import com.blade.validator.annotation.Valid;
+import com.github.pagehelper.PageInfo;
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
-import com.nmys.story.exception.TipException;
-import com.nmys.story.extension.Commons;
-import com.nmys.story.init.TaleConst;
-import com.nmys.story.model.dto.LogActions;
+import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
-import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Users;
-import com.nmys.story.service.ContentsService;
-import com.nmys.story.service.SiteService;
-import lombok.extern.slf4j.Slf4j;
+import com.nmys.story.service.IContentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 /**
- * 页面管理
- * <p>
- * Created by biezhi on 2017/2/21.
+ * Description:页面管理
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/14 13:44
  */
-@Slf4j
-@Path("admin/page")
+@Controller()
+@RequestMapping("admin/page")
 public class PageController extends BaseController {
 
-    @Inject
-    private ContentsService contentsService;
+    private static final Logger logger = LoggerFactory.getLogger(PageController.class);
 
-    @Inject
-    private SiteService siteService;
+    @Autowired
+    private IContentService contentsService;
 
-    @Route(value = "", method = HttpMethod.GET)
-    public String index(Request request) {
-        Page<Contents> contentsPage = new Contents().where("type", Types.PAGE).page(1, TaleConst.MAX_POSTS, "created desc");
-        request.attribute("articles", contentsPage);
+//    @Resource
+//    private ILogService logService;
+
+    @GetMapping(value = "")
+    public String index(HttpServletRequest request) {
+        PageInfo<Contents> contentsPaginator = contentsService.getArticlesWithpage(1, WebConstant.MAX_POSTS);
+        request.setAttribute("articles", contentsPaginator);
         return "admin/page_list";
     }
 
-    @Route(value = "new", method = HttpMethod.GET)
-    public String newPage(Request request) {
-        request.attribute(Types.ATTACH_URL, Commons.site_option(Types.ATTACH_URL, Commons.site_url()));
+    @GetMapping(value = "new")
+    public String newPage(HttpServletRequest request) {
         return "admin/page_edit";
     }
 
-    @Route(value = "/:cid", method = HttpMethod.GET)
-    public String editPage(@PathParam String cid, Request request) {
-        Optional<Contents> contents = contentsService.getContents(cid);
-        if (!contents.isPresent()) {
-            return render_404();
-        }
-        request.attribute("contents", contents.get());
-        request.attribute(Types.ATTACH_URL, Commons.site_option(Types.ATTACH_URL, Commons.site_url()));
+    @GetMapping(value = "/{cid}")
+    public String editPage(@PathVariable Integer cid, HttpServletRequest request) {
+        Contents contents = contentsService.getContentById(cid);
+        request.setAttribute("contents", contents);
         return "admin/page_edit";
     }
 
-    @Route(value = "publish", method = HttpMethod.POST)
-    @JSON
-    public RestResponse publishPage(@Valid Contents contents) {
+    @PostMapping(value = "publish")
+    @ResponseBody
+    public RestResponseBo publishPage(@RequestParam String title,
+                                      @RequestParam String content,
+                                      @RequestParam String status,
+                                      @RequestParam String slug,
+                                      @RequestParam(required = false) Integer allowComment,
+                                      @RequestParam(required = false) Integer allowPing,
+                                      HttpServletRequest request) {
 
-//        Users users = this.user();
-//        contents.setType(Types.PAGE);
-//        contents.setAllowPing(true);
-//        contents.setAuthorId(users.getUid());
-//        try {
-//            contentsService.publish(contents);
-//            siteService.cleanCache(Types.C_STATISTICS);
-//        } catch (Exception e) {
-//            String msg = "页面发布失败";
-//            if (e instanceof TipException) {
-//                msg = e.getMessage();
-//            } else {
-//                log.error(msg, e);
-//            }
-//            return RestResponse.fail(msg);
-//        }
-        return RestResponse.ok();
+        Users users = this.user(request);
+        Contents contents = new Contents();
+        contents.setTitle(title);
+        contents.setContent(content);
+        contents.setStatus(status);
+        contents.setSlug(slug);
+        contents.setType(Types.PAGE);
+        // 是否允许评论
+        if (null != allowComment) {
+            contents.setAllowComment(allowComment);
+        }
+        // 是否允许ping
+        if (null != allowPing) {
+            contents.setAllowPing(allowPing);
+        }
+        contents.setAuthorId(users.getUid());
+        String result = contentsService.saveContent(contents);
+        if (!WebConstant.SUCCESS_RESULT.equals(result)) {
+            return RestResponseBo.fail(result);
+        }
+        return RestResponseBo.ok();
     }
 
-    @Route(value = "modify", method = HttpMethod.POST)
-    @JSON
-    public RestResponse modifyArticle(@Valid Contents contents) {
-        if (null == contents || null == contents.getCid()) {
-            return RestResponse.fail("缺少参数，请重试");
+    @PostMapping(value = "modify")
+    @ResponseBody
+    public RestResponseBo modifyArticle(@RequestParam Integer cid, @RequestParam String title,
+                                        @RequestParam String content,
+                                        @RequestParam String status, @RequestParam String slug,
+                                        @RequestParam(required = false) Integer allowComment, @RequestParam(required = false) Integer allowPing, HttpServletRequest request) {
+
+        Users users = this.user(request);
+        Contents contents = new Contents();
+        contents.setCid(cid);
+        contents.setTitle(title);
+        contents.setContent(content);
+        contents.setStatus(status);
+        contents.setSlug(slug);
+        contents.setType(Types.PAGE);
+        if (null != allowComment) {
+            contents.setAllowComment(allowComment);
         }
-        try {
-            Integer cid = contents.getCid();
-            contents.setType(Types.PAGE);
-            contentsService.updateArticle(contents);
-            return RestResponse.ok(cid);
-        } catch (Exception e) {
-            String msg = "页面编辑失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
+        if (null != allowPing) {
+            contents.setAllowPing(allowPing);
         }
+        contents.setAuthorId(users.getUid());
+        // 更新文章
+        String result = "";
+        boolean flag = contentsService.updateContent(contents);
+        if(flag){
+            result = "SUCCESS";
+        } else {
+            result = "FAIL";
+        }
+        if (!WebConstant.SUCCESS_RESULT.equals(result)) {
+            return RestResponseBo.fail(result);
+        }
+        return RestResponseBo.ok();
     }
 
-    @Route(value = "delete")
-    @JSON
-    public RestResponse delete(@Param int cid, HttpServletRequest request) {
-        try {
-            contentsService.delete(cid);
-            siteService.cleanCache(Types.C_STATISTICS);
-            new Logs(LogActions.DEL_PAGE, cid + "", request.getRemoteAddr(), this.getUid(request)).save();
-        } catch (Exception e) {
-            String msg = "页面删除失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
+    @RequestMapping(value = "delete")
+    @ResponseBody
+    public RestResponseBo delete(@RequestParam int cid, HttpServletRequest request) {
+        // 删除文章
+        String result = contentsService.delContentById(cid);
+        // 插入日志
+//        logService.insertLog(LogActions.DEL_ARTICLE, cid + "", request.getRemoteAddr(), this.getUid(request));
+        if (!WebConstant.SUCCESS_RESULT.equals(result)) {
+            return RestResponseBo.fail(result);
         }
-        return RestResponse.ok();
+        return RestResponseBo.ok();
     }
 }

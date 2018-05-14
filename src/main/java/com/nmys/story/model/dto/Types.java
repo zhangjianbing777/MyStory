@@ -1,7 +1,11 @@
 package com.nmys.story.model.dto;
 
 /**
- * Created by biezhi on 2017/2/21.
+ * Description:常量类型
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/14 17:28
  */
 public interface Types {
 

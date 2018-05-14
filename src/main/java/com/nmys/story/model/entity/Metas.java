@@ -23,8 +23,6 @@ public class Metas extends ActiveRecord {
     private Integer sort;
     // 父级
     private Integer parent;
-    // 文章数
-    private Integer count;
 
     public Integer getMid() {
         return mid;
@@ -82,11 +80,4 @@ public class Metas extends ActiveRecord {
         this.parent = parent;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
 }

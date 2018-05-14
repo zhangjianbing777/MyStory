@@ -1,82 +1,69 @@
 package com.nmys.story.controller.admin;
 
-import com.blade.ioc.annotation.Inject;
-import com.blade.mvc.annotation.JSON;
-import com.blade.mvc.annotation.Param;
-import com.blade.mvc.annotation.Path;
-import com.blade.mvc.annotation.Route;
-import com.blade.mvc.http.HttpMethod;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.ui.RestResponse;
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
-import com.nmys.story.exception.TipException;
-import com.nmys.story.init.TaleConst;
+import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
-import com.nmys.story.service.MetasService;
-import com.nmys.story.service.SiteService;
-import lombok.extern.slf4j.Slf4j;
+import com.nmys.story.service.IMetaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 分类管理
- *
- * Created by biezhi on 2017/2/21.
+ * Description:分类管理
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/14 15:35
  */
-@Slf4j
-@Path("admin/category")
+@Controller
+@RequestMapping("admin/category")
 public class CategoryController extends BaseController {
 
-    @Inject
-    private MetasService metasService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
-    @Inject
-    private SiteService siteService;
+    @Autowired
+    private IMetaService metasService;
 
-    @Route(value = "", method = HttpMethod.GET)
-    public String index(Request request) {
-        List<Metas>   categories = siteService.getMetas(Types.RECENT_META, Types.CATEGORY, TaleConst.MAX_POSTS);
-        List<Metas> tags       = siteService.getMetas(Types.RECENT_META, Types.TAG, TaleConst.MAX_POSTS);
-        request.attribute("categories", categories);
-        request.attribute("tags", tags);
+    @GetMapping(value = "")
+    public String index(HttpServletRequest request) {
+        List<Metas> categories = metasService.getMetaList(Types.CATEGORY, null, WebConstant.MAX_POSTS);
+        List<Metas> tags = metasService.getMetaList(Types.TAG, null, WebConstant.MAX_POSTS);
+        request.setAttribute("categories", categories);
+        request.setAttribute("tags", tags);
         return "admin/category";
     }
 
-    @Route(value = "save", method = HttpMethod.POST)
-    @JSON
-    public RestResponse saveCategory(@Param String cname, @Param Integer mid) {
+    @PostMapping(value = "save")
+    @ResponseBody
+    public RestResponseBo saveCategory(@RequestParam String cname, @RequestParam Integer mid) {
         try {
             metasService.saveMeta(Types.CATEGORY, cname, mid);
-            siteService.cleanCache(Types.C_STATISTICS);
         } catch (Exception e) {
             String msg = "分类保存失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
+            LOGGER.error(msg, e);
+            return RestResponseBo.fail(msg);
         }
-        return RestResponse.ok();
+        return RestResponseBo.ok();
     }
 
-    @Route(value = "delete")
-    @JSON
-    public RestResponse delete(@Param int mid) {
+    @RequestMapping(value = "delete")
+    @ResponseBody
+    public RestResponseBo delete(@RequestParam int mid) {
         try {
-            metasService.delete(mid);
-            siteService.cleanCache(Types.C_STATISTICS);
+            metasService.delMetaById(mid);
         } catch (Exception e) {
             String msg = "删除失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponse.fail(msg);
+            LOGGER.error(msg, e);
+            return RestResponseBo.fail(msg);
         }
-        return RestResponse.ok();
+        return RestResponseBo.ok();
     }
 
 }

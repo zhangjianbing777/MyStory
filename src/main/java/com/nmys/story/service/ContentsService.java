@@ -2,15 +2,11 @@ package com.nmys.story.service;
 
 import com.blade.ioc.annotation.Bean;
 import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.Base;
 import com.blade.jdbc.page.Page;
-import com.blade.jdbc.page.PageRow;
 import com.blade.kit.DateKit;
 import com.blade.kit.StringKit;
 import com.nmys.story.exception.TipException;
-import com.nmys.story.init.TaleConst;
 import com.nmys.story.model.dto.Types;
-import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Relationships;
 import com.nmys.story.utils.TaleUtils;
@@ -58,18 +54,18 @@ public class ContentsService {
         if (StringKit.isBlank(contents.getTitle())) {
             throw new TipException("文章标题不能为空");
         }
-        if (contents.getTitle().length() > TaleConst.MAX_TITLE_COUNT) {
-            throw new TipException("文章标题最多可以输入" + TaleConst.MAX_TITLE_COUNT + "个字符");
-        }
+//        if (contents.getTitle().length() > TaleConst.MAX_TITLE_COUNT) {
+//            throw new TipException("文章标题最多可以输入" + TaleConst.MAX_TITLE_COUNT + "个字符");
+//        }
 
         if (StringKit.isBlank(contents.getContent())) {
             throw new TipException("文章内容不能为空");
         }
         // 最多可以输入5w个字
         int len = contents.getContent().length();
-        if (len > TaleConst.MAX_TEXT_COUNT) {
-            throw new TipException("文章内容最多可以输入" + TaleConst.MAX_TEXT_COUNT + "个字符");
-        }
+//        if (len > TaleConst.MAX_TEXT_COUNT) {
+//            throw new TipException("文章内容最多可以输入" + TaleConst.MAX_TEXT_COUNT + "个字符");
+//        }
         if (null == contents.getAuthorId()) {
             throw new TipException("请登录后发布文章");
         }

@@ -124,4 +124,24 @@ public class ContentServiceImpl implements IContentService {
         return WebConstant.SUCCESS_RESULT;
 
     }
+
+    @Override
+    public PageInfo<Contents> getArticlesWithpage(Integer page, Integer limit) {
+        // limit9999
+        PageHelper.startPage(page, limit);
+        // 查询出所有类型为page的文章
+        List<Contents> list = contentsMapper.getContentsConditions(Types.PAGE);
+        PageInfo<Contents> pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
+
+    @Override
+    public String delContentById(Integer cid) {
+        Contents contents = contentsMapper.getContentById(cid);
+        if (null != contents) {
+            contentsMapper.delContentById(cid);
+            return WebConstant.SUCCESS_RESULT;
+        }
+        return "数据为空";
+    }
 }

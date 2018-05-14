@@ -79,5 +79,13 @@ public interface ContentsMapper {
      */
     long selectContentByConditions(@Param("type") String type, @Param("slug") String slug);
 
+    /**
+     * Description:根据id删除文章
+     * Author:70kg
+     * Param [id]
+     * Return void
+     * Date 2018/5/14 14:57
+     */
+    void delContentById(@Param("id") Integer id);
 
 }

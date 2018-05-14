@@ -18,4 +18,40 @@ public interface IMetaService {
      */
     List<Metas> getMetasByType(String type);
 
+    /**
+     * Description:根据id删除meta
+     * Author:70kg
+     * Param [id]
+     * Return java.lang.String
+     * Date 2018/5/14 16:06
+     */
+    void delMetaById(Integer id);
+
+    /**
+     * Description:根据id来获取meta
+     * Author:70kg
+     * Param [id]
+     * Return com.nmys.story.model.entity.Metas
+     * Date 2018/5/14 16:10
+     */
+    Metas getMetaById(Integer id);
+
+    /**
+     * Description:保存项目
+     * Author:70kg
+     * Param [type, cname, mid]
+     * Return void
+     * Date 2018/5/14 16:53
+     */
+    void saveMeta(String type, String cname, Integer mid);
+
+    /**
+     * Description:根据条件查metas
+     * Author:70kg
+     * Param [type, orderby, limit]
+     * Return java.util.List<com.nmys.story.model.entity.Metas>
+     * Date 2018/5/14 17:24
+     */
+    List<Metas> getMetaList(String type, String orderby, Integer limit);
+
 }

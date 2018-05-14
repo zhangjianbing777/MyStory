@@ -1,14 +1,11 @@
 package com.nmys.story.controller.admin;
 
-import com.blade.Environment;
 import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.page.Page;
 import com.blade.kit.EncryptKit;
 import com.blade.kit.JsonKit;
 import com.blade.kit.StringKit;
 import com.blade.mvc.annotation.JSON;
 import com.blade.mvc.annotation.Param;
-import com.blade.mvc.annotation.Path;
 import com.blade.mvc.annotation.Route;
 import com.blade.mvc.http.HttpMethod;
 import com.blade.mvc.http.Request;
@@ -16,7 +13,6 @@ import com.blade.mvc.ui.RestResponse;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Commons;
-import com.nmys.story.init.TaleConst;
 import com.nmys.story.model.dto.BackResponse;
 import com.nmys.story.model.dto.LogActions;
 import com.nmys.story.model.dto.Statistics;
@@ -35,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -250,10 +244,10 @@ public class IndexController extends BaseController {
         // 要过过滤的黑名单列表
         if (StringKit.isNotBlank(block_ips)) {
             optionsService.saveOption(Types.BLOCK_IPS, block_ips);
-            TaleConst.BLOCK_IPS.addAll(Arrays.asList(block_ips.split(",")));
+//            TaleConst.BLOCK_IPS.addAll(Arrays.asList(block_ips.split(",")));
         } else {
             optionsService.saveOption(Types.BLOCK_IPS, "");
-            TaleConst.BLOCK_IPS.clear();
+//            TaleConst.BLOCK_IPS.clear();
         }
         // 处理卸载插件
         if (StringKit.isNotBlank(plugin_name)) {
@@ -269,7 +263,7 @@ public class IndexController extends BaseController {
         // 是否允许重新安装
         if (StringKit.isNotBlank(allow_install)) {
             optionsService.saveOption("allow_install", allow_install);
-            TaleConst.OPTIONS.toMap().put("allow_install", allow_install);
+//            TaleConst.OPTIONS.toMap().put("allow_install", allow_install);
         }
 
         return RestResponse.ok();

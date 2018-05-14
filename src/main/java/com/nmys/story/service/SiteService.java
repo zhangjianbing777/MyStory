@@ -9,7 +9,6 @@ import com.blade.kit.StringKit;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.extension.Theme;
-import com.nmys.story.init.TaleConst;
 import com.nmys.story.mapper.ContentsMapper;
 import com.nmys.story.model.dto.*;
 import com.nmys.story.model.entity.Comments;
@@ -293,9 +292,9 @@ public class SiteService {
             return Theme.EMPTY;
         }
 
-        if (limit < 1 || limit > TaleConst.MAX_POSTS) {
-            limit = 10;
-        }
+//        if (limit < 1 || limit > TaleConst.MAX_POSTS) {
+//            limit = 10;
+//        }
 
         // 获取最新的项目
         if (Types.RECENT_META.equals(searchType)) {

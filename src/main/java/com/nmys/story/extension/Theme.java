@@ -1,12 +1,9 @@
 package com.nmys.story.extension;
 
 import com.blade.jdbc.page.Page;
-import com.blade.kit.JsonKit;
 import com.blade.kit.StringKit;
-import com.blade.kit.json.Ason;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.http.Request;
-import com.nmys.story.init.TaleConst;
 import com.nmys.story.model.dto.Comment;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
@@ -18,7 +15,10 @@ import jetbrick.template.runtime.InterpretContext;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 主题函数
@@ -480,9 +480,9 @@ public final class Theme {
      *
      * @return
      */
-    public static List<Metas> categories() {
-        return categories(TaleConst.MAX_POSTS);
-    }
+//    public static List<Metas> categories() {
+//        return categories(TaleConst.MAX_POSTS);
+//    }
 
     /**
      * 获取标签列表
@@ -514,9 +514,9 @@ public final class Theme {
      *
      * @return
      */
-    public static List<Metas> tags() {
-        return tags(TaleConst.MAX_POSTS);
-    }
+//    public static List<Metas> tags() {
+//        return tags(TaleConst.MAX_POSTS);
+//    }
 
     /**
      * 获取评论at信息
@@ -631,7 +631,7 @@ public final class Theme {
         Request request = WebContext.request();
         Integer page    = request.attribute("page_num");
         page = null == page ? request.queryInt("page", 1) : page;
-        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
+//        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
 
         Page<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).page(page, limit, "created desc");
 
@@ -719,30 +719,30 @@ public final class Theme {
         if (null != contents && Types.PAGE.equals(contents.getType()) && contents.getSlug().equals(pageName)) {
             return true;
         }
-        if (TaleConst.SLUG_HOME.equals(pageName)) {
-            Boolean isHome = WebContext.request().attribute("is_home");
-            if (null != isHome && isHome) {
-                return true;
-            }
-        }
-        if (TaleConst.SLUG_ARCHIVES.equals(pageName)) {
-            Boolean isArchives = WebContext.request().attribute("is_archive");
-            if (null != isArchives && isArchives) {
-                return true;
-            }
-        }
-        if (TaleConst.SLUG_CATEGRORIES.equals(pageName)) {
-            Boolean isCategory = WebContext.request().attribute("is_category");
-            if (null != isCategory && isCategory) {
-                return true;
-            }
-        }
-        if (TaleConst.SLUG_TAGS.equals(pageName)) {
-            Boolean isTag = WebContext.request().attribute("is_tag");
-            if (null != isTag && isTag) {
-                return true;
-            }
-        }
+//        if (TaleConst.SLUG_HOME.equals(pageName)) {
+//            Boolean isHome = WebContext.request().attribute("is_home");
+//            if (null != isHome && isHome) {
+//                return true;
+//            }
+//        }
+//        if (TaleConst.SLUG_ARCHIVES.equals(pageName)) {
+//            Boolean isArchives = WebContext.request().attribute("is_archive");
+//            if (null != isArchives && isArchives) {
+//                return true;
+//            }
+//        }
+//        if (TaleConst.SLUG_CATEGRORIES.equals(pageName)) {
+//            Boolean isCategory = WebContext.request().attribute("is_category");
+//            if (null != isCategory && isCategory) {
+//                return true;
+//            }
+//        }
+//        if (TaleConst.SLUG_TAGS.equals(pageName)) {
+//            Boolean isTag = WebContext.request().attribute("is_tag");
+//            if (null != isTag && isTag) {
+//                return true;
+//            }
+//        }
         return false;
     }
 }

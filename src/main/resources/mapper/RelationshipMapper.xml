@@ -1,79 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nmys.story.mapper.MetaMapper">
-    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Metas">
+<mapper namespace="com.nmys.story.mapper.RelationshipMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Relationships">
+        <id column="cid" jdbcType="INTEGER" property="cid" />
         <id column="mid" jdbcType="INTEGER" property="mid" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="slug" jdbcType="VARCHAR" property="slug" />
-        <result column="type" jdbcType="VARCHAR" property="type" />
-        <result column="description" jdbcType="VARCHAR" property="description" />
-        <result column="sort" jdbcType="INTEGER" property="sort" />
-        <result column="parent" jdbcType="INTEGER" property="parent" />
     </resultMap>
 
-    <insert id="saveMeta" parameterType="com.nmys.story.model.entity.Metas" useGeneratedKeys="true" keyProperty="mid">
-        insert into t_metas (mid, name, slug,
-        type, description, sort,
-        parent)
-        values (#{mid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
-        #{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
-        #{parent,jdbcType=INTEGER})
-    </insert>
-
-    <update id="updateMeta" parameterType="com.nmys.story.model.entity.Metas">
-        update t_metas
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="slug != null">
-                slug = #{slug,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                type = #{type,jdbcType=VARCHAR},
-            </if>
-            <if test="description != null">
-                description = #{description,jdbcType=VARCHAR},
-            </if>
-            <if test="sort != null">
-                sort = #{sort,jdbcType=INTEGER},
-            </if>
-            <if test="parent != null">
-                parent = #{parent,jdbcType=INTEGER},
-            </if>
-        </set>
-        where mid = #{mid,jdbcType=INTEGER}
-    </update>
-
-    <delete id="delMetaById">
-        DELETE FROM t_metas WHERE mid = #{id}
+    <delete id="delRelationshipById">
+        DELETE FROM t_relationships WHERE mid = #{mid}
     </delete>
 
-    <select id="getMetasByType" resultMap="BaseResultMap">
-        SELECT * FROM t_metas WHERE type = #{type} order by sort desc,mid desc
+    <select id="getRelationshipByMid" resultMap="BaseResultMap">
+        SELECT * FROM t_relationships WHERE mid = #{mid}
     </select>
 
-    <select id="getMetaById" resultMap="BaseResultMap">
-        SELECT * FROM t_metas WHERE mid = #{id}
-    </select>
+    <!--<insert id="saveMeta" parameterType="com.nmys.story.model.entity.Metas" useGeneratedKeys="true" keyProperty="mid">-->
+        <!--insert into t_metas (mid, name, slug,-->
+        <!--type, description, sort,-->
+        <!--parent)-->
+        <!--values (#{mid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},-->
+        <!--#{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},-->
+        <!--#{parent,jdbcType=INTEGER})-->
+    <!--</insert>-->
 
-    <select id="selectMetaListByConditions" resultMap="BaseResultMap">
-        SELECT * FROM t_metas WHERE type = #{type} and name = #{name}
-    </select>
+    <!--<update id="updateMeta" parameterType="com.nmys.story.model.entity.Metas">-->
+        <!--update t_metas-->
+        <!--<set>-->
+            <!--<if test="name != null">-->
+                <!--name = #{name,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="slug != null">-->
+                <!--slug = #{slug,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="type != null">-->
+                <!--type = #{type,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="description != null">-->
+                <!--description = #{description,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="sort != null">-->
+                <!--sort = #{sort,jdbcType=INTEGER},-->
+            <!--</if>-->
+            <!--<if test="parent != null">-->
+                <!--parent = #{parent,jdbcType=INTEGER},-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where mid = #{mid,jdbcType=INTEGER}-->
+    <!--</update>-->
 
-    <resultMap id="MetasEX" type="com.nmys.story.model.entity.MetasEx" extends="BaseResultMap">
-        <result column="count" property="count" jdbcType="INTEGER"/>
-    </resultMap>
+    <!--<delete id="delMetaById">-->
+        <!--DELETE FROM t_metas WHERE mid = #{id}-->
+    <!--</delete>-->
 
-    <select id="getMetasBySql" resultMap="MetasEX">
-        SELECT
-            a.*, count(b.cid) AS count
-        FROM
-            t_metas a
-            LEFT JOIN `t_relationships` b ON a.mid = b.mid
-        WHERE
-            a.type = #{type} group by a.mid order by count desc, a.mid desc
-    </select>
+    <!--<select id="getMetasByType" resultMap="BaseResultMap">-->
+        <!--SELECT * FROM t_metas WHERE type = #{type} order by sort desc,mid desc-->
+    <!--</select>-->
+
+    <!--<select id="getMetaById" resultMap="BaseResultMap">-->
+        <!--SELECT * FROM t_metas WHERE mid = #{id}-->
+    <!--</select>-->
 
 
     <!--<insert id="saveComment" parameterType="com.nmys.story.model.entity.Comments" useGeneratedKeys="true" keyProperty="coid">-->

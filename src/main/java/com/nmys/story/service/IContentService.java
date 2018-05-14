@@ -71,5 +71,24 @@ public interface IContentService {
      */
     String saveContent(Contents content);
 
+    /**
+     * Description:
+     * Author:70kg
+     * Param [page, limit]
+     * Return com.github.pagehelper.PageInfo<com.nmys.story.model.entity.Contents>
+     * Date 2018/5/14 14:39
+     */
+    PageInfo<Contents> getArticlesWithpage(Integer page, Integer limit);
+
+
+    /**
+     * Description:根据id删除文章
+     * Author:70kg
+     * Param [id]
+     * Return java.lang.String
+     * Date 2018/5/14 14:52
+     */
+    String delContentById(Integer id);
+
 
 }
