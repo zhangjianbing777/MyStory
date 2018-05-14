@@ -10,9 +10,11 @@ import com.blade.mvc.annotation.Route;
 import com.blade.mvc.http.HttpMethod;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Commons;
+import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.BackResponse;
 import com.nmys.story.model.dto.LogActions;
 import com.nmys.story.model.dto.Statistics;
@@ -24,12 +26,13 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.*;
 import jetbrick.util.ShellUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -128,9 +131,13 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 个人设置页面
+     * Description:个人设置
+     * Author:70kg
+     * Param []
+     * Return java.lang.String
+     * Date 2018/5/14 18:08
      */
-    @Route(value = "profile", method = HttpMethod.GET)
+    @GetMapping(value = "profile")
     public String profile() {
         return "admin/profile";
     }
@@ -138,21 +145,29 @@ public class IndexController extends BaseController {
     /**
      * 保存个人信息
      */
-    @Route(value = "profile", method = HttpMethod.POST)
-    @JSON
-    public RestResponse saveProfile(@Param String screen_name, @Param String email, HttpServletRequest request) {
+    @PostMapping(value = "/profile")
+    @ResponseBody
+    public RestResponseBo saveProfile(@RequestParam String screenName,
+                                      @RequestParam String email,
+                                      HttpServletRequest request,
+                                      HttpSession session) {
         Users users = this.user(request);
-        if (StringKit.isNotBlank(screen_name) && StringKit.isNotBlank(email)) {
+        if (StringUtils.isNotBlank(screenName) && StringUtils.isNotBlank(email)) {
             Users temp = new Users();
-            temp.setScreen_name(screen_name);
-            temp.setEmail(email);
             temp.setUid(users.getUid());
-            // 更新用户信息
-            userService.saveUser(temp);
-//            temp.update(users.getUid());
-            new Logs(LogActions.UP_INFO, JsonKit.toString(temp), request.getRemoteAddr(), this.getUid(request)).save();
+            temp.setScreen_name(screenName);
+            temp.setEmail(email);
+            userService.updateUser(temp);
+            // 更新日志暂时去掉
+//            logService.insertLog(LogActions.UP_INFO, GsonUtils.toJsonString(temp), request.getRemoteAddr(), this.getUid(request));
+
+            // 更新session中的数据
+            Users original= (Users)session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
+            original.setScreen_name(screenName);
+            original.setEmail(email);
+            session.setAttribute(WebConstant.LOGIN_SESSION_KEY,original);
         }
-        return RestResponse.ok();
+        return RestResponseBo.ok();
     }
 
     /**
