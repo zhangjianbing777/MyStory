@@ -102,6 +102,12 @@
             <version>3.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.18</version>
+        </dependency>
+
 
         <!-- ========================================================== -->
 
@@ -113,11 +119,11 @@
         </dependency>
 
         <!-- 数据库操作 -->
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${sqlite.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.xerial</groupId>-->
+            <!--<artifactId>sqlite-jdbc</artifactId>-->
+            <!--<version>${sqlite.version}</version>-->
+        <!--</dependency>-->
         
         <dependency>
             <groupId>com.bladejava</groupId>
