@@ -4,9 +4,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * map缓存实现
- * <p>
- * Created by biezhi on 2017/2/7.
+ * Description:map缓存的实现
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/11 14:43
  */
 public class MapCache {
 

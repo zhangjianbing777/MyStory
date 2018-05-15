@@ -6,6 +6,8 @@ import com.nmys.story.service.IOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OptionServiceImpl implements IOptionService {
 
@@ -15,5 +17,10 @@ public class OptionServiceImpl implements IOptionService {
     @Override
     public Options getOptionByName(String name) {
         return optionMapper.getOptionByName(name);
+    }
+
+    @Override
+    public List<Options> getOptions() {
+        return optionMapper.getOptions();
     }
 }
