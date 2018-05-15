@@ -32,11 +32,11 @@ public class UserServiceImpl implements IUserService {
         String pwd = TaleUtils.MD5encode(username + password);
         // 根据用户名和加密后的密码来查询用户是否存在,省去只校验用户名
         Users user = userMapper.getUserByUserNameAndPassword(username, pwd);
-        if (null == user){
-
-            log.error("this user is not exist!");
-            throw new TipException("this user is not exist!");
-        }
+//        if (null == user){
+//
+//            log.error("this user is not exist!");
+//            throw new TipException("this user is not exist!");
+//        }
         return user;
     }
 

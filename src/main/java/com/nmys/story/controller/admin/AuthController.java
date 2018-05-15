@@ -56,6 +56,16 @@ public class AuthController extends BaseController {
         error_count = null == error_count ? 0 : error_count;
         try {
             Users user = userService.userLogin(username, password);
+            if (null == user) {
+                // 在缓存中记录失败次数,超过5次5分钟再试
+                error_count += 1;
+                cache.set("login_error_count", error_count, 300);
+                if (null != error_count && error_count >= 5) {
+                    return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
+                }
+                int times = 5 - error_count;
+                return RestResponseBo.fail("密码错误!您还有"+times+"次机会!");
+            }
             // 将登录的user放入session中
             request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
 
@@ -63,15 +73,15 @@ public class AuthController extends BaseController {
             if (StringUtils.isNotBlank(remeberMe)) {
                 TaleUtils.setCookie(response, user.getUid());
             }
-            if (null != error_count && error_count > 3) {
-                return RestResponseBo.fail("您输入密码已经错误超过3次，请10分钟后尝试");
+            if (null != error_count && error_count >= 5) {
+                return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
             }
 
             // 。。。。记录一下用户登录的日志
 
         } catch (Exception e) {
             error_count += 1;
-            cache.set("login_error_count", error_count, 10 * 60);
+            cache.set("login_error_count", error_count, 300);
             String msg = "登录失败";
             if (e instanceof TipException) {
                 msg = e.getMessage();
