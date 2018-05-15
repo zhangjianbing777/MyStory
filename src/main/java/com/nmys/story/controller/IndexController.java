@@ -151,8 +151,11 @@ public class IndexController extends BaseController {
         request.setAttribute("is_post", true);
         // 评论
         completeArticle(request, contents);
-        // 点击量
-        updateArticleHit(contents.getCid(), contents.getHits());
+        // 15分钟内重复点击不会更新文章浏览量
+        if (!checkHitsFrequency(request, String.valueOf(contents.getCid()))) {
+            // 更新文章点击量
+            updateArticleHit(contents.getCid(), contents.getHits());
+        }
         return this.render("post");
 
 
@@ -430,24 +433,18 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 17:40
      */
     private void updateArticleHit(Integer cid, Integer chits) {
-        Integer hits = cache.hget("article", "hits");
-        if (chits == null) {
+        if (chits == 0 || chits == null) {
             chits = 0;
         }
-        hits = null == hits ? 1 : hits + 1;
-        if (hits >= WebConstant.HIT_EXCEED) {
-            Contents temp = new Contents();
-            temp.setCid(cid);
-            temp.setHits(chits + hits);
-            contentService.updateContent(temp);
-            cache.hset("article", "hits", 1);
-        } else {
-            cache.hset("article", "hits", hits);
-        }
+        chits = chits + 1;
+        Contents temp = new Contents();
+        temp.setCid(cid);
+        temp.setHits(chits);
+        contentService.updateContent(temp);
     }
 
     /**
-     * Description: 检查同一个ip在两个小时之内是否访问同一篇文章
+     * Description: 检查同一个ip在15分钟之内是否访问同一篇文章
      * author: itachi
      * Date: 2018/5/13 上午10:14
      */

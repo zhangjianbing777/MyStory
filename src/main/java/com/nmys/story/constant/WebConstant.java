@@ -58,8 +58,8 @@ public class WebConstant {
     public static String SUCCESS_RESULT = "SUCCESS";
 
     /**
-     * 同一篇文章在2个小时内无论点击多少次只算一次阅读
+     * 同一篇文章在15分钟内无论点击多少次只算一次阅读
      */
-    public static Integer HITS_LIMIT_TIME = 7200;
+    public static Integer HITS_LIMIT_TIME = 900;
 
 }
