@@ -6,12 +6,21 @@
         <id column="mid" jdbcType="INTEGER" property="mid" />
     </resultMap>
 
+    <insert id="saveRelationship" parameterType="com.nmys.story.model.entity.Relationships">
+        insert into t_relationships (cid, mid)
+        values (#{cid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER})
+    </insert>
+
     <delete id="delRelationshipById">
         DELETE FROM t_relationships WHERE mid = #{mid}
     </delete>
 
     <select id="getRelationshipByMid" resultMap="BaseResultMap">
         SELECT * FROM t_relationships WHERE mid = #{mid}
+    </select>
+
+    <select id="countById" resultType="java.lang.Long">
+        SELECT * FROM t_relationships WHERE cid = #{cid} and mid = #{mid}
     </select>
 
     <!--<insert id="saveMeta" parameterType="com.nmys.story.model.entity.Metas" useGeneratedKeys="true" keyProperty="mid">-->

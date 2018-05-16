@@ -124,9 +124,9 @@ public class ContentServiceImpl implements IContentService {
         contentsMapper.saveContent(contents);
         Integer cid = contents.getCid();
         // 保存标签
-//        metaService.saveMetas(cid, tags, Types.TAG);
+        metaService.saveMetas(cid, tags, Types.TAG);
         // 保存分类
-//        metaService.saveMetas(cid, categories, Types.CATEGORY);
+        metaService.saveMetas(cid, categories, Types.CATEGORY);
         return WebConstant.SUCCESS_RESULT;
 
     }

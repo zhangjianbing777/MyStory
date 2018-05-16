@@ -27,6 +27,16 @@ public class RelationshipServiceImpl implements IRelationshipService {
 
     @Override
     public void delRelationshipById(Integer cid, Integer mid) {
-        relationshipMapper.delRelationshipById(cid,mid);
+        relationshipMapper.delRelationshipById(cid, mid);
+    }
+
+    @Override
+    public void saveRelationship(Relationships relationships) {
+        relationshipMapper.saveRelationship(relationships);
+    }
+
+    @Override
+    public Long countById(Integer cid, int mid) {
+        return relationshipMapper.countById(cid, mid);
     }
 }

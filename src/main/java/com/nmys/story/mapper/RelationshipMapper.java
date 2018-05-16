@@ -24,4 +24,18 @@ public interface RelationshipMapper {
      * Date 2018/5/14 16:49
      */
     void delRelationshipById(@Param("cid") Integer cid, @Param("mid") Integer mid);
+
+    /**
+     * Description: 保存关系
+     * author: itachi
+     * Date: 2018/5/16 下午11:12
+     */
+    void saveRelationship(Relationships relationships);
+
+    /**
+     * Description: 根据id查询关系是否存在
+     * author: itachi
+     * Date: 2018/5/16 下午11:14
+     */
+    Long countById(@Param("cid") Integer cid, @Param("mid") Integer mid);
 }

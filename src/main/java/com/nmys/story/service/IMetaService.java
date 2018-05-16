@@ -63,4 +63,10 @@ public interface IMetaService {
      */
     Metas getMeta(String type, String name);
 
+    /**
+     * Description: 保存分类或者标签
+     * author: itachi
+     * Date: 2018/5/16 下午10:47
+     */
+    void saveMetas(Integer cid, String tags, String type);
 }

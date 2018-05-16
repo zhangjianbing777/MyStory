@@ -13,6 +13,7 @@ import com.nmys.story.service.IMetaService;
 import com.nmys.story.service.IRelationshipService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -133,6 +134,49 @@ public class MetaServiceImpl implements IMetaService {
     @Override
     public Metas getMeta(String type, String name) {
         return metaMapper.getMeta(type, name);
+    }
+
+    @Override
+    @Transient
+    public void saveMetas(Integer cid, String names, String type) {
+        if (null == cid) {
+            throw new TipException("项目关联id不能为空");
+        }
+        if (StringUtils.isNotBlank(names) && StringUtils.isNotBlank(type)) {
+            String[] nameArr = StringUtils.split(names, ",");
+            for (String name : nameArr) {
+                this.saveOrUpdate(cid, name, type);
+            }
+        }
+    }
+
+    private void saveOrUpdate(Integer cid, String name, String type) {
+        // 根据类型和名称查询metas
+        List<Metas> metaVos = metaMapper.selectMetaListByConditions(type, name);
+        int mid;
+        Metas metas;
+        if (metaVos.size() == 1) {
+            metas = metaVos.get(0);
+            mid = metas.getMid();
+        } else if (metaVos.size() > 1) {
+            throw new TipException("查询到多条数据");
+        } else {
+            metas = new Metas();
+            metas.setSlug(name);
+            metas.setName(name);
+            metas.setType(type);
+            metaMapper.saveMeta(metas);
+            mid = metas.getMid();
+        }
+        if (mid != 0) {
+            Long count = relationshipService.countById(cid, mid);
+            if (count == 0) {
+                Relationships relationships = new Relationships();
+                relationships.setCid(cid);
+                relationships.setMid(mid);
+                relationshipService.saveRelationship(relationships);
+            }
+        }
     }
 
 }

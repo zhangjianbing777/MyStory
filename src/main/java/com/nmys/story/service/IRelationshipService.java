@@ -24,4 +24,17 @@ public interface IRelationshipService {
      */
     void delRelationshipById(Integer cid, Integer mid);
 
+    /**
+     * Description: 保存关系
+     * author: itachi
+     * Date: 2018/5/16 下午11:13
+     */
+    void saveRelationship(Relationships relationships);
+
+    /**
+     * Description: 根据id来查询是否存在
+     * author: itachi
+     * Date: 2018/5/16 下午11:13
+     */
+    Long countById(Integer cid, int mid);
 }
