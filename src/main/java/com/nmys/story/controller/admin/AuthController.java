@@ -64,10 +64,12 @@ public class AuthController extends BaseController {
                     return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
                 }
                 int times = 5 - error_count;
-                return RestResponseBo.fail("密码错误!您还有"+times+"次机会!");
+                return RestResponseBo.fail("密码错误!您还有" + times + "次机会!");
             }
             // 将登录的user放入session中
             request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
+            // 默认超时时间为30分钟
+            // request.getSession().setMaxInactiveInterval(60);
 
             // 若勾选记住密码，将用户的id加密以后存到cookie中
             if (StringUtils.isNotBlank(remeber_me)) {
@@ -103,10 +105,12 @@ public class AuthController extends BaseController {
      */
     @RequestMapping("/logout")
     public void logout(HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+        // 清除session
         session.removeAttribute(WebConstant.LOGIN_SESSION_KEY);
+        // 清除cookie
         Cookie cookie = new Cookie(WebConstant.USER_IN_COOKIE, "");
         cookie.setValue(null);
-        cookie.setMaxAge(0);// 立即销毁cookie
+        cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
         try {

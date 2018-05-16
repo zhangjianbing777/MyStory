@@ -36,13 +36,13 @@ public interface IContentService {
      * Description:更新文章内容
      * Author:70kg
      * Param [content]
+     * Description:根据id来获取文章详情
      * Return boolean
      * Date 2018/5/11 14:01
      */
     boolean updateContent(Contents content);
 
     /**
-     * Description:根据id来获取文章详情
      * Author:70kg
      * Param [id]
      * Return com.nmys.story.model.entity.Contents
@@ -91,4 +91,12 @@ public interface IContentService {
     String delContentById(Integer id);
 
 
+    /**
+     * Description:查询标签下面的所属文章
+     * Author:70kg
+     * Param [mid, page, limit] meta的id
+     * Return com.github.pagehelper.PageInfo<com.nmys.story.model.entity.Contents>
+     * Date 2018/5/16 18:16
+     */
+    PageInfo<Contents> getTagArticles(Integer mid, int page, int limit);
 }

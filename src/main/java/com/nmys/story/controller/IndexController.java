@@ -161,38 +161,51 @@ public class IndexController extends BaseController {
 
     }
 
+
     /**
-     * 搜索页
-     *
-     * @param keyword
-     * @return
+     * Description:标签页
+     * Author:70kg
+     * Param [request, name, limit]
+     * Return java.lang.String
+     * Date 2018/5/16 18:38
      */
-    @GetRoute(value = {"search/:keyword", "search/:keyword.html"})
-    public String search(Request request, @PathParam String keyword, @Param(defaultValue = "12") int limit) {
-        return this.search(request, keyword, 1, limit);
+    @GetMapping(value = "tag/{name}")
+    public String tags(HttpServletRequest request,
+                       @PathVariable String name,
+                       @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.tags(request, name, 1, limit);
     }
 
-    @GetRoute(value = {"search", "search.html"})
-    public String search(Request request, @Param(defaultValue = "12") int limit) {
-        String keyword = request.query("s").orElse("");
-        return this.search(request, keyword, 1, limit);
-    }
+    /**
+     * Description:标签的前台分页
+     * Author:70kg
+     * Param [request, name, page, limit]
+     * Return java.lang.String
+     * Date 2018/5/16 18:38
+     */
+    @GetMapping(value = "tag/{name}/{page}")
+    public String tags(HttpServletRequest request,
+                       @PathVariable String name,
+                       @PathVariable int page,
+                       @RequestParam(value = "limit", defaultValue = "12") int limit) {
 
-    @GetRoute(value = {"search/:keyword/:page", "search/:keyword/:page.html"})
-    public String search(Request request, @PathParam String keyword, @PathParam int page, @Param(defaultValue = "12") int limit) {
+        page = page < 0 || page > WebConstant.MAX_PAGE ? 1 : page;
+        // 对于空格的特殊处理
+        name = name.replaceAll("\\+", " ");
+        Metas metaDto = metaService.getMeta(Types.TAG, name);
+        if (null == metaDto) {
+            return this.render_404();
+        }
 
-//        page = page < 0 || page > TaleConst.MAX_PAGE ? 1 : page;
-//
-//        Page<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-//                .like("title", "%" + keyword + "%").page(page, limit, "created desc");
-//
-//        request.attribute("articles", articles);
-//
-//        request.attribute("type", "搜索");
-//        request.attribute("keyword", keyword);
-//        request.attribute("page_prefix", "/search/" + keyword);
+        PageInfo<Contents> contentsPaginator = contentService.getTagArticles(metaDto.getMid(), page, limit);
+        request.setAttribute("articles", contentsPaginator);
+        request.setAttribute("meta", metaDto);
+        request.setAttribute("type", "标签");
+        request.setAttribute("keyword", name);
+
         return this.render("page-category");
     }
+
 
     /**
      * Description: 归档页面
@@ -373,6 +386,7 @@ public class IndexController extends BaseController {
         comments.setParent(coid);
         try {
             String result = commentService.insertComment(comments);
+            // 此处增加cookie是为了不让用户再次输入评论头部
             cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
             cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
             if (StringUtils.isNotBlank(url)) {

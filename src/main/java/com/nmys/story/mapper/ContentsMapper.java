@@ -88,4 +88,13 @@ public interface ContentsMapper {
      */
     void delContentById(@Param("id") Integer id);
 
+    /**
+     * Description:根据mid来查询标签下的所有文章
+     * Author:70kg
+     * Param [mid]
+     * Return java.util.List<com.nmys.story.model.entity.Contents>
+     * Date 2018/5/16 18:22
+     */
+    List<Contents> getContentsListByMetaId(@Param("mid") Integer mid);
+
 }

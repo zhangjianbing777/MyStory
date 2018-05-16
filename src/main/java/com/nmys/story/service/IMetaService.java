@@ -54,4 +54,13 @@ public interface IMetaService {
      */
     List<Metas> getMetaList(String type, String orderby, Integer limit);
 
+    /**
+     * Description:前台标签页使用
+     * Author:70kg
+     * Param [type, name]
+     * Return com.nmys.story.model.entity.Metas
+     * Date 2018/5/16 17:53
+     */
+    Metas getMeta(String type, String name);
+
 }

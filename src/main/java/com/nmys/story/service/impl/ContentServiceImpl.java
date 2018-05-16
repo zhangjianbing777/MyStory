@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.mapper.ContentsMapper;
+import com.nmys.story.mapper.MetaMapper;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.service.IContentService;
@@ -26,6 +27,9 @@ public class ContentServiceImpl implements IContentService {
 
     @Autowired
     private IMetaService metaService;
+
+    @Autowired
+    private MetaMapper metaMapper;
 
     @Override
     public List<Contents> getContentsByType(String type, String status) {
@@ -145,5 +149,16 @@ public class ContentServiceImpl implements IContentService {
             return WebConstant.SUCCESS_RESULT;
         }
         return "数据为空";
+    }
+
+    @Override
+    public PageInfo<Contents> getTagArticles(Integer mid, int page, int limit) {
+        // 查询标签下的文章数量
+        int total = metaMapper.countWithSql(mid);
+        PageHelper.startPage(page,limit);
+        List<Contents> list = contentsMapper.getContentsListByMetaId(mid);
+        PageInfo<Contents> pageInfo = new PageInfo(list);
+        pageInfo.setTotal(total);
+        return pageInfo;
     }
 }

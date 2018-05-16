@@ -24,6 +24,7 @@ import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.*;
+import com.nmys.story.utils.TaleUtils;
 import jetbrick.util.ShellUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -159,7 +160,7 @@ public class IndexController extends BaseController {
             temp.setEmail(email);
             userService.updateUser(temp);
             // 更新日志暂时去掉
-//            logService.insertLog(LogActions.UP_INFO, GsonUtils.toJsonString(temp), request.getRemoteAddr(), this.getUid(request));
+            // logService.insertLog(LogActions.UP_INFO, GsonUtils.toJsonString(temp), request.getRemoteAddr(), this.getUid(request));
 
             // 更新session中的数据
             Users original= (Users)session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
@@ -171,42 +172,51 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 修改密码
+     * Description:修改密码
+     * Author:70kg
+     * Param [oldPassword, password, request, session]
+     * Return com.nmys.story.model.bo.RestResponseBo
+     * Date 2018/5/16 14:12
      */
-    @Route(value = "password", method = HttpMethod.POST)
-    @JSON
-    public RestResponse upPwd(@Param String old_password, @Param String password, HttpServletRequest request) {
+    @PostMapping(value = "/password")
+    @ResponseBody
+    public RestResponseBo upPwd(@RequestParam String oldPassword,
+                                @RequestParam String password,
+                                HttpServletRequest request,
+                                HttpSession session) {
         Users users = this.user(request);
-        if (StringKit.isBlank(old_password) || StringKit.isBlank(password)) {
-            return RestResponse.fail("请确认信息输入完整");
+        if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(password)) {
+            return RestResponseBo.fail("请确认信息输入完整");
         }
 
-        if (!users.getPassword().equals(EncryptKit.md5(users.getUsername() + old_password))) {
-            return RestResponse.fail("旧密码错误");
+        if (!users.getPassword().equals(TaleUtils.MD5encode(users.getUsername() + oldPassword))) {
+            return RestResponseBo.fail("旧密码错误");
         }
         if (password.length() < 6 || password.length() > 14) {
-            return RestResponse.fail("请输入6-14位密码");
+            return RestResponseBo.fail("请输入6-14位密码");
         }
 
         try {
             Users temp = new Users();
-            String pwd = EncryptKit.md5(users.getUsername() + password);
-            temp.setPassword(pwd);
             temp.setUid(users.getUid());
-            // 更新用户
-            userService.saveUser(temp);
-//            temp.update(users.getUid());
-            // 记录日志功能不完善
-            new Logs(LogActions.UP_PWD, null, request.getRemoteAddr(), this.getUid(request)).save();
-            return RestResponse.ok();
-        } catch (Exception e) {
+            // 用户名和密码加密
+            String pwd = TaleUtils.MD5encode(users.getUsername() + password);
+            temp.setPassword(pwd);
+            userService.updateUser(temp);
+
+            //更新session中的数据
+            Users original= (Users)session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
+            original.setPassword(pwd);
+            session.setAttribute(WebConstant.LOGIN_SESSION_KEY,original);
+            return RestResponseBo.ok();
+        } catch (Exception e){
             String msg = "密码修改失败";
             if (e instanceof TipException) {
                 msg = e.getMessage();
             } else {
                 log.error(msg, e);
             }
-            return RestResponse.fail(msg);
+            return RestResponseBo.fail(msg);
         }
     }
 

@@ -124,10 +124,15 @@ public class MetaServiceImpl implements IMetaService {
 
     @Override
     public List<Metas> getMetaList(String type, String orderby, Integer limit) {
-        PageHelper.startPage(1,limit);
+        PageHelper.startPage(1, limit);
         List<Metas> list = metaMapper.getMetasBySql(type);
         PageInfo<Metas> pageInfo = new PageInfo(list);
         return pageInfo.getList();
+    }
+
+    @Override
+    public Metas getMeta(String type, String name) {
+        return metaMapper.getMeta(type, name);
     }
 
 }

@@ -67,4 +67,22 @@ public interface MetaMapper {
      * Date 2018/5/14 17:34
      */
     List<Metas> getMetasBySql(@Param("type") String type);
+
+    /**
+     * Description:前台标签页使用
+     * Author:70kg
+     * Param [type, name]
+     * Return com.nmys.story.model.entity.Metas
+     * Date 2018/5/16 17:55
+     */
+    Metas getMeta(@Param("type") String type, @Param("name") String name);
+
+    /**
+     * Description:查询标签下的文章数量
+     * Author:70kg
+     * Param [mid]
+     * Return int
+     * Date 2018/5/16 18:28
+     */
+    int countWithSql(Integer mid);
 }

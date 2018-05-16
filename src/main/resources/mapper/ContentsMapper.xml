@@ -184,4 +184,11 @@
         SELECT count(*) FROM t_contents WHERE type= #{type} and slug = #{slug}
     </select>
 
+    <select id="getContentsListByMetaId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select a.*
+        from t_contents a left join t_relationships b on a.cid = b.cid
+        where b.mid = #{mid} and a.status = 'publish' and a.type = 'post'
+        order by a.created desc
+    </select>
+
 </mapper>
