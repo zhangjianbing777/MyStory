@@ -48,7 +48,7 @@ public class AuthController extends BaseController {
     @ResponseBody
     public RestResponseBo doLogin(@RequestParam String username,
                                   @RequestParam String password,
-                                  @RequestParam(required = false) String remeberMe,
+                                  @RequestParam(required = false) String remeber_me,
                                   HttpServletRequest request,
                                   HttpServletResponse response) {
 
@@ -69,8 +69,8 @@ public class AuthController extends BaseController {
             // 将登录的user放入session中
             request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
 
-            // 若勾选记住密码，将密码缓存到cookie中
-            if (StringUtils.isNotBlank(remeberMe)) {
+            // 若勾选记住密码，将用户的id加密以后存到cookie中
+            if (StringUtils.isNotBlank(remeber_me)) {
                 TaleUtils.setCookie(response, user.getUid());
             }
             if (null != error_count && error_count >= 5) {

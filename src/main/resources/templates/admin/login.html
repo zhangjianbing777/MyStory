@@ -101,7 +101,9 @@
             url: '/admin/login',
             data: $("#loginForm").serialize(),
             success: function (result) {
-                if (result && result.success) {
+                alert(result);
+                alert(result.success);
+                if (result.success) {
                     window.location.href = '/admin/index';
                 } else {
                     tale.alertError(result.msg || '登录失败');

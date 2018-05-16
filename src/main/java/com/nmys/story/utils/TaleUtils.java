@@ -160,6 +160,7 @@ public class TaleUtils {
      */
     public static Integer getCookieUid(HttpServletRequest request) {
         if (null != request) {
+            // 拿到名字为USER_IN_COOKIE的cookie
             Cookie cookie = cookieRaw(WebConstant.USER_IN_COOKIE, request);
             if (cookie != null && cookie.getValue() != null) {
                 try {
@@ -173,18 +174,18 @@ public class TaleUtils {
     }
 
     /**
-     * 从cookies中获取指定cookie
-     *
-     * @param name    名称
-     * @param request 请求
-     * @return cookie
+     * Description:获取指定名称的cookie
+     * Author:70kg
+     * Param [name, request]  cookie的名称
+     * Return javax.servlet.http.Cookie
+     * Date 2018/5/16 10:37
      */
     private static Cookie cookieRaw(String name, HttpServletRequest request) {
-        javax.servlet.http.Cookie[] servletCookies = request.getCookies();
+        Cookie[] servletCookies = request.getCookies();
         if (servletCookies == null) {
             return null;
         }
-        for (javax.servlet.http.Cookie c : servletCookies) {
+        for (Cookie c : servletCookies) {
             if (c.getName().equals(name)) {
                 return c;
             }

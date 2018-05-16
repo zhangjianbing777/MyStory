@@ -51,7 +51,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="article : ${articles}">
                                             <span class="badge badge-primary" th:title="${article.commentsNum}+'条评论'" th:text="${article.commentsNum}"></span>
-                                            <a target="_blank" href="www.baidu.com" th:text="${article.title}"></a>
+                                            <a target="_blank" th:href="${commons.site_url('/article/')}+${article.cid}" th:text="${article.title}"></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -64,23 +64,26 @@
                                 </div>
 
                                 <div class="panel-body">
+
                                     <div th:if="${comments}== null and ${#lists.size(comments)}==0">
                                         <div class="alert alert-warning">
                                             还没有收到留言.
                                         </div>
                                     </div>
-                                    <ul class="list-group" th:unless="${comments}==null and ${#lists.size(comments)}==0">
+
+                                    <ul class="list-group"  th:unless="${comments}==null and ${#lists.size(comments)}==0">
                                         <li class="list-group-item" th:each="comment : ${comments}">
                                             <div th:if="${comment.url}!=null and ${comment.url}!=''">
                                                 <a th:href="@{${comment.url}}" target="_blank" th:text="${comment.author}"></a>
                                             </div>
-                                            <th:block th:unless="${comment.url}!=null and ${comment.url}!=''" th:text="${comment.author}"/>
-                                            于
-                                            <th:block th:text="${comment.created}"/>评论 :
-                                            <!-- 留言内容 -->
-                                            <a href="www.baidu.com" target="_blank" th:utext="${comment.agent}"/>
+                                            <th:block th:unless="${comment.url}!=null and ${comment.url}!=''" th:text="${comment.author}"/>于
+                                            <th:block th:text="${commons.fmtdate(comment.created,'MM月dd日HH:mm')}"/>:
+                                            <a th:href="${commons.site_url('/article/')}+${comment.cid}+'#comments'"
+                                                target="_blank" th:utext="${commons.article(comment.content)}">
+                                            </a>
                                         </li>
                                     </ul>
+
                                 </div>
 
                             </div>

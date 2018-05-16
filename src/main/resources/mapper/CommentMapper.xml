@@ -34,6 +34,10 @@
                 #{parent,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
     </insert>
 
+    <update id="updateCommentById">
+        UPDATE t_comments SET status = 'approved' WHERE cid = #{id}
+    </update>
+
     <delete id="delCommentById">
         DELETE FROM t_comments WHERE coid = #{id}
     </delete>
@@ -75,5 +79,9 @@
 
     <select id="getCommentsListByContentId" resultMap="BaseResultMap">
         SELECT * FROM t_comments WHERE cid = #{cid} and status = #{status} order by created desc
+    </select>
+
+    <select id="getNotAuditComments" resultMap="BaseResultMap">
+        SELECT * from t_comments WHERE status = 'not_audit'
     </select>
 </mapper>

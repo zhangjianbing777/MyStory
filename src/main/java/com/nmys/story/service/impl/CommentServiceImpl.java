@@ -110,4 +110,15 @@ public class CommentServiceImpl implements ICommentService {
 
         return WebConstant.SUCCESS_RESULT;
     }
+
+    @Override
+    @Transactional
+    public void updateCommentById(Integer id) {
+        commentMapper.updateCommentById(id);
+    }
+
+    @Override
+    public List<Comments> getNotAuditComments() {
+        return commentMapper.getNotAuditComments();
+    }
 }

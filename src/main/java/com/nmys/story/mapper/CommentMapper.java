@@ -72,4 +72,15 @@ public interface CommentMapper {
      */
     List<Comments> getCommentsListByContentId(@Param("cid") Integer cid, @Param("status") String status);
 
+    /**
+     * Description:查询未审核评论
+     * Author:70kg
+     * Param []
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/16 13:34
+     */
+    List<Comments> getNotAuditComments();
+
+    void updateCommentById(@Param("id") Integer id);
+
 }

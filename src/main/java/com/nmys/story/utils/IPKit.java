@@ -16,16 +16,27 @@ import java.util.Enumeration;
 public class IPKit {
 
     /**
-     * @param request 请求
-     * @return IP Address
+     * Description:获取客户端ip地址(可以穿透代理)
+     * Author:70kg
+     * Param [request]
+     * Return java.lang.String
+     * Date 2018/5/16 10:25
      */
     public static String getIpAddrByRequest(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
+
+        String ip = request.getHeader("X-Forwarded-For");
+
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();

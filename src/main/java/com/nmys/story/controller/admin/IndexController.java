@@ -71,8 +71,8 @@ public class IndexController extends BaseController {
     @GetMapping(value = {"/", "index"})
     public String index(HttpServletRequest request) {
         // 获取最新的5条评论
-        List<Comments> comments = siteService.recentComments(5);
-        List<Contents> contents = siteService.getContens(Types.RECENT_ARTICLE, 5);
+        List<Comments> comments = siteService.recentComments(10);
+        List<Contents> contents = siteService.getContens(Types.RECENT_ARTICLE, 10);
 //        Statistics     statistics = siteService.getStatistics();
         Statistics statistics = new Statistics();
 //        // 取最新的20条日志

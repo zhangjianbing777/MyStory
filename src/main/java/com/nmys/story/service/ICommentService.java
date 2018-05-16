@@ -89,4 +89,22 @@ public interface ICommentService {
      */
     String insertComment(Comments comment);
 
+    /**
+     * Description:根据id来更新评论
+     * Author:70kg
+     * Param [id]
+     * Return void
+     * Date 2018/5/16 13:29
+     */
+    void updateCommentById(Integer id);
+
+    /**
+     * Description:查询为审核的评论
+     * Author:70kg
+     * Param []
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/16 13:33
+     */
+    List<Comments> getNotAuditComments();
+
 }

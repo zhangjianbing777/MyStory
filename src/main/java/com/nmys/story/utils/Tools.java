@@ -55,6 +55,13 @@ public class Tools {
         return Math.round(value) + "";
     }
 
+    /**
+     * Description:加密
+     * Author:70kg
+     * Param [data, key]
+     * Return java.lang.String
+     * Date 2018/5/16 11:21
+     */
     public static String enAes(String data, String key) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
@@ -63,6 +70,13 @@ public class Tools {
         return new BASE64Encoder().encode(encryptedBytes);
     }
 
+    /**
+     * Description:解密
+     * Author:70kg
+     * Param [data, key]
+     * Return java.lang.String
+     * Date 2018/5/16 11:21
+     */
     public static String deAes(String data, String key) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
