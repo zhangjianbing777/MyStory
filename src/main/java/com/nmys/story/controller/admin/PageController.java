@@ -32,6 +32,9 @@ public class PageController extends BaseController {
     @Autowired
     private IContentService contentsService;
 
+//    @Resource
+//    private ILogService logService;
+
     @GetMapping(value = "")
     public String index(HttpServletRequest request) {
         PageInfo<Contents> contentsPaginator = contentsService.getArticlesWithpage(1, WebConstant.MAX_POSTS);
@@ -84,6 +87,13 @@ public class PageController extends BaseController {
         return RestResponseBo.ok();
     }
 
+    /**
+     * Description:       
+     * Author:70kg  
+     * Param [cid, title, content, status, slug, allowComment, allowPing, request]  
+     * Return com.nmys.story.model.bo.RestResponseBo
+     * Date 2018/5/17 16:08  
+     */
     @PostMapping(value = "modify")
     @ResponseBody
     public RestResponseBo modifyArticle(@RequestParam Integer cid, @RequestParam String title,

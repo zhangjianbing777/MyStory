@@ -22,6 +22,14 @@ public class Test01 {
         System.out.println("解密密后的数据:"+deAes);
     }
 
+    @Test
+    public void m2(){
+        int cid = 2;
+        int size = 603 % 20;
+        size = size == 0 ? 1 : size;
+        System.out.println(size);
+    }
+
     public String enAes(String data, String salt) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         SecretKeySpec secretKeySpec = new SecretKeySpec(salt.getBytes("UTF-8"), "AES");

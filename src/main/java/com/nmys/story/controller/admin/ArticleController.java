@@ -93,4 +93,44 @@ public class ArticleController extends BaseController {
         return RestResponseBo.ok();
     }
 
+    /**
+     * Description:编辑文章
+     * Author:70kg
+     * Param [cid, request]
+     * Return java.lang.String
+     * Date 2018/5/17 14:49
+     */
+    @GetMapping(value = "/{cid}")
+    public String editArticle(@PathVariable String cid, HttpServletRequest request) {
+        Contents contents = contentService.getContentById(Integer.parseInt(cid));
+        request.setAttribute("contents", contents);
+        List<Metas> categories = metaService.getMetasByType(Types.CATEGORY);
+        request.setAttribute("categories", categories);
+        request.setAttribute("active", "article");
+        return "admin/article_edit";
+    }
+
+    /**
+     * Description:修改文章
+     * Author:70kg
+     * Param [contents, request]
+     * Return com.nmys.story.model.bo.RestResponseBo
+     * Date 2018/5/17 14:55
+     */
+    @PostMapping(value = "/modify")
+    @ResponseBody
+    public RestResponseBo modifyArticle(Contents contents, HttpServletRequest request) {
+        Users users = this.user(request);
+        contents.setAuthorId(users.getUid());
+        contents.setType(Types.ARTICLE);
+        String result = "";
+        boolean flag = contentService.updateContent(contents);
+        if(flag){
+            return RestResponseBo.ok();
+        } else {
+            result = "文章更新失败!";
+            return RestResponseBo.fail(result);
+        }
+    }
+
 }
