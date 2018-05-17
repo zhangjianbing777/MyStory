@@ -1,7 +1,6 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.annotation.Table;
-import com.blade.jdbc.core.ActiveRecord;
+import lombok.Data;
 
 /**
  * Description:数据关系
@@ -10,8 +9,8 @@ import com.blade.jdbc.core.ActiveRecord;
  * Return
  * Date 2018/5/14 16:25
  */
-@Table(value = "t_relationships", pk = "mid")
-public class Relationships extends ActiveRecord {
+@Data
+public class Relationships {
 
     // 内容主键
     private Integer cid;

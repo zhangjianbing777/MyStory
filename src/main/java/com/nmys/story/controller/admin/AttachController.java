@@ -4,7 +4,6 @@ import com.blade.ioc.annotation.Inject;
 import com.blade.jdbc.page.Page;
 import com.blade.mvc.annotation.JSON;
 import com.blade.mvc.annotation.Param;
-import com.blade.mvc.annotation.Path;
 import com.blade.mvc.annotation.Route;
 import com.blade.mvc.http.HttpMethod;
 import com.blade.mvc.http.Request;
@@ -17,7 +16,10 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Attach;
 import com.nmys.story.model.entity.Logs;
 import com.nmys.story.service.SiteService;
+import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -25,12 +27,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * 附件管理
- * <p>
- * Created by biezhi on 2017/2/21.
+ * Description:后台附件管理
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/17 10:24
  */
 @Slf4j
-@Path("admin/attach")
+@Controller
+@RequestMapping("admin/attach")
 public class AttachController extends BaseController {
 
     public static final String CLASSPATH = new File(AttachController.class.getResource("/").getPath()).getPath() + File.separatorChar;
@@ -126,8 +131,6 @@ public class AttachController extends BaseController {
         return null;
     }
 
-    @Route(value = "delete")
-    @JSON
     public RestResponse delete(@Param Integer id, HttpServletRequest request) {
         try {
             Attach attach = new Attach().find(id);

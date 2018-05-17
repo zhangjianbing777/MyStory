@@ -1,13 +1,14 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.core.ActiveRecord;
+import lombok.Data;
 
 /**
  * Description: 友情链接元数据
  * author: itachi
  * Date: 2018/5/12 下午6:44
  */
-public class Metas extends ActiveRecord {
+@Data
+public class Metas {
 
     // 项目主键
     private Integer mid;

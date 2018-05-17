@@ -1,14 +1,11 @@
 package com.nmys.story.service;
 
 import com.blade.ioc.annotation.Bean;
-import com.blade.ioc.annotation.Inject;
 import com.blade.jdbc.core.ActiveRecord;
-import com.blade.jdbc.page.Page;
 import com.blade.kit.BladeKit;
 import com.blade.kit.StringKit;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nmys.story.extension.Theme;
 import com.nmys.story.mapper.ContentsMapper;
 import com.nmys.story.model.dto.*;
 import com.nmys.story.model.entity.Comments;
@@ -25,17 +22,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 站点Service
- *
- * @author biezhi
- * @since 1.3.1
+ * Description:站点service
+ * Author:70kg
+ * Param
+ * Return
+ * Date 2018/5/17 10:10
  */
 @Bean
 @Service
 public class SiteService {
-
-    @Inject
-    private CommentsService commentsService;
 
     public MapCache mapCache = new MapCache();
 
@@ -60,14 +55,14 @@ public class SiteService {
         // 获取归档大类
         List<Archive> archives = contentsMapper.selectArchive();
         if (null != archives) {
-            for (Archive archive: archives) {
+            for (Archive archive : archives) {
                 String date = archive.getDate();
                 Date sd = DateKit.dateFormat(date, "yyyy年MM月");
                 // 开始时间结束时间
                 int start = DateKit.getUnixTimeByDate(sd);
                 int end = DateKit.getUnixTimeByDate(DateKit.dateAdd(DateKit.INTERVAL_MONTH, sd, 1)) - 1;
                 // 查询符合条件的文章
-                List<Contents> contentList = contentsMapper.getContentsByConditions(Types.ARTICLE, Types.PUBLISH,start,end);
+                List<Contents> contentList = contentsMapper.getContentsByConditions(Types.ARTICLE, Types.PUBLISH, start, end);
                 archive.setArticles(contentList);
             }
         }
@@ -278,76 +273,9 @@ public class SiteService {
         return null;
     }
 
-    /**
-     * 获取分类/标签列表
-     *
-     * @param searchType
-     * @param type
-     * @param limit
-     * @return
-     */
-    public List<Metas> getMetas(String searchType, String type, int limit) {
-
-        if (StringKit.isBlank(searchType) || StringKit.isBlank(type)) {
-            return Theme.EMPTY;
-        }
-
-//        if (limit < 1 || limit > TaleConst.MAX_POSTS) {
-//            limit = 10;
-//        }
-
-        // 获取最新的项目
-        if (Types.RECENT_META.equals(searchType)) {
-            String sql = "select a.*, count(b.cid) as count from t_metas a left join `t_relationships` b on a.mid = b.mid " +
-                    "where a.type = ? group by a.mid order by count desc, a.mid desc limit ?";
-            return new Metas().queryAll(sql, type, limit);
-        }
-
-        // 随机获取项目
-        if (Types.RANDOM_META.equals(searchType)) {
-            List<Integer> mids = new ActiveRecord().queryAll(Integer.class, "select mid from t_metas where type = ? order by random() * mid limit ?", type, limit);
-            if (BladeKit.isNotEmpty(mids)) {
-//                String in = TaleUtils.listToInSql(mids);
-                String in = null;
-                String sql = "select a.*, count(b.cid) as count from t_metas a left join `t_relationships` b on a.mid = b.mid " +
-                        "where a.mid in " + in + "group by a.mid order by count desc, a.mid desc";
-
-                return new Metas().queryAll(sql);
-            }
-        }
-        return Theme.EMPTY;
-    }
 
     /**
-     * 获取相邻的文章
-     *
-     * @param type    上一篇:prev | 下一篇:next
-     * @param created 当前文章创建时间
-     */
-    public Contents getNhContent(String type, Integer created) {
-        Contents contents = null;
-//        if (Types.NEXT.equals(type)) {
-//            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created > ? ORDER BY created ASC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
-//        }
-//        if (Types.PREV.equals(type)) {
-//            contents = new Contents().query("SELECT * FROM t_contents WHERE type = ? AND status = ? AND created < ? ORDER BY created DESC LIMIT 1", Types.ARTICLE, Types.PUBLISH, created);
-//        }
-        return contents;
-    }
-
-    /**
-     * 获取文章的评论
-     *
-     * @param cid   文章id
-     * @param page  页码
-     * @param limit 每页条数
-     */
-    public Page<Comment> getComments(Integer cid, int page, int limit) {
-        return commentsService.getComments(cid, page, limit);
-    }
-
-    /**
-     * 清楚缓存
+     * 清除缓存
      *
      * @param key 缓存key
      */

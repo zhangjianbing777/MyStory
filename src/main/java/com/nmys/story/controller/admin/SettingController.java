@@ -26,12 +26,6 @@ public class SettingController extends BaseController {
     @Autowired
     private IOptionService optionService;
 
-//    @Resource
-//    private ILogService logService;
-
-//    @Resource
-//    private ISiteService siteService;
-
     /**
      * 系统设置
      */

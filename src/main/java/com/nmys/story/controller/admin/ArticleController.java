@@ -1,26 +1,16 @@
 package com.nmys.story.controller.admin;
 
-import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.page.Page;
-import com.blade.kit.StringKit;
-import com.blade.mvc.annotation.*;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.ui.RestResponse;
-import com.blade.validator.annotation.Valid;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
-import com.nmys.story.extension.Commons;
 import com.nmys.story.model.bo.RestResponseBo;
-import com.nmys.story.model.dto.LogActions;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
-import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.model.entity.Users;
-import com.nmys.story.service.*;
-import lombok.extern.slf4j.Slf4j;
+import com.nmys.story.service.IContentService;
+import com.nmys.story.service.IMetaService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Description: 后台文章管理
@@ -44,15 +33,6 @@ import java.util.Optional;
 public class ArticleController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
-
-//    @Inject
-//    private ContentsService contentsService;
-
-//    @Inject
-//    private MetasService metasService;
-
-    @Inject
-    private SiteService siteService;
 
     @Autowired
     private IContentService contentService;
@@ -88,26 +68,6 @@ public class ArticleController extends BaseController {
         return "admin/article_edit";
     }
 
-    /**
-     * 文章编辑页面
-     *
-     * @param cid
-     * @param request
-     * @return
-     */
-//    @GetRoute(value = "/:cid")
-//    public String editArticle(@PathParam String cid, Request request) {
-//        Optional<Contents> contents = contentsService.getContents(cid);
-//        if (!contents.isPresent()) {
-//            return render_404();
-//        }
-//        request.attribute("contents", contents.get());
-//        List<Metas> categories = metasService.getMetas(Types.CATEGORY);
-//        request.attribute("categories", categories);
-//        request.attribute("active", "article");
-//        request.attribute(Types.ATTACH_URL, Commons.site_option(Types.ATTACH_URL, Commons.site_url()));
-//        return "admin/article_edit";
-//    }
 
     /**
      * Description: 文章发布
@@ -133,55 +93,4 @@ public class ArticleController extends BaseController {
         return RestResponseBo.ok();
     }
 
-    /**
-     * 修改文章操作
-     *
-     * @return
-     */
-//    @PostRoute(value = "modify")
-//    @JSON
-//    public RestResponse modifyArticle(@Valid Contents contents) {
-//        try {
-//            if (null == contents || null == contents.getCid()) {
-//                return RestResponse.fail("缺少参数，请重试");
-//            }
-//            Integer cid = contents.getCid();
-//            contentsService.updateArticle(contents);
-//            return RestResponse.ok(cid);
-//        } catch (Exception e) {
-//            String msg = "文章编辑失败";
-//            if (e instanceof TipException) {
-//                msg = e.getMessage();
-//            } else {
-//                logger.error(msg, e);
-//            }
-//            return RestResponse.fail(msg);
-//        }
-//    }
-
-    /**
-     * 删除文章操作
-     *
-     * @param cid
-     * @param request
-     * @return
-     */
-//    @Route(value = "delete")
-//    @JSON
-//    public RestResponse delete(@Param int cid, HttpServletRequest request) {
-//        try {
-//            contentsService.delete(cid);
-//            siteService.cleanCache(Types.C_STATISTICS);
-//            new Logs(LogActions.DEL_ARTICLE, cid + "", request.getRemoteAddr(), this.getUid(request)).save();
-//        } catch (Exception e) {
-//            String msg = "文章删除失败";
-//            if (e instanceof TipException) {
-//                msg = e.getMessage();
-//            } else {
-//                logger.error(msg, e);
-//            }
-//            return RestResponse.fail(msg);
-//        }
-//        return RestResponse.ok();
-//    }
 }

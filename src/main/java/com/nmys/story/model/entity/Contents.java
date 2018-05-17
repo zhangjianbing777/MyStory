@@ -1,6 +1,6 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.core.ActiveRecord;
+import lombok.Data;
 
 /**
  * Description:文章实体
@@ -9,7 +9,8 @@ import com.blade.jdbc.core.ActiveRecord;
  * Return
  * Date 2018/5/11 13:42
  */
-public class Contents extends ActiveRecord {
+@Data
+public class Contents {
 
     // post表主键
     private Integer cid;
@@ -64,147 +65,4 @@ public class Contents extends ActiveRecord {
     // 允许出现在聚合中
     private Integer allowFeed;
 
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public Integer getCreated() {
-        return created;
-    }
-
-    public void setCreated(Integer created) {
-        this.created = created;
-    }
-
-    public Integer getModified() {
-        return modified;
-    }
-
-    public void setModified(Integer modified) {
-        this.modified = modified;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
-    }
-
-    public Integer getHits() {
-        return hits;
-    }
-
-    public void setHits(Integer hits) {
-        this.hits = hits;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getFmtType() {
-        return fmtType;
-    }
-
-    public void setFmtType(String fmtType) {
-        this.fmtType = fmtType;
-    }
-
-    public String getThumbImg() {
-        return thumbImg;
-    }
-
-    public void setThumbImg(String thumbImg) {
-        this.thumbImg = thumbImg;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getCommentsNum() {
-        return commentsNum;
-    }
-
-    public void setCommentsNum(Integer commentsNum) {
-        this.commentsNum = commentsNum;
-    }
-
-    public Integer getAllowComment() {
-        return allowComment;
-    }
-
-    public void setAllowComment(Integer allowComment) {
-        this.allowComment = allowComment;
-    }
-
-    public Integer getAllowPing() {
-        return allowPing;
-    }
-
-    public void setAllowPing(Integer allowPing) {
-        this.allowPing = allowPing;
-    }
-
-    public Integer getAllowFeed() {
-        return allowFeed;
-    }
-
-    public void setAllowFeed(Integer allowFeed) {
-        this.allowFeed = allowFeed;
-    }
 }

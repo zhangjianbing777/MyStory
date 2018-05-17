@@ -1,15 +1,9 @@
 package com.nmys.story.controller;
 
-import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.core.OrderBy;
 import com.blade.kit.PatternKit;
 import com.blade.mvc.annotation.GetRoute;
-import com.blade.mvc.annotation.Param;
-import com.blade.mvc.annotation.PathParam;
 import com.blade.mvc.annotation.Route;
-import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Response;
-import com.blade.security.web.csrf.CsrfToken;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
@@ -19,7 +13,10 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Metas;
-import com.nmys.story.service.*;
+import com.nmys.story.service.ICommentService;
+import com.nmys.story.service.IContentService;
+import com.nmys.story.service.IMetaService;
+import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -37,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Description:博客首页控制层
@@ -51,15 +47,6 @@ import java.util.Optional;
 public class IndexController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
-
-    @Inject
-    private ContentsService contentsService;
-
-    @Inject
-    private MetasService metasService;
-
-    @Inject
-    private CommentsService commentsService;
 
     @Autowired
     private SiteService siteService;
@@ -85,35 +72,6 @@ public class IndexController extends BaseController {
         return this.index(request, 1, limit);
     }
 
-    /**
-     * 自定义页面
-     */
-    @CsrfToken(newToken = true)
-    @GetRoute(value = {"/:cid", "/:cid.html"})
-    public String page(@PathParam String cid, Request request) {
-        Optional<Contents> contentsOptional = contentsService.getContents(cid);
-        if (!contentsOptional.isPresent()) {
-            return this.render_404();
-        }
-        Contents contents = contentsOptional.get();
-        if (contents.getAllowComment() == 1) {
-            int cp = request.queryInt("cp", 1);
-            request.attribute("cp", cp);
-        }
-        request.attribute("article", contents);
-        Contents temp = new Contents();
-        temp.setHits(contents.getHits() + 1);
-        temp.setCid(contents.getCid());
-//        temp.update(contents.getCid());
-        contentService.updateContent(temp);
-        if (Types.ARTICLE.equals(contents.getType())) {
-            return this.render("post");
-        }
-        if (Types.PAGE.equals(contents.getType())) {
-            return this.render("page");
-        }
-        return this.render_404();
-    }
 
     /**
      * Description:博客首页分页
@@ -268,26 +226,6 @@ public class IndexController extends BaseController {
 //        } catch (Exception e) {
 //            log.error("生成 rss 失败", e);
 //        }
-    }
-
-    /**
-     * sitemap 站点地图
-     *
-     * @return
-     */
-    @GetRoute(value = {"sitemap", "sitemap.xml"})
-    public void sitemap(Response response) {
-        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-                .and("allow_feed", true)
-                .findAll(OrderBy.desc("created"));
-
-        try {
-            String xml = null;//TaleUtils.getSitemapXml(articles);
-            response.contentType("text/xml; charset=utf-8");
-            response.body(xml);
-        } catch (Exception e) {
-            log.error("生成 sitemap 失败", e);
-        }
     }
 
     /**

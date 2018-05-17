@@ -32,9 +32,6 @@ public class PageController extends BaseController {
     @Autowired
     private IContentService contentsService;
 
-//    @Resource
-//    private ILogService logService;
-
     @GetMapping(value = "")
     public String index(HttpServletRequest request) {
         PageInfo<Contents> contentsPaginator = contentsService.getArticlesWithpage(1, WebConstant.MAX_POSTS);
