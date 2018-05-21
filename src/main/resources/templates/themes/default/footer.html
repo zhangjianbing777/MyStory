@@ -10,19 +10,19 @@
                         <th:block th:switch="${index.key}">
 
                             <th:block th:case="'weibo'">
-                                <a target="blank" href="www.baidu123.com">微博</a>
+                                <a class="social weibo" target="_blank" th:href="${index.value}">微博</a>
                             </th:block>
 
                             <th:block th:case="'zhihu'">
-                                <a class="social zhihu" target="blank" th:href="${index.value}">知乎</a>
+                                <a class="social zhihu" target="_blank" th:href="${index.value}">知乎</a>
                             </th:block>
 
                             <th:block th:case="'github'">
-                                <a class="social github" target="blank" th:href="${index.value}">Github</a>
+                                <a class="social github" target="_blank" th:href="${index.value}">Github</a>
                             </th:block>
 
                             <th:block th:case="'twitter'">
-                                <a class="social twitter" target="blank" th:href="${index.value}">Twitter</a>
+                                <a class="social twitter" target="_blank" th:href="${index.value}">Twitter</a>
                             </th:block>
 
                         </th:block>
