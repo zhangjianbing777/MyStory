@@ -11,6 +11,7 @@ import com.nmys.story.model.entity.Metas;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
+import com.nmys.story.utils.DateKit;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +122,8 @@ public class ArticleController extends BaseController {
     @ResponseBody
     public RestResponseBo modifyArticle(Contents contents, HttpServletRequest request) {
         Users users = this.user(request);
+        int time = DateKit.getCurrentUnixTime();
+        contents.setModified(time);
         contents.setAuthorId(users.getUid());
         contents.setType(Types.ARTICLE);
         String result = "";
