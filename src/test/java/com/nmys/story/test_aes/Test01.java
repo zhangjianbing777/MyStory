@@ -1,5 +1,6 @@
 package com.nmys.story.test_aes;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,8 @@ import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,6 +32,38 @@ public class Test01 {
         size = size == 0 ? 1 : size;
         System.out.println(size);
     }
+
+    @Test
+    public void m3(){
+        String encode = MD5encode("admin123456");
+        System.out.println("------>"+encode);
+    }
+
+
+
+
+    public String MD5encode(String source) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ignored) {
+        }
+        byte[] encode = messageDigest.digest(source.getBytes());
+        StringBuilder hexString = new StringBuilder();
+        for (byte anEncode : encode) {
+            String hex = Integer.toHexString(0xff & anEncode);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+
 
     public String enAes(String data, String salt) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");

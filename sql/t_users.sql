@@ -36,4 +36,4 @@ CREATE TABLE `t_users` (
 -- ----------------------------
 -- Records of t_users
 -- ----------------------------
-INSERT INTO `t_users` VALUES ('1', 'admin', 'eafbecf0972a4e9bd59d0ece6371490e', '449246146@qq.com', null, 'admin', '1525759224', null, '1525759237', null);
+INSERT INTO `t_users` VALUES ('1', 'admin', 'a66abb5684c45962d887564f08346e8d', '449246146@qq.com', null, 'admin', '1525759224', null, '1525759237', null);
