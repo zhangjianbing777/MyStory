@@ -351,7 +351,7 @@ public final class Commons {
         map.put("weibo", optionService.getOptionByName(prefix + "weibo").getValue());
         map.put("zhihu", optionService.getOptionByName(prefix + "zhihu").getValue());
         map.put("github", optionService.getOptionByName(prefix + "github").getValue());
-        map.put("twitter", optionService.getOptionByName(prefix + "twitter").getValue());
+        map.put("mayun", optionService.getOptionByName(prefix + "mayun").getValue());
         return map;
     }
 

@@ -28,9 +28,10 @@ public class CommentsTask {
     @Scheduled(cron = "0 0/10 * * * ?")
     public void autoCheckCommentsTrigger() {
         List<Comments> notAuditComments = commentService.getNotAuditComments();
-        if (notAuditComments.size() != 0){
+        if (notAuditComments.size() != 0) {
             for (Comments comment : notAuditComments) {
                 commentService.updateCommentById(comment.getCid());
+                logger.info("----------自动审核评论成功,评论id:" + comment.getCid() + "----------");
             }
         } else {
             logger.info("----------没找到未审核的评论----------");
