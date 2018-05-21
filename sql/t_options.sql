@@ -30,11 +30,11 @@ CREATE TABLE `t_options` (
 -- Records of t_options
 -- ----------------------------
 INSERT INTO `t_options` VALUES ('allow_install', '0', '是否允许重新安装博客');
-INSERT INTO `t_options` VALUES ('site_description', '博客系统,Blade框架,Tale', null);
-INSERT INTO `t_options` VALUES ('site_keywords', '博客系统,Blade框架,Tale', null);
+INSERT INTO `t_options` VALUES ('site_description', '博客系统,springboot,Tale', null);
+INSERT INTO `t_options` VALUES ('site_keywords', '博客系统,springboot,Tale', null);
 INSERT INTO `t_options` VALUES ('site_theme', 'default', null);
 INSERT INTO `t_options` VALUES ('site_title', '农码一生', null);
-INSERT INTO `t_options` VALUES ('site_url', 'http://localhost:9000', null);
+INSERT INTO `t_options` VALUES ('site_url', 'http://localhost:9001', null);
 INSERT INTO `t_options` VALUES ('social_github', null, null);
 INSERT INTO `t_options` VALUES ('social_twitter', null, null);
 INSERT INTO `t_options` VALUES ('social_weibo', null, null);
