@@ -38,4 +38,6 @@ public interface RelationshipMapper {
      * Date: 2018/5/16 下午11:14
      */
     Long countById(@Param("cid") Integer cid, @Param("mid") Integer mid);
+
+    void delRelationshipByCId(@Param("cid") Integer cid);
 }

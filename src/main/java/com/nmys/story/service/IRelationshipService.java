@@ -37,4 +37,6 @@ public interface IRelationshipService {
      * Date: 2018/5/16 下午11:13
      */
     Long countById(Integer cid, int mid);
+
+    void delRelationshipByCId(Integer cid);
 }

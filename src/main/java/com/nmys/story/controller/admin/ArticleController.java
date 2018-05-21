@@ -133,4 +133,15 @@ public class ArticleController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public RestResponseBo delete(@RequestParam int cid, HttpServletRequest request) {
+        // 删除文章
+        String result = contentService.delContentById(cid);
+        if (!WebConstant.SUCCESS_RESULT.equals(result)) {
+            return RestResponseBo.fail(result);
+        }
+        return RestResponseBo.ok();
+    }
+
 }

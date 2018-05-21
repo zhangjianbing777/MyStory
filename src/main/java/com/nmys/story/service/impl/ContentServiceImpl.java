@@ -9,6 +9,7 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
+import com.nmys.story.service.IRelationshipService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -30,6 +31,9 @@ public class ContentServiceImpl implements IContentService {
 
     @Autowired
     private MetaMapper metaMapper;
+
+    @Autowired
+    private IRelationshipService relationshipService;
 
     @Override
     public List<Contents> getContentsByType(String type, String status) {
@@ -145,7 +149,10 @@ public class ContentServiceImpl implements IContentService {
     public String delContentById(Integer cid) {
         Contents contents = contentsMapper.getContentById(cid);
         if (null != contents) {
+            // 根据文章id来删除文章
             contentsMapper.delContentById(cid);
+            // 删除对应关系
+            relationshipService.delRelationshipByCId(cid);
             return WebConstant.SUCCESS_RESULT;
         }
         return "数据为空";

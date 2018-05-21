@@ -39,4 +39,9 @@ public class RelationshipServiceImpl implements IRelationshipService {
     public Long countById(Integer cid, int mid) {
         return relationshipMapper.countById(cid, mid);
     }
+
+    @Override
+    public void delRelationshipByCId(Integer cid) {
+        relationshipMapper.delRelationshipByCId(cid);
+    }
 }

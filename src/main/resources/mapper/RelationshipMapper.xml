@@ -15,6 +15,10 @@
         DELETE FROM t_relationships WHERE mid = #{mid}
     </delete>
 
+    <delete id="delRelationshipByCId">
+        DELETE FROM t_relationships WHERE cid = #{cid}
+    </delete>
+
     <select id="getRelationshipByMid" resultMap="BaseResultMap">
         SELECT * FROM t_relationships WHERE mid = #{mid}
     </select>
