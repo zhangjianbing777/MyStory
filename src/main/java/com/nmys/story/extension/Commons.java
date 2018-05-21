@@ -4,12 +4,15 @@ package com.nmys.story.extension;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.service.IOptionService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.UUID;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -29,6 +32,9 @@ import java.util.regex.Pattern;
 public final class Commons {
 
     public static String THEME = "themes/default";
+
+    @Autowired
+    private IOptionService optionService;
 
     /**
      * 判断分页中是否有数据
@@ -139,7 +145,7 @@ public final class Commons {
     public static String gravatar(String email) {
         String avatarUrl = "https://github.com/identicons/";
         if (StringUtils.isBlank(email)) {
-            email = "user@hanshuai.xin";
+            email = "449246146@qq.com";
         }
         String hash = TaleUtils.MD5encode(email.trim().toLowerCase());
         return avatarUrl + hash + ".png";
@@ -339,13 +345,13 @@ public final class Commons {
      *
      * @return
      */
-    public static Map<String, String> social() {
+    public Map<String, String> social() {
         final String prefix = "social_";
         Map<String, String> map = new HashMap<>();
-        map.put("weibo", WebConstant.initConfig.get(prefix + "weibo"));
-        map.put("zhihu", WebConstant.initConfig.get(prefix + "zhihu"));
-        map.put("github", WebConstant.initConfig.get(prefix + "github"));
-        map.put("twitter", WebConstant.initConfig.get(prefix + "twitter"));
+        map.put("weibo", optionService.getOptionByName(prefix + "weibo").getValue());
+        map.put("zhihu", optionService.getOptionByName(prefix + "zhihu").getValue());
+        map.put("github", optionService.getOptionByName(prefix + "github").getValue());
+        map.put("twitter", optionService.getOptionByName(prefix + "twitter").getValue());
         return map;
     }
 

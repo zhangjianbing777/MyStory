@@ -8,6 +8,26 @@
     </resultMap>
 
 
+    <insert id="saveOption" parameterType="com.nmys.story.model.entity.Options">
+        INSERT INTO
+            t_options (name, value)
+        VALUES
+            (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByName" parameterType="com.nmys.story.model.entity.Options">
+        update t_options
+        <set>
+            <if test="value != null">
+                value = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where name = #{name,jdbcType=VARCHAR}
+    </update>
+
 
     <!--<insert id="saveComment" parameterType="com.nmys.story.model.entity.Comments" useGeneratedKeys="true" keyProperty="coid">-->
     <!--insert into t_comments (coid, cid, created,-->

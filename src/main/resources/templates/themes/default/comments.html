@@ -50,18 +50,20 @@
                                              th:title="${comment.author}"
                                              width="80" height="80"/>
                                         <span class="comment-author">
-                                <a href="##" rel="external nofollow"
-                                   th:text="${comment.author}"></a>
-                            </span>
+                                            <a href="##" rel="external nofollow" th:text="${comment.author}"></a>
+                                        </span>
                                     </div>
                                     <div class="comment-content">
-                                        <span class="comment-author-at"></span>
+                                        <span class="comment-author-at">
+                                            <!--<a href="#comment-884">@zzz</a>-->
+                                        </span>
                                         <p th:utext="${commons.article(comment.content)}"></p>
                                     </div>
                                     <div class="comment-meta">
                                         <time class="comment-time" th:text="${commons.fmtdate(comment.created)}"></time>
                                         <span class="comment-reply">
-                            </span>
+                                            <a rel="nofollow" th:onclick="'javascript:TaleComment.reply(\''+${comment.coid}+'\')'">回复</a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

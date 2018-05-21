@@ -44,23 +44,27 @@ public class SettingController extends BaseController {
     }
 
     /**
-     * 保存系统设置
+     * Description:保存系统设置
+     * Author:70kg
+     * Param [site_theme, request]
+     * Return com.nmys.story.model.bo.RestResponseBo
+     * Date 2018/5/21 10:28
      */
-//    @PostMapping(value = "")
+    @PostMapping(value = "")
     @ResponseBody
-    public RestResponseBo saveSetting(@RequestParam(required = false) String site_theme, HttpServletRequest request) {
+    public RestResponseBo saveSetting(@RequestParam(required = false) String site_theme,
+                                      HttpServletRequest request) {
         try {
             Map<String, String[]> parameterMap = request.getParameterMap();
             Map<String, String> querys = new HashMap();
             parameterMap.forEach((key, value) -> {
                 querys.put(key, join(value));
             });
-//            optionService.saveOptions(querys);
+            optionService.saveOrUpdateOptions(querys);
             WebConstant.initConfig = querys;
             if (StringUtils.isNotBlank(site_theme)) {
                 BaseController.THEME = "themes/" + site_theme;
             }
-//            logService.insertLog(LogActions.SYS_SETTING, GsonUtils.toJsonString(querys), request.getRemoteAddr(), this.getUid(request));
             return RestResponseBo.ok();
         } catch (Exception e) {
             String msg = "保存设置失败";

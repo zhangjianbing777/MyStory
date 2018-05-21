@@ -3,6 +3,7 @@ package com.nmys.story.service;
 import com.nmys.story.model.entity.Options;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOptionService {
 
@@ -23,5 +24,16 @@ public interface IOptionService {
      * Date 2018/5/15 15:05
      */
     List<Options> getOptions();
+
+    /**
+     * Description:保存或者更新设置
+     * Author:70kg
+     * Param [querys]
+     * Return void
+     * Date 2018/5/21 10:37
+     */
+    void saveOrUpdateOptions(Map<String,String> options);
+
+    void insertOption(String name, String value);
 
 }
