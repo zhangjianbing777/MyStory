@@ -2,6 +2,8 @@ package com.nmys.story.controller.admin;
 
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
+import com.nmys.story.exception.TipException;
+import com.nmys.story.model.bo.BackResponseBo;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.entity.Options;
 import com.nmys.story.service.IOptionService;
@@ -72,35 +74,6 @@ public class SettingController extends BaseController {
         }
     }
 
-
-    /**
-     * 系统备份
-     *
-     * @return
-     */
-//    @PostMapping(value = "backup")
-//    @ResponseBody
-//    public RestResponseBo backup(@RequestParam String bk_type, @RequestParam String bk_path,
-//                                 HttpServletRequest request) {
-//        if (StringUtils.isBlank(bk_type)) {
-//            return RestResponseBo.fail("请确认信息输入完整");
-//        }
-//        try {
-////            BackResponseBo backResponse = siteService.backup(bk_type, bk_path, "yyyyMMddHHmm");
-////            logService.insertLog(LogActions.SYS_BACKUP, null, request.getRemoteAddr(), this.getUid(request));
-//            return RestResponseBo.ok(backResponse);
-//        } catch (Exception e) {
-//            String msg = "备份失败";
-//            if (e instanceof TipException) {
-//                msg = e.getMessage();
-//            } else {
-//                LOGGER.error(msg, e);
-//            }
-//            return RestResponseBo.fail(msg);
-//        }
-//    }
-
-
     /**
      * 数组转字符串
      *
@@ -118,6 +91,36 @@ public class SettingController extends BaseController {
         }
 
         return ret.length() > 0 ? ret.substring(1) : ret.toString();
+    }
+
+
+    /**
+     * Description:备份数据库
+     * Author:70kg
+     * Param [bk_type:类型, bk_path:存放位置, request]
+     * Return com.nmys.story.model.bo.RestResponseBo
+     * Date 2018/5/31 9:51
+     */
+    @PostMapping(value = "backup")
+    @ResponseBody
+    public RestResponseBo backup(@RequestParam String bk_type,
+                                 @RequestParam String bk_path,
+                                 HttpServletRequest request) {
+        if (StringUtils.isBlank(bk_path)) {
+            return RestResponseBo.fail("请输入sql文件存放路径");
+        }
+        try {
+            BackResponseBo backResponse = optionService.backup(bk_type, bk_path, "yyyy-MM-dd");
+            return RestResponseBo.ok(backResponse);
+        } catch (Exception e) {
+            String msg = "备份失败";
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            } else {
+                LOGGER.error(msg, e);
+            }
+            return RestResponseBo.fail(msg);
+        }
     }
 
 }

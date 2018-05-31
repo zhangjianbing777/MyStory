@@ -33,18 +33,18 @@
     </div>
     <div class="footer-meta">
         <div class="footer-container">
+
             <div class="meta-item meta-copyright">
                 <div class="meta-copyright-info">
+                    <a href="https://gitee.com/beijinglogic" target="_blank" class="info-logo">
+                        <img th:src="@{/user/img/logo.png}" th:alt="${commons.site_title()}"/>
+                    </a>
                     <div class="info-text">
-                        <a href="https://gitee.com/beijinglogic" target="_blank" style="display: block;margin: 0 auto;" class="info-logo">
-                            <img style="display: block;margin: 0 auto;" th:src="@{/user/img/logo.png}"
-                                 th:alt="${commons.site_title()}"/>
-                        </a>
-                        <br/>
-                        <p>&copy; 2018 版权所有 <a th:href="@{/}" target="_blank"
-                                          rel="nofollow">农码一生为了谁-MyStory</a> 保留一切权利
+                        <p>农码一生为了谁-MyStory</p>
+                        <p>Powered by <a th:href="@{https://gitee.com/beijinglogic}" target="_blank" rel="nofollow">70KG</a>
                         </p>
-                        <br/>
+                        <p>&copy; 2018 版权所有 <a th:href="@{/}">MyStory</a></p>
+                        <!-- 备案信息展示 -->
                         <th:block th:if="${option}!=null and ${option.getValue()}!=''">
                             <p th:text="${option.getValue()}"></p>
                         </th:block>
@@ -52,7 +52,26 @@
                 </div>
             </div>
 
+            <div class="meta-item meta-posts">
+                <h3 class="meta-title">最新文章</h3>
+                <th:block th:each="content:${commons.getContents()}">
+                    <li>
+                        <a th:href="${commons.permalink(content)}" target="_blank" th:text="${content.title}"></a>
+                    </li>
+                </th:block>
+            </div>
+
+            <div class="meta-item meta-comments">
+                <h3 class="meta-title">最新评论</h3>
+                <th:block th:each="comment:${commons.getComments()}">
+                    <li>
+                        <a th:href="${commons.site_url('/article/')}+${comment.cid}+'#comment-'+${comment.coid}" target="_blank" th:text="${comment.author}+':'+${comment.content}"></a>
+                    </li>
+                </th:block>
+            </div>
+
         </div>
+
     </div>
 </footer>
 

@@ -1,9 +1,14 @@
 package com.nmys.story.extension;
 
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
+import com.nmys.story.model.dto.Types;
+import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.service.ICommentService;
+import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IOptionService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
@@ -17,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +41,12 @@ public final class Commons {
 
     @Autowired
     private IOptionService optionService;
+
+    @Autowired
+    private IContentService contentService;
+
+    @Autowired
+    private ICommentService commentService;
 
     /**
      * 判断分页中是否有数据
@@ -353,6 +365,32 @@ public final class Commons {
         map.put("github", optionService.getOptionByName(prefix + "github").getValue());
         map.put("mayun", optionService.getOptionByName(prefix + "mayun").getValue());
         return map;
+    }
+
+    /**
+     * Description:获取最近8篇文章
+     * Author:70kg
+     * Param []
+     * Return java.util.List<com.nmys.story.model.entity.Contents>
+     * Date 2018/5/31 14:26
+     */
+    public List<Contents> getContents() {
+        PageInfo<Contents> pageInfo = contentService.getContentsConditions(Types.ARTICLE, 1, 8);
+        return pageInfo.getList();
+    }
+
+    /**
+     * Description:获取最近8条评论
+     * Author:70kg
+     * Param []
+     * Return java.util.List<com.nmys.story.model.entity.Comments>
+     * Date 2018/5/31 14:27
+     */
+    public List<Comments> getComments() {
+        PageHelper.startPage(1, 8);
+        List<Comments> commentsList = commentService.selectCommentsByAuthorId(1);
+        PageInfo<Comments> pageInfo = new PageInfo(commentsList);
+        return pageInfo.getList();
     }
 
 }

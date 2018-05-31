@@ -1,5 +1,6 @@
 package com.nmys.story.service;
 
+import com.nmys.story.model.bo.BackResponseBo;
 import com.nmys.story.model.entity.Options;
 
 import java.util.List;
@@ -36,4 +37,12 @@ public interface IOptionService {
 
     void insertOption(String name, String value);
 
+    /**
+     * Description:备份数据库
+     * Author:70kg
+     * Param [bk_type, bk_path, expression]
+     * Return com.nmys.story.model.bo.BackResponseBo
+     * Date 2018/5/31 10:14
+     */
+    BackResponseBo backup(String bk_type, String bk_path, String expression) throws Exception;
 }
