@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 后台统计对象
  * <p>
- * Created by biezhi on 2017/2/24.
+ * Created by 70kg
  */
 @Data
 public class Statistics implements Serializable {

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 日志记录
  *
- * @author biezhi
+ * @author 70kg
  */
 @Data
 @NoArgsConstructor

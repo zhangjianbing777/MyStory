@@ -69,29 +69,6 @@ public class SiteService {
         return archives;
     }
 
-    /**
-     * 初始化站点
-     *
-     * @param users 用户
-     */
-    public void initSite(Users users) {
-//        String pwd = EncryptKit.md5(users.getUsername() + users.getPassword());
-//        users.setPassword(pwd);
-//        users.setScreen_name(users.getUsername());
-//        users.setCreated(DateKit.nowUnix());
-//        userService.saveUser(users);
-////        Integer uid = users.save();
-//
-//        try {
-//            String cp = SiteService.class.getClassLoader().getResource("").getPath();
-//            File lock = new File(cp + "install.lock");
-//            lock.createNewFile();
-//            TaleConst.INSTALLED = Boolean.TRUE;
-////            new Logs(LogActions.INIT_SITE, null, "", uid.intValue()).save();
-//        } catch (Exception e) {
-//            throw new TipException("初始化站点失败");
-//        }
-    }
 
     /**
      * 最新收到的评论
@@ -139,75 +116,6 @@ public class SiteService {
         return new ArrayList();
     }
 
-    /**
-     * 获取后台统计数据
-     */
-    public Statistics getStatistics() {
-
-//        Statistics statistics = mapCache.get(Types.C_STATISTICS);
-//        if (null != statistics) {
-//            return statistics;
-//        }
-//
-        Statistics statistics = new Statistics();
-//
-//        long articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH).count();
-//        long pages = new Contents().where("type", Types.PAGE).and("status", Types.PUBLISH).count();
-//
-////        long comments   = new Comments().count();
-//        // 总评论数
-//        int comments = commentService.selectCommentCount();
-//
-//        long attachs = new Attach().count();
-//        long tags = new Metas().where("type", Types.TAG).count();
-//        long categories = new Metas().where("type", Types.CATEGORY).count();
-//
-//        statistics.setArticles(articles);
-//        statistics.setPages(pages);
-//        statistics.setComments(comments);
-//        statistics.setAttachs(attachs);
-//        statistics.setTags(tags);
-//        statistics.setCategories(categories);
-//
-//        mapCache.set(Types.C_STATISTICS, statistics);
-        return statistics;
-    }
-
-    /**
-     * 查询文章归档
-     */
-//    public List<Archive> getArchives() {
-//        String sql = "select strftime('%Y年%m月', datetime(created, 'unixepoch') ) as date_str, count(*) as count  from t_contents " +
-//                "where type = 'post' and status = 'publish' group by date_str order by date_str desc";
-//        List<Archive> archives = new Archive().queryAll(sql);
-//        if (null != archives) {
-//            return archives.stream()
-//                    .map(this::parseArchive)
-//                    .collect(Collectors.toList());
-//        }
-//        return Collections.EMPTY_LIST;
-//    }
-
-//    private Archive parseArchive(Archive archive) {
-//        String date_str = archive.getDate_str();
-//        Date sd = DateKit.toDate(date_str + "01", "yyyy年MM月dd");
-//        archive.setDate(sd);
-//        int start = DateKit.toUnix(sd);
-//        Calendar calender = Calendar.getInstance();
-//        calender.setTime(sd);
-//        calender.add(Calendar.MONTH, 1);
-//        Date endSd = calender.getTime();
-//        int end = DateKit.toUnix(endSd) - 1;
-//        List<Contents> contents = new Contents().where("type", Types.ARTICLE)
-//                .and("status", Types.PUBLISH)
-//                .and("created", ">", start)
-//                .and("created", "<", end)
-//                .findAll(OrderBy.desc("created"));
-//
-//        archive.setArticles(contents);
-//        return archive;
-//    }
-
 
     /**
      * Description:查询一条评论
@@ -221,55 +129,6 @@ public class SiteService {
             Comments comments = commentService.selectCommentByid(coid);
             return comments;
         }
-        return null;
-    }
-
-    /**
-     * 系统备份
-     *
-     * @param bkType
-     * @param bkPath
-     * @param fmt
-     */
-    public BackResponse backup(String bkType, String bkPath, String fmt) throws Exception {
-//        BackResponse backResponse = new BackResponse();
-//        if ("attach".equals(bkType)) {
-//            if (StringKit.isBlank(bkPath)) {
-//                throw new TipException("请输入备份文件存储路径");
-//            }
-//            if (!Files.isDirectory(Paths.get(bkPath))) {
-//                throw new TipException("请输入一个存在的目录");
-//            }
-//            String bkAttachDir = AttachController.CLASSPATH + "upload";
-//            String bkThemesDir = AttachController.CLASSPATH + "templates/themes";
-//
-//            String fname = DateKit.toString(new Date(), fmt) + "_" + StringKit.rand(5) + ".zip";
-//
-//            String attachPath = bkPath + "/" + "attachs_" + fname;
-//            String themesPath = bkPath + "/" + "themes_" + fname;
-//
-//            ZipUtils.zipFolder(bkAttachDir, attachPath);
-//            ZipUtils.zipFolder(bkThemesDir, themesPath);
-//
-//            backResponse.setAttach_path(attachPath);
-//            backResponse.setTheme_path(themesPath);
-//        }
-//        // 备份数据库
-//        if ("db".equals(bkType)) {
-//            String filePath = "upload/" + DateKit.toString(new Date(), "yyyyMMddHHmmss") + "_" + StringKit.rand(8) + ".db";
-//            String cp = AttachController.CLASSPATH + filePath;
-//            Files.createDirectory(Paths.get(cp));
-//            Files.copy(Paths.get(SqliteJdbc.DB_PATH), Paths.get(cp));
-//            backResponse.setSql_path("/" + filePath);
-//            // 10秒后删除备份文件
-//            new Timer().schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    new File(cp).delete();
-//                }
-//            }, 10 * 1000);
-//        }
-//        return backResponse;
         return null;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 后台公共函数
  * <p>
- * Created by biezhi on 2017/2/21.
+ * Created by 70kg on 2018/5/21.
  */
 @Component
 public final class AdminCommons {

@@ -2,7 +2,7 @@ package com.nmys.story.model.dto;
 
 /**
  * 错误提示
- * Created by biezhi on 2017/2/26.
+ * Created by 70kg
  */
 public interface ErrorCode {
 

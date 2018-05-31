@@ -3,7 +3,7 @@ package com.nmys.story.model.dto;
 /**
  * 日志操作常量
  *
- * Created by biezhi on 2017/2/26.
+ * Created by 70kg
  */
 public interface LogActions {
 
