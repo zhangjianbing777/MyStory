@@ -210,26 +210,6 @@ public class IndexController extends BaseController {
         return this.render("page");
     }
 
-    /**
-     * feed页
-     *
-     * @return
-     */
-    @GetRoute(value = {"feed", "feed.xml", "atom.xml"})
-    public void feed(Response response) {
-
-//        List<Contents> articles = new Contents().where("type", Types.ARTICLE).and("status", Types.PUBLISH)
-//                .and("allow_feed", true)
-//                .findAll(OrderBy.desc("created"));
-//
-//        try {
-//            String xml = TaleUtils.getRssXml(articles);
-//            response.contentType("text/xml; charset=utf-8");
-//            response.body(xml);
-//        } catch (Exception e) {
-//            log.error("生成 rss 失败", e);
-//        }
-    }
 
     /**
      * Description: 友链
@@ -411,6 +391,41 @@ public class IndexController extends BaseController {
         }
         cache.hset(Types.HITS_FREQUENCY, val, 1, WebConstant.HITS_LIMIT_TIME);
         return false;
+    }
+
+    /**
+     * Description:前台分类页(如:默认分类等)
+     * Author:70kg
+     * Param [request, keyword, limit]
+     * Return java.lang.String
+     * Date 2018/6/1 14:35
+     */
+    @GetMapping(value = "category/{keyword}")
+    public String categories(HttpServletRequest request,
+                             @PathVariable String keyword,
+                             @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.categories(request, keyword, 1, limit);
+    }
+
+    @GetMapping(value = "category/{keyword}/{page}")
+    public String categories(HttpServletRequest request,
+                             @PathVariable String keyword,
+                             @PathVariable int page,
+                             @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        page = page < 0 || page > WebConstant.MAX_PAGE ? 1 : page;
+        Metas metaDto = metaService.getMeta(Types.CATEGORY, keyword);
+        if (null == metaDto) {
+            return this.render_404();
+        }
+
+        PageInfo<Contents> contentsPaginator = contentService.getTagArticles(metaDto.getMid(), page, limit);
+
+        request.setAttribute("articles", contentsPaginator);
+        request.setAttribute("meta", metaDto);
+        request.setAttribute("type", "分类");
+        request.setAttribute("keyword", keyword);
+
+        return this.render("page-category");
     }
 
 }
