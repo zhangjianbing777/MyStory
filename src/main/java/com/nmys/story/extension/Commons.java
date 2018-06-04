@@ -257,13 +257,14 @@ public final class Commons {
     }
 
     /**
-     * 截取文章摘要
-     *
-     * @param value 文章内容
-     * @param len   要截取文字的个数
-     * @return
+     * Description:首页截取文章摘要
+     * Author:70kg
+     * Param [content, len]
+     * Return java.lang.String
+     * Date 2018/6/4 15:16
      */
-    public static String intro(String value, int len) {
+    public static String intro(Contents content, int len) {
+        String value = content.getContent();
         int pos = value.indexOf("<!--more-->");
         if (pos != -1) {
             String html = value.substring(0, pos);
