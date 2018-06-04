@@ -428,4 +428,31 @@ public class IndexController extends BaseController {
         return this.render("page-category");
     }
 
+    /**
+     * Description: 首页顶部搜索功能
+     * Author:70kg
+     * Param [request, keyword, limit]
+     * Return java.lang.String
+     * Date 2018/6/4 17:06
+     */
+    @GetMapping(value = "search/{keyword}")
+    public String search(HttpServletRequest request,
+                         @PathVariable String keyword,
+                         @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.search(request, keyword, 1, limit);
+    }
+
+    @GetMapping(value = "search/{keyword}/{page}")
+    public String search(HttpServletRequest request,
+                         @PathVariable String keyword,
+                         @PathVariable int page,
+                         @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        page = page < 0 || page > WebConstant.MAX_PAGE ? 1 : page;
+        PageInfo<Contents> articles = contentService.searchContentByTitle(keyword, page, limit);
+        request.setAttribute("articles", articles);
+        request.setAttribute("type", "搜索");
+        request.setAttribute("keyword", keyword);
+        return this.render("page-category");
+    }
+
 }

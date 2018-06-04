@@ -162,10 +162,18 @@ public class ContentServiceImpl implements IContentService {
     public PageInfo<Contents> getTagArticles(Integer mid, int page, int limit) {
         // 查询标签下的文章数量
         int total = metaMapper.countWithSql(mid);
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         List<Contents> list = contentsMapper.getContentsListByMetaId(mid);
         PageInfo<Contents> pageInfo = new PageInfo(list);
         pageInfo.setTotal(total);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Contents> searchContentByTitle(String title, int page, int limit) {
+        PageHelper.startPage(page, limit);
+        List<Contents> list = contentsMapper.searchContentByTitle(title, Types.ARTICLE, Types.PUBLISH);
+        PageInfo<Contents> pageInfo = new PageInfo(list);
         return pageInfo;
     }
 }

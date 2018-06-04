@@ -99,4 +99,13 @@ public interface IContentService {
      * Date 2018/5/16 18:16
      */
     PageInfo<Contents> getTagArticles(Integer mid, int page, int limit);
+
+    /**
+     * Description: 根据title来搜索文章
+     * Author:70kg
+     * Param [title, page, limit]
+     * Return com.github.pagehelper.PageInfo<com.nmys.story.model.entity.Contents>
+     * Date 2018/6/4 17:11
+     */
+    PageInfo<Contents> searchContentByTitle(String title, int page, int limit);
 }

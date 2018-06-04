@@ -191,4 +191,8 @@
         order by a.created desc
     </select>
 
+    <select id="searchContentByTitle" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE title LIKE CONCAT('%',#{title},'%') AND type = #{type} and status = #{status}
+    </select>
+
 </mapper>
