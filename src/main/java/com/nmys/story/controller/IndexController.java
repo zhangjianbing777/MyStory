@@ -70,7 +70,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping(value = "/")
     public String index(HttpServletRequest request,
-                        @RequestParam(value = "limit", defaultValue = "6") int limit) {
+                        @RequestParam(value = "limit", defaultValue = "9") int limit) {
         // 访问统计(自定义注解方式？？？)
         visitCount(request);
 
