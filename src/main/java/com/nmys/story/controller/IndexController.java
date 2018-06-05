@@ -13,10 +13,8 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Metas;
-import com.nmys.story.service.ICommentService;
-import com.nmys.story.service.IContentService;
-import com.nmys.story.service.IMetaService;
-import com.nmys.story.service.SiteService;
+import com.nmys.story.model.entity.Visit;
+import com.nmys.story.service.*;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -60,6 +58,9 @@ public class IndexController extends BaseController {
     @Autowired
     private IMetaService metaService;
 
+    @Autowired
+    private IVisitService visitService;
+
     /**
      * Description:博客首页
      * Author:70kg
@@ -68,11 +69,31 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 9:22
      */
     @GetMapping(value = "/")
-    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "6") int limit) {
-
-
+    public String index(HttpServletRequest request,
+                        @RequestParam(value = "limit", defaultValue = "6") int limit) {
+        // 访问统计(自定义注解方式？？？)
+        visitCount(request);
 
         return this.index(request, 1, limit);
+    }
+
+
+    public synchronized void visitCount(HttpServletRequest request) {
+        // 来访ip
+        String val = IPKit.getIpAddrByRequest(request);
+        Integer times = visitService.getCountById(1).getCount();
+        request.setAttribute("times", times);
+        // 缓存中是否存在
+        Integer count = cache.hget(Types.VISIT_COUNT, val);
+        if (null != count && count > 0) {
+            // 存在，不记录访问次数
+        } else {
+            // 存入缓存中，并设置超时时间
+            cache.hset(Types.VISIT_COUNT, val, 1, WebConstant.VISIT_COUNT_TIME);
+            // 入库
+            visitService.updateCountById(times + 1);
+            // ...
+        }
     }
 
 
@@ -84,7 +105,9 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 9:44
      */
     @GetMapping(value = "page/{p}")
-    public String index(HttpServletRequest request, @PathVariable int p, @RequestParam(value = "limit", defaultValue = "6") int limit) {
+    public String index(HttpServletRequest request,
+                        @PathVariable int p,
+                        @RequestParam(value = "limit", defaultValue = "6") int limit) {
         p = p < 0 || p > WebConstant.MAX_PAGE ? 1 : p;
         PageInfo<Contents> articles = contentService.getContentsByPageInfo(p, limit);
         request.setAttribute("articles", articles);

@@ -44,6 +44,7 @@
                         <p>Powered by <a th:href="@{https://gitee.com/beijinglogic}" target="_blank" rel="nofollow">70KG</a>
                         </p>
                         <p>&copy; 2018 版权所有 <a th:href="@{/}">MyStory</a></p>
+                        <p>本站总访问次数:<a th:text="${times}+'次'"></a></p>
                         <!-- 备案信息展示 -->
                         <th:block th:if="${option}!=null and ${option.getValue()}!=''">
                             <p th:text="${option.getValue()}"></p>

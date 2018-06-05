@@ -62,4 +62,9 @@ public class WebConstant {
      */
     public static Integer HITS_LIMIT_TIME = 900;
 
+    /**
+     * 访问次数记录，30分钟
+     */
+    public static Integer VISIT_COUNT_TIME = 1800;
+
 }

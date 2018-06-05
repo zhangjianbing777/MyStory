@@ -55,4 +55,6 @@ public interface Types {
      */
     String BLOCK_IPS = "site_block_ips";
 
+    String VISIT_COUNT = "visit_count";
+
 }
