@@ -82,7 +82,6 @@ public class IndexController extends BaseController {
         // 来访ip
         String val = IPKit.getIpAddrByRequest(request);
         Integer times = visitService.getCountById(1).getCount();
-        request.setAttribute("times", times);
         // 缓存中是否存在
         Integer count = cache.hget(Types.VISIT_COUNT, val);
         if (null != count && count > 0) {

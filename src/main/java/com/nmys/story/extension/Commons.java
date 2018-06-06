@@ -10,6 +10,7 @@ import com.nmys.story.model.entity.Contents;
 import com.nmys.story.service.ICommentService;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IOptionService;
+import com.nmys.story.service.IVisitService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.UUID;
@@ -47,6 +48,9 @@ public final class Commons {
 
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private IVisitService visitService;
 
     /**
      * 判断分页中是否有数据
@@ -392,6 +396,17 @@ public final class Commons {
         List<Comments> commentsList = commentService.selectCommentsByAuthorId(1);
         PageInfo<Comments> pageInfo = new PageInfo(commentsList);
         return pageInfo.getList();
+    }
+
+    /**
+     * Description:访客次数
+     * Author:70kg
+     * Param []
+     * Return java.lang.Integer
+     * Date 2018/6/6 10:46
+     */
+    public Integer getVisitCount(){
+        return visitService.getCountById(1).getCount();
     }
 
 }
