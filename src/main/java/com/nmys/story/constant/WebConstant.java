@@ -67,4 +67,6 @@ public class WebConstant {
      */
     public static Integer VISIT_COUNT_TIME = 1800;
 
+    public static String VISITOR = "访客访问";
+
 }

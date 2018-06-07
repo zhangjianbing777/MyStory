@@ -25,4 +25,8 @@
                 #{created,jdbcType=INTEGER})
     </insert>
 
+    <select id="searchVisitLogByAction" resultMap="BaseResultMap">
+        SELECT * FROM t_logs WHERE action = #{action} order by created desc
+    </select>
+
 </mapper>

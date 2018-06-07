@@ -95,6 +95,13 @@
                            th:class="${active}=='comments'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-comments" aria-hidden="true"></i><span> 评论管理 </span></a>
                     </li>
+
+                    <li th:class="${active}=='logs'?'active':''">
+                        <a th:href="@{/admin/logs}"
+                           th:class="${active}=='logs'?'waves-effect active':'waves-effect'"><i
+                                class="fa fa-file-text" aria-hidden="true"></i><span> 日志管理 </span></a>
+                    </li>
+
                     <li th:class="${active}=='category'?'active':''">
                         <a th:href="@{/admin/category}"
                            th:class="${active}=='category'?'waves-effect active':'waves-effect'"><i
