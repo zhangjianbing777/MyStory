@@ -2,7 +2,6 @@ package com.nmys.story.controller.admin;
 
 import com.blade.ioc.annotation.Inject;
 import com.blade.jdbc.page.Page;
-import com.blade.mvc.annotation.JSON;
 import com.blade.mvc.annotation.Param;
 import com.blade.mvc.annotation.Route;
 import com.blade.mvc.http.HttpMethod;
@@ -11,12 +10,9 @@ import com.blade.mvc.ui.RestResponse;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
 import com.nmys.story.extension.Commons;
-import com.nmys.story.model.dto.LogActions;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Attach;
-import com.nmys.story.model.entity.Logs;
 import com.nmys.story.service.SiteService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,77 +55,9 @@ public class AttachController extends BaseController {
         Page<Attach> attachPage = attach.page(page, limit);
         request.attribute("attachs", attachPage);
         request.attribute(Types.ATTACH_URL, Commons.site_option(Types.ATTACH_URL, Commons.site_url()));
-//        request.attribute("max_file_size", TaleConst.MAX_FILE_SIZE / 1024);
         return "admin/attach";
     }
 
-    /**
-     * 上传文件接口
-     * <p>
-     * 返回格式
-     *
-     * @param request
-     * @return
-     */
-    @Route(value = "upload", method = HttpMethod.POST)
-    @JSON
-    public RestResponse upload(HttpServletRequest request) {
-
-//        log.info("UPLOAD DIR = {}", TaleUtils.UP_DIR);
-//
-//        Users                 users       = this.user(request);
-//        Integer               uid         = users.getUid();
-//        Map<String, FileItem> fileItemMap = request.fileItems();
-//        Collection<FileItem>  fileItems   = fileItemMap.values();
-//        List<Attach>          errorFiles  = new ArrayList<>();
-//        List<Attach>          urls        = new ArrayList<>();
-//        try {
-//            fileItems.forEach((FileItem f) -> {
-//                String fname = f.getFileName();
-//
-//                if ((f.getLength() / 1024) <= TaleConst.MAX_FILE_SIZE) {
-//                    String fkey = TaleUtils.getFileKey(fname);
-//
-//                    String ftype    = f.getContentType().contains("image") ? Types.IMAGE : Types.FILE;
-//                    String filePath = TaleUtils.UP_DIR + fkey;
-//
-//                    try {
-//                        Files.write(Paths.get(filePath), f.getData());
-//                    } catch (IOException e) {
-//                        log.error("", e);
-//                    }
-//
-//                    Attach attach = new Attach();
-//                    attach.setFname(fname);
-//                    attach.setAuthor_id(uid);
-//                    attach.setFkey(fkey);
-//                    attach.setFtype(ftype);
-//                    attach.setCreated(DateKit.nowUnix());
-//                    attach.save();
-//
-//                    urls.add(attach);
-//                    siteService.cleanCache(Types.C_STATISTICS);
-//                } else {
-//                    Attach attach = new Attach();
-//                    attach.setFname(fname);
-//                    errorFiles.add(attach);
-//                }
-//            });
-//            if (errorFiles.size() > 0) {
-//                return RestResponse.builder().success(false).payload(errorFiles).build();
-//            }
-//            return RestResponse.ok(urls);
-//        } catch (Exception e) {
-//            String msg = "文件上传失败";
-//            if (e instanceof TipException) {
-//                msg = e.getMessage();
-//            } else {
-//                log.error(msg, e);
-//            }
-//            return RestResponse.fail(msg);
-//        }
-        return null;
-    }
 
     public RestResponse delete(@Param Integer id, HttpServletRequest request) {
         try {
@@ -146,7 +74,6 @@ public class AttachController extends BaseController {
                 Files.delete(path);
             }
             attach.delete(id);
-            new Logs(LogActions.DEL_ATTACH, fkey, request.getRemoteAddr(), this.getUid(request)).save();
         } catch (Exception e) {
             String msg = "附件删除失败";
             if (e instanceof TipException) {

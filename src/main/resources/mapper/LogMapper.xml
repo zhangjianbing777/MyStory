@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.LogMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Logs">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="action" jdbcType="VARCHAR" property="action" />
+        <result column="data" jdbcType="VARCHAR" property="data" />
+        <result column="author_id" jdbcType="INTEGER" property="author_id" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+    </resultMap>
+
+    <insert id="visitSetLog" parameterType="com.nmys.story.model.entity.Logs" useGeneratedKeys="true" keyProperty="mid">
+        insert into t_logs (
+                             action,
+                             data,
+                             author_id,
+                             ip,
+                             created)
+        values (
+                #{action,jdbcType=VARCHAR},
+                #{data,jdbcType=VARCHAR},
+                #{author_id,jdbcType=INTEGER},
+                #{ip,jdbcType=VARCHAR},
+                #{created,jdbcType=INTEGER})
+    </insert>
+
+</mapper>

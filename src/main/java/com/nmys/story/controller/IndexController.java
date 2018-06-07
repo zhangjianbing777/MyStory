@@ -10,11 +10,9 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Archive;
 import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
-import com.nmys.story.model.entity.Comments;
-import com.nmys.story.model.entity.Contents;
-import com.nmys.story.model.entity.Metas;
-import com.nmys.story.model.entity.Visit;
+import com.nmys.story.model.entity.*;
 import com.nmys.story.service.*;
+import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -61,6 +59,9 @@ public class IndexController extends BaseController {
     @Autowired
     private IVisitService visitService;
 
+    @Autowired
+    private ILogService logService;
+
     /**
      * Description:博客首页
      * Author:70kg
@@ -71,8 +72,9 @@ public class IndexController extends BaseController {
     @GetMapping(value = "/")
     public String index(HttpServletRequest request,
                         @RequestParam(value = "limit", defaultValue = "9") int limit) {
-        // 访问统计(自定义注解方式？？？)
+        // 访问次数统计(自定义注解方式？？？)
         visitCount(request);
+
 
         return this.index(request, 1, limit);
     }
@@ -92,6 +94,23 @@ public class IndexController extends BaseController {
             // 入库
             visitService.updateCountById(times + 1);
             // ...
+
+            Logs log = new Logs();
+            log.setAction("访客访问");
+            log.setCreated(DateKit.getCurrentUnixTime());
+            // ip地址
+            log.setIp(IPKit.getIpAddrByRequest(request));
+            try {
+                log.setData(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
+            } catch (Exception e) {
+                logger.error("首页获取访客地理位置失败" + e.getMessage());
+            }
+
+            try {
+                logService.visitSetLog(log);
+            } catch (Exception e) {
+                logger.error("前台首页记录日志失败" + e.getMessage());
+            }
         }
     }
 
@@ -327,6 +346,12 @@ public class IndexController extends BaseController {
         comments.setContent(text);
         comments.setMail(mail);
         comments.setParent(coid);
+        // 获取用户地理位置信息
+        try {
+            comments.setAgent(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
+        } catch (Exception e) {
+            logger.error("评论功能获取用户地理信息失败" + e.getMessage());
+        }
         try {
             String result = commentService.insertComment(comments);
             // 此处增加cookie是为了不让用户再次输入评论头部

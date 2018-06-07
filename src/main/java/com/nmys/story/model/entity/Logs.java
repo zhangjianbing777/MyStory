@@ -1,11 +1,6 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.annotation.Table;
-import com.blade.jdbc.core.ActiveRecord;
-import com.blade.kit.DateKit;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 日志记录
@@ -13,10 +8,7 @@ import lombok.NoArgsConstructor;
  * @author 70kg
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table("t_logs")
-public class Logs extends ActiveRecord {
+public class Logs {
 
     // 项目主键
     private Integer id;
@@ -35,13 +27,5 @@ public class Logs extends ActiveRecord {
 
     // 日志创建时间
     private Integer created;
-
-    public Logs(String action, String data, String ip, Integer uid) {
-        this.action = action;
-        this.data = data;
-        this.ip = ip;
-        this.author_id = uid;
-        this.created = DateKit.nowUnix();
-    }
 
 }
