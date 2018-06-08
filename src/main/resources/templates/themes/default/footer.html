@@ -47,7 +47,7 @@
                         <p>本站总访问次数:<a th:text="${commons.getVisitCount()}+'次'"></a></p>
                         <!-- 备案信息展示 -->
                         <th:block th:if="${option}!=null and ${option.getValue()}!=''">
-                            <p th:text="${option.getValue()}"></p>
+                            <a href="http://www.miitbeian.gov.cn" target="_blank" style="cursor: pointer" th:text="${option.getValue()}"></a>
                         </th:block>
                     </div>
                 </div>
