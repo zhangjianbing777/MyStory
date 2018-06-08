@@ -1,6 +1,7 @@
 package com.nmys.story.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -81,6 +82,41 @@ public class IPKit {
     }
 
 
+    /**
+     * Description: 获取简单地址
+     * Author:70kg
+     * Param [ip]
+     * Return java.lang.String
+     * Date 2018/6/8 13:58
+     */
+    public static String getSimplePositionInfo(String ip) throws Exception {
+        JSONObject jsonObject = JSONObject.parseObject(getJsonString(ip));
+        Object province = jsonObject.get("province");
+        Object city = jsonObject.get("city");
+        String sb = "";
+        if (province != null && province != "") {
+            sb += (String) province;
+        }
+        if (city != null && city != "") {
+            sb += (String) city;
+        }
+        if (StringUtils.isNotBlank((String) province) && StringUtils.isNotBlank((String) city)) {
+            String a = (String) province;
+            String b = (String) city;
+            if (a.equals(b)) {
+                sb = b;
+            }
+        }
+        return sb;
+    }
+
+    /**
+     * Description: 获取完整地址
+     * Author:70kg
+     * Param [ip]
+     * Return java.lang.String
+     * Date 2018/6/8 13:59
+     */
     public static String getPositionInfo(String ip) throws Exception {
         JSONObject jsonObject = JSONObject.parseObject(getJsonString(ip));
         // 国家-省-市

@@ -324,7 +324,9 @@ public class IndexController extends BaseController {
             return RestResponseBo.fail("请输入200个字符以内的评论");
         }
 
-        String val = IPKit.getIpAddrByRequest(request) + ":" + cid;
+        String ip = IPKit.getIpAddrByRequest(request);
+
+        String val = ip + ":" + cid;
         Integer count = cache.hget(Types.COMMENTS_FREQUENCY, val);
         if (null != count && count > 0) {
             return RestResponseBo.fail("您发表评论太快了，请过会再试");
@@ -339,7 +341,18 @@ public class IndexController extends BaseController {
         text = EmojiParser.parseToAliases(text);
 
         Comments comments = new Comments();
-        comments.setAuthor(author);
+        String authorPosition = "";
+        try {
+            authorPosition = IPKit.getSimplePositionInfo(ip);
+        } catch (Exception e) {
+            logger.error("评论人姓名地理位置出错" + e.getMessage());
+        }
+        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
+            comments.setAuthor(authorPosition + "网友");
+        } else {
+            comments.setAuthor(author);
+        }
+
         comments.setCid(cid);
         comments.setIp(request.getRemoteAddr());
         comments.setUrl(url);
@@ -348,7 +361,7 @@ public class IndexController extends BaseController {
         comments.setParent(coid);
         // 获取用户地理位置信息
         try {
-            comments.setAgent(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
+            comments.setAgent(IPKit.getPositionInfo(ip));
         } catch (Exception e) {
             logger.error("评论功能获取用户地理信息失败" + e.getMessage());
         }
