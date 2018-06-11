@@ -125,7 +125,6 @@ public class IndexController extends BaseController {
                         @RequestParam(value = "limit", defaultValue = "9") int limit) {
         p = p < 0 || p > WebConstant.MAX_PAGE ? 1 : p;
         PageInfo<Contents> articles = contentService.getContentsByPageInfo(p, limit);
-        articles.setNavigatePages(5);
         request.setAttribute("articles", articles);
         if (p > 1) {
             this.title(request, "第" + p + "页");
