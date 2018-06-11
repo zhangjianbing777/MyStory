@@ -97,14 +97,17 @@ public class IndexController extends BaseController {
 
             Logs log = new Logs();
             log.setAction("访客访问");
+            // 记录访问时间
             log.setCreated(DateKit.getCurrentUnixTime());
             // ip地址
             log.setIp(IPKit.getIpAddrByRequest(request));
-            try {
-                log.setData(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
-            } catch (Exception e) {
-                logger.error("首页获取访客地理位置失败" + e.getMessage());
-            }
+
+            // 由于免费接口有次数限制，尚未找到替换方案，故去掉
+//            try {
+//                log.setData(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
+//            } catch (Exception e) {
+//                logger.error("首页获取访客地理位置失败" + e.getMessage());
+//            }
 
             try {
                 logService.visitSetLog(log);
@@ -341,17 +344,17 @@ public class IndexController extends BaseController {
         text = EmojiParser.parseToAliases(text);
 
         Comments comments = new Comments();
-        String authorPosition = "";
-        try {
-            authorPosition = IPKit.getSimplePositionInfo(ip);
-        } catch (Exception e) {
-            logger.error("评论人姓名地理位置出错" + e.getMessage());
-        }
-        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
-            comments.setAuthor(authorPosition + "网友");
-        } else {
-            comments.setAuthor(author);
-        }
+//        String authorPosition = "";
+//        try {
+//            authorPosition = IPKit.getSimplePositionInfo(ip);
+//        } catch (Exception e) {
+//            logger.error("评论人姓名地理位置出错" + e.getMessage());
+//        }
+//        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
+//            comments.setAuthor(authorPosition + "网友");
+//        } else {
+//            comments.setAuthor(author);
+//        }
 
         comments.setCid(cid);
         comments.setIp(request.getRemoteAddr());
@@ -360,11 +363,11 @@ public class IndexController extends BaseController {
         comments.setMail(mail);
         comments.setParent(coid);
         // 获取用户地理位置信息
-        try {
-            comments.setAgent(IPKit.getPositionInfo(ip));
-        } catch (Exception e) {
-            logger.error("评论功能获取用户地理信息失败" + e.getMessage());
-        }
+//        try {
+//            comments.setAgent(IPKit.getPositionInfo(ip));
+//        } catch (Exception e) {
+//            logger.error("评论功能获取用户地理信息失败" + e.getMessage());
+//        }
         try {
             String result = commentService.insertComment(comments);
             // 此处增加cookie是为了不让用户再次输入评论头部

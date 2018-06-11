@@ -75,6 +75,11 @@ public class CommentServiceImpl implements ICommentService {
         if (null == comments) {
             return "评论对象为空";
         }
+
+        if (StringUtils.isBlank(comments.getAuthor())) {
+            comments.setAuthor("热心网友");
+        }
+
         if (StringUtils.isNotBlank(comments.getMail()) && !TaleUtils.isEmail(comments.getMail())) {
             return "请输入正确的邮箱格式";
         }

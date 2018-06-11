@@ -27,8 +27,11 @@ public class Test01 {
 //        System.out.println(getData());
 
 
-        String info = getSimplePositionInfo("201.150.149.4");
-        System.out.println(info);
+//        String info = getSimplePositionInfo("201.150.149.4");
+//        System.out.println(info);
+        String string = getJsonString("");
+        JSONObject jsonObject = JSONObject.parseObject(string);
+        System.out.println(jsonObject.get("content"));
 
     }
 
@@ -62,7 +65,7 @@ public class Test01 {
 
     public static String getJsonString(String ip) throws Exception {
         // 创建指定url的url对象,地址是:新浪免费接口
-        URL url = new URL("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=" + ip);
+        URL url = new URL("http://api.map.baidu.com/location/ip?ak=F454f8a5efe5e577997931cc01de3974&ip=202.198.16.3");
         // 创建http链接对象
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         // 设置请求方式
