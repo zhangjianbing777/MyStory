@@ -141,7 +141,8 @@ public class IndexController extends BaseController {
      * Date 2018/5/11 15:54
      */
     @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
-    public String getArticle(HttpServletRequest request, @PathVariable String cid) {
+    public String getArticle(HttpServletRequest request,
+                             @PathVariable String cid) {
         Contents contents = contentService.getContentById(Integer.parseInt(cid));
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
@@ -156,8 +157,6 @@ public class IndexController extends BaseController {
             updateArticleHit(contents.getCid(), contents.getHits());
         }
         return this.render("post");
-
-
     }
 
 
