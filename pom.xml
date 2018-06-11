@@ -120,33 +120,6 @@
 
         <!-- ========================================================== -->
 
-        <!-- mvc -->
-        <!--<dependency>-->
-            <!--<groupId>com.bladejava</groupId>-->
-            <!--<artifactId>blade-mvc</artifactId>-->
-            <!--<version>${blade-mvc.version}</version>-->
-        <!--</dependency>-->
-
-        <!-- 数据库操作 -->
-        <!--<dependency>-->
-            <!--<groupId>org.xerial</groupId>-->
-            <!--<artifactId>sqlite-jdbc</artifactId>-->
-            <!--<version>${sqlite.version}</version>-->
-        <!--</dependency>-->
-        
-        <!--<dependency>-->
-            <!--<groupId>com.bladejava</groupId>-->
-            <!--<artifactId>blade-jdbc</artifactId>-->
-            <!--<version>${blade-jdbc.version}</version>-->
-        <!--</dependency>-->
-
-        <!-- 模板引擎 -->
-        <!--<dependency>-->
-            <!--<groupId>com.bladejava</groupId>-->
-            <!--<artifactId>blade-template-jetbrick</artifactId>-->
-            <!--<version>${blade-tpl.verion}</version>-->
-        <!--</dependency>-->
-
         <!--markdown处理-->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
@@ -170,13 +143,6 @@
             <groupId>com.vdurmont</groupId>
             <artifactId>emoji-java</artifactId>
             <version>${emoji.version}</version>
-        </dependency>
-
-        <!-- 验证 -->
-        <dependency>
-            <groupId>com.bladejava</groupId>
-            <artifactId>blade-validator</artifactId>
-            <version>${blade-validator}</version>
         </dependency>
 
         <!-- lombok -->

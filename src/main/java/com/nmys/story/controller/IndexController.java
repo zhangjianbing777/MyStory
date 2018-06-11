@@ -1,9 +1,4 @@
 package com.nmys.story.controller;
-
-import com.blade.kit.PatternKit;
-import com.blade.mvc.annotation.GetRoute;
-import com.blade.mvc.annotation.Route;
-import com.blade.mvc.http.Response;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
@@ -272,7 +267,6 @@ public class IndexController extends BaseController {
      * author: itachi
      * Date: 2018/5/12 下午6:36
      */
-    @Route(value = "logout")
     public void logout(HttpSession session, HttpServletResponse response) {
         TaleUtils.logout(session, response);
     }
@@ -318,9 +312,9 @@ public class IndexController extends BaseController {
             return RestResponseBo.fail("请输入正确的邮箱格式");
         }
 
-        if (StringUtils.isNotBlank(url) && !PatternKit.isURL(url)) {
-            return RestResponseBo.fail("请输入正确的URL格式");
-        }
+//        if (StringUtils.isNotBlank(url) && !PatternKit.isURL(url)) {
+//            return RestResponseBo.fail("请输入正确的URL格式");
+//        }
 
         if (text.length() > 200) {
             return RestResponseBo.fail("请输入200个字符以内的评论");

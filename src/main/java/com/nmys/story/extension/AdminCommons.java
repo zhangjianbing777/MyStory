@@ -1,8 +1,9 @@
 package com.nmys.story.extension;
 
-import com.blade.kit.StringKit;
 import com.nmys.story.model.entity.Metas;
 import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 /**
  * 后台公共函数
@@ -33,7 +34,9 @@ public final class AdminCommons {
     private static final String[] COLORS = {"default", "primary", "success", "info", "warning", "danger", "inverse", "purple", "pink"};
 
     public static String rand_color() {
-        int r = StringKit.rand(0, COLORS.length - 1);
+        Random rand = new Random();
+        int r = rand.nextInt(9);
+//        int r = StringKit.rand(0, COLORS.length - 1);
         return COLORS[r];
     }
 

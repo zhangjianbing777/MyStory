@@ -1,7 +1,5 @@
 package com.nmys.story.service;
 
-import com.blade.ioc.annotation.Bean;
-import com.blade.kit.StringKit;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.mapper.ContentsMapper;
@@ -25,7 +23,6 @@ import java.util.List;
  * Return
  * Date 2018/5/17 10:10
  */
-@Bean
 @Service
 public class SiteService {
 
@@ -78,7 +75,6 @@ public class SiteService {
         }
         // 查询最新10条评论
         PageInfo<Comments> commentsPageInfo = commentService.selectNewComments(1, limit);
-//        Page<Comments> commentsPage = new Comments().page(1, limit, "created desc");
         return commentsPageInfo.getList();
     }
 
@@ -98,18 +94,8 @@ public class SiteService {
             // 文章类型和发布状态
             List<Contents> contentList = contentService.getContentsByType(Types.ARTICLE, Types.PUBLISH);
             PageInfo<Contents> pageInfo = new PageInfo(contentList);
-//            Page<Contents> contentsPage = new Contents().where("status", Types.PUBLISH).and("type", Types.ARTICLE)
-//                    .page(1, limit, "created desc");
             return pageInfo.getList();
         }
-
-        // 随机文章
-//        if (Types.RANDOM_ARTICLE.equals(type)) {
-//            List<Integer> cids = new ActiveRecord().queryAll(Integer.class, "select cid from t_contents where type = ? and status = ? order by random() * cid limit ?", Types.ARTICLE, Types.PUBLISH, limit);
-//            if (BladeKit.isNotEmpty(cids)) {
-//                return new Contents().in("cid", cids).findAll();
-//            }
-//        }
         return new ArrayList();
     }
 
@@ -127,22 +113,6 @@ public class SiteService {
             return comments;
         }
         return null;
-    }
-
-
-    /**
-     * 清除缓存
-     *
-     * @param key 缓存key
-     */
-    public void cleanCache(String key) {
-        if (StringKit.isNotBlank(key)) {
-            if ("*".equals(key)) {
-                mapCache.clean();
-            } else {
-                mapCache.del(key);
-            }
-        }
     }
 
 }
