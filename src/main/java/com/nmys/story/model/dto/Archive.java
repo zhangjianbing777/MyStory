@@ -1,9 +1,5 @@
 package com.nmys.story.model.dto;
-
-import com.blade.jdbc.core.ActiveRecord;
 import com.nmys.story.model.entity.Contents;
-
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,7 +7,7 @@ import java.util.List;
  * author: itachi
  * Date: 2018/5/12 下午8:49
  */
-public class Archive extends ActiveRecord {
+public class Archive {
 
     private String date_str;
 

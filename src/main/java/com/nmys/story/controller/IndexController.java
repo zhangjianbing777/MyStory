@@ -38,7 +38,6 @@ import java.util.List;
  * Return
  * Date 2018/5/11 9:21
  */
-@Slf4j
 @Controller
 public class IndexController extends BaseController {
 

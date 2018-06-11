@@ -1,6 +1,5 @@
 package com.nmys.story.exception;
 
-import com.blade.mvc.handler.DefaultExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * Date 2018/5/10 16:48
  */
 @ControllerAdvice
-public class GlobalExceptionHandler extends DefaultExceptionHandler {
+public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 

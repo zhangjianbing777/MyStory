@@ -110,15 +110,22 @@
             <version>1.0.18</version>
         </dependency>
 
+        <!-- 最新七牛 -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.12</version>
+        </dependency>
+
 
         <!-- ========================================================== -->
 
         <!-- mvc -->
-        <dependency>
-            <groupId>com.bladejava</groupId>
-            <artifactId>blade-mvc</artifactId>
-            <version>${blade-mvc.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.bladejava</groupId>-->
+            <!--<artifactId>blade-mvc</artifactId>-->
+            <!--<version>${blade-mvc.version}</version>-->
+        <!--</dependency>-->
 
         <!-- 数据库操作 -->
         <!--<dependency>-->
@@ -127,18 +134,18 @@
             <!--<version>${sqlite.version}</version>-->
         <!--</dependency>-->
         
-        <dependency>
-            <groupId>com.bladejava</groupId>
-            <artifactId>blade-jdbc</artifactId>
-            <version>${blade-jdbc.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.bladejava</groupId>-->
+            <!--<artifactId>blade-jdbc</artifactId>-->
+            <!--<version>${blade-jdbc.version}</version>-->
+        <!--</dependency>-->
 
         <!-- 模板引擎 -->
-        <dependency>
-            <groupId>com.bladejava</groupId>
-            <artifactId>blade-template-jetbrick</artifactId>
-            <version>${blade-tpl.verion}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.bladejava</groupId>-->
+            <!--<artifactId>blade-template-jetbrick</artifactId>-->
+            <!--<version>${blade-tpl.verion}</version>-->
+        <!--</dependency>-->
 
         <!--markdown处理-->
         <dependency>

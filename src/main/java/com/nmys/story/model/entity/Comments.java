@@ -1,6 +1,5 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.core.ActiveRecord;
 import lombok.Data;
 
 /**

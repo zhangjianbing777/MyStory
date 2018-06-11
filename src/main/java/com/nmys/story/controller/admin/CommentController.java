@@ -21,7 +21,6 @@ import java.util.List;
  * author: itachi
  * Date: 2018/5/13 下午1:18
  */
-@Slf4j
 @Controller
 @RequestMapping("admin/comments")
 public class CommentController extends BaseController {

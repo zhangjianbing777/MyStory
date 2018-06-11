@@ -16,6 +16,8 @@ import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +33,11 @@ import java.util.List;
  * Return
  * Date 2018/5/9 10:10
  */
-@Slf4j
 @Controller("adminIndexController")
 @RequestMapping("/admin")
 public class IndexController extends BaseController {
+
+    private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private SiteService siteService;

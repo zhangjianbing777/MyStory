@@ -1,7 +1,5 @@
 package com.nmys.story.model.entity;
 
-import com.blade.jdbc.annotation.Table;
-import com.blade.jdbc.core.ActiveRecord;
 import lombok.Data;
 
 /**
@@ -10,8 +8,7 @@ import lombok.Data;
  * Created by 70kg
  */
 @Data
-@Table("t_attach")
-public class Attach extends ActiveRecord {
+public class Attach {
 
     private Integer id;
     private String fname;

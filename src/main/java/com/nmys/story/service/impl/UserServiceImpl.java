@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
  * @Description: user接口实现类
  * @date 2018/5/8下午10:31
  */
-@Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
 
