@@ -7,6 +7,7 @@ import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Options;
 import com.nmys.story.service.ICommentService;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IOptionService;
@@ -40,8 +41,12 @@ public final class Commons {
 
     public static String THEME = "themes/default";
 
+    private static IOptionService optionService;
+
     @Autowired
-    private IOptionService optionService;
+    public void setOptionService(IOptionService optionService) {
+        Commons.optionService = optionService;
+    }
 
     @Autowired
     private IContentService contentService;
@@ -111,7 +116,9 @@ public final class Commons {
         if (StringUtils.isBlank(key)) {
             return "";
         }
-        String str = WebConstant.initConfig.get(key);
+        // 从数据库读
+        Options option = optionService.getOptionByName(key);
+        String str = option.getValue();
         if (StringUtils.isNotBlank(str)) {
             return str;
         } else {
@@ -405,7 +412,7 @@ public final class Commons {
      * Return java.lang.Integer
      * Date 2018/6/6 10:46
      */
-    public Integer getVisitCount(){
+    public Integer getVisitCount() {
         return visitService.getCountById(1).getCount();
     }
 
