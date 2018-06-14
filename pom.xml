@@ -153,6 +153,14 @@
             <!-- 仅在编译和测试的时候 -->
             <scope>provided</scope>
         </dependency>
+
+        <!-- 数据库加密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
