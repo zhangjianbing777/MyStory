@@ -68,8 +68,6 @@ public class IndexController extends BaseController {
                         @RequestParam(value = "limit", defaultValue = "9") int limit) {
         // 访问次数统计(自定义注解方式？？？)
         visitCount(request);
-
-
         return this.index(request, 1, limit);
     }
 
@@ -89,12 +87,12 @@ public class IndexController extends BaseController {
             visitService.updateCountById(times + 1);
             // ...
 
-            Logs log = new Logs();
-            log.setAction("访客访问");
-            // 记录访问时间
-            log.setCreated(DateKit.getCurrentUnixTime());
-            // ip地址
-            log.setIp(IPKit.getIpAddrByRequest(request));
+//            Logs log = new Logs();
+//            log.setAction("访客访问");
+//            // 记录访问时间
+//            log.setCreated(DateKit.getCurrentUnixTime());
+//            // ip地址
+//            log.setIp(IPKit.getIpAddrByRequest(request));
 
             // 由于免费接口有次数限制，尚未找到替换方案，故去掉
 //            try {
@@ -103,11 +101,11 @@ public class IndexController extends BaseController {
 //                logger.error("首页获取访客地理位置失败" + e.getMessage());
 //            }
 
-            try {
-                logService.visitSetLog(log);
-            } catch (Exception e) {
-                logger.error("前台首页记录日志失败" + e.getMessage());
-            }
+//            try {
+//                logService.visitSetLog(log);
+//            } catch (Exception e) {
+//                logger.error("前台首页记录日志失败" + e.getMessage());
+//            }
         }
     }
 
