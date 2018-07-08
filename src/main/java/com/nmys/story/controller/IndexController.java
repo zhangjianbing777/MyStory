@@ -1,4 +1,5 @@
 package com.nmys.story.controller;
+
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
@@ -214,6 +215,18 @@ public class IndexController extends BaseController {
         request.setAttribute("archives", list);
         return this.render("archives");
     }
+
+    /**
+     * Description: 前台首页分类页面
+     * author: 70KG
+     * Date: 2018/7/8 上午11:06
+     */
+//    @GetMapping(value = "category")
+//    public String category(HttpServletRequest request) {
+//        List<Archive> list = siteService.getArchives();
+//        request.setAttribute("archives", list);
+//        return this.render("category");
+//    }
 
     /**
      * Description: 自定义页面,如：前台关于页面

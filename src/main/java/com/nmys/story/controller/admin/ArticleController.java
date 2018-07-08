@@ -49,7 +49,7 @@ public class ArticleController extends BaseController {
      */
     @GetMapping(value = "")
     public String index(@RequestParam(value = "page", defaultValue = "1") int page,
-                        @RequestParam(value = "limit", defaultValue = "5") int limit,
+                        @RequestParam(value = "limit", defaultValue = "10") int limit,
                         HttpServletRequest request) {
         // 根据特定条件来查询文章列表,type = 'post'
         PageInfo<Contents> contentsPaginator = contentService.getContentsConditions(Types.ARTICLE, page, limit);
