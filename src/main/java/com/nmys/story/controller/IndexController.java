@@ -360,7 +360,7 @@ public class IndexController extends BaseController {
 //        }
 
         comments.setCid(cid);
-        comments.setIp(request.getRemoteAddr());
+        comments.setIp(ip);
         comments.setUrl(url);
         comments.setContent(text);
         comments.setMail(mail);
