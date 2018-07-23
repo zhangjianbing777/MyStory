@@ -50,7 +50,7 @@
     </delete>
 
     <select id="getMetasByType" resultMap="BaseResultMap">
-        SELECT * FROM t_metas WHERE type = #{type} order by sort desc,mid desc
+        SELECT * FROM t_metas WHERE type = #{type} order by sort desc
     </select>
 
     <select id="getMetaById" resultMap="BaseResultMap">
