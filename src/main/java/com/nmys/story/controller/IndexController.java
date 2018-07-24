@@ -358,7 +358,7 @@ public class IndexController extends BaseController {
 //        } else {
 //            comments.setAuthor(author);
 //        }
-
+        comments.setAuthor(author);
         comments.setCid(cid);
         comments.setIp(ip);
         comments.setUrl(url);
