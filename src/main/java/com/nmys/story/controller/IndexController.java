@@ -347,6 +347,7 @@ public class IndexController extends BaseController {
         text = EmojiParser.parseToAliases(text);
 
         Comments comments = new Comments();
+
 //        String authorPosition = "";
 //        try {
 //            authorPosition = IPKit.getSimplePositionInfo(ip);
