@@ -160,18 +160,18 @@ public final class Commons {
     }
 
     /**
-     * 返回github头像地址
-     *
-     * @param email
-     * @return
+     * Description: 根据用户的ip来返回cute头像
+     * Author:70KG
+     * Param [ip]
+     * Return java.lang.String
+     * Date 2018/7/24 13:38
      */
-    public static String gravatar(String email) {
-        // http://www.gravatar.com/avatar/aae1e25f99469f5c616f777?d=wavatar&s=40
+    public static String gravatar(String ip) {
         String avatarUrl = "http://www.gravatar.com/avatar/";
-        if (StringUtils.isBlank(email)) {
-            email = "449246146@qq.com";
+        if (StringUtils.isBlank(ip)) {
+            ip = "449246146@qq.com";
         }
-        String hash = TaleUtils.MD5encode(email.trim().toLowerCase());
+        String hash = TaleUtils.MD5encode(ip.trim().toLowerCase());
         return avatarUrl + hash + ".png";
     }
 
