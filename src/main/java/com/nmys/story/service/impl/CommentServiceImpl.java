@@ -62,8 +62,12 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public PageInfo<Comments> getCommentsListByContentId(Integer contentId, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        // 去掉父级评论
         List<Comments> list = commentMapper.getCommentsListByContentId(contentId, "approved");
+//        list.forEach(Comment -> {
+//            Integer coid = Comment.getCoid();
+//            List<Comments> childsComments = commentMapper.getChildsCommentsByParent(coid);
+//
+//        });
         PageInfo<Comments> pageInfo = new PageInfo(list);
         return pageInfo;
     }

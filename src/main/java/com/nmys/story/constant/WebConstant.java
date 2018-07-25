@@ -69,4 +69,9 @@ public class WebConstant {
 
     public static String VISITOR = "访客访问";
 
+    /**
+     * 管理员昵称
+     */
+    public static String ADMIN_NAME = "70KG";
+
 }

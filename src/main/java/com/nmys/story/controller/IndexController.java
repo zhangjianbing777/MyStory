@@ -311,15 +311,19 @@ public class IndexController extends BaseController {
 //        }
 
         if (null == cid || StringUtils.isBlank(text)) {
-            return RestResponseBo.fail("请输入完整后评论");
+            return RestResponseBo.fail("请输入完整后评论~");
         }
 
-        if (StringUtils.isNotBlank(author) && author.length() > 50) {
-            return RestResponseBo.fail("姓名过长");
+        if (StringUtils.isNotBlank(author) && author.length() > 20) {
+            return RestResponseBo.fail("姓名过长~");
         }
+
+//        if (StringUtils.isNotBlank(author) && WebConstant.ADMIN_NAME.equals(author.toUpperCase().trim())) {
+//            return RestResponseBo.fail("此名称不可用哦~");
+//        }
 
         if (StringUtils.isNotBlank(mail) && !TaleUtils.isEmail(mail)) {
-            return RestResponseBo.fail("请输入正确的邮箱格式");
+            return RestResponseBo.fail("请输入正确的邮箱格式~");
         }
 
 //        if (StringUtils.isNotBlank(url) && !PatternKit.isURL(url)) {
@@ -327,7 +331,7 @@ public class IndexController extends BaseController {
 //        }
 
         if (text.length() > 200) {
-            return RestResponseBo.fail("请输入200个字符以内的评论");
+            return RestResponseBo.fail("请输入200个字符以内的评论~");
         }
 
         String ip = IPKit.getIpAddrByRequest(request);
@@ -335,6 +339,7 @@ public class IndexController extends BaseController {
         String val = ip + ":" + cid;
         Integer count = cache.hget(Types.COMMENTS_FREQUENCY, val);
         if (null != count && count > 0) {
+            // 1分钟可评论一次
             return RestResponseBo.fail("您发表评论太快了，请过会再试");
         }
 
@@ -365,7 +370,7 @@ public class IndexController extends BaseController {
         comments.setUrl(url);
         comments.setContent(text);
         comments.setMail(mail);
-        comments.setParent(coid);
+        comments.setParent(null == coid ? 0 : coid);
         // 获取用户地理位置信息
 //        try {
 //            comments.setAgent(IPKit.getPositionInfo(ip));

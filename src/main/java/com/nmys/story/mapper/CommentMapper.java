@@ -83,4 +83,6 @@ public interface CommentMapper {
 
     void updateCommentById(@Param("id") Integer id);
 
+
+//    List<Comments> getChildsCommentsByParent(@Param("parent") Integer coid);
 }

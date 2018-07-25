@@ -2,6 +2,8 @@ package com.nmys.story.model.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Description: 评论实体类
  * Author:70kg
@@ -53,5 +55,8 @@ public class Comments {
 
     // 父级评论
     private Integer parent;
+
+    // 子评论集合
+    private List<Comments> commentsList;
 
 }

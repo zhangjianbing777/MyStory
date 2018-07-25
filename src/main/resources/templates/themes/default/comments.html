@@ -19,7 +19,7 @@
                     <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
                     <input type="text" name="author" maxlength="12" id="author"
                            class="form-control input-control clearfix"
-                           placeholder="姓名 (*)"
+                           placeholder="昵称 (*)"
                     />
                     <input type="email" name="mail" id="mail" class="form-control input-control clearfix"
                            placeholder="邮箱 (*)"
@@ -30,7 +30,7 @@
                     <textarea name="text" id="textarea" class="form-control" placeholder="基佬~留下你的裤衩~"
                               required="required" minlength="5"
                               maxlength="2000"></textarea>
-                    <button type="submit" class="submit" id="misubmit">发表评论</button>
+                    <button type="submit" class="submit" id="misubmit" style="cursor:pointer">评论</button>
                 </form>
             </div>
             <div th:unless="${article.allowComment}">
@@ -42,7 +42,9 @@
                     <th:block th:each="comment :${comments.list}">
                         <li th:id="'li-comment-'+${comment.coid}" class="comment-body comment-parent comment-odd">
                             <div th:id="'comment-'+${comment.coid}">
-                                <div class="comment-view" onclick="">
+
+
+                                <div class="comment-view">
                                     <div class="comment-header">
                                         <!--设置get请求的参数-->
                                         <img class="avatar"
@@ -62,10 +64,39 @@
                                     <div class="comment-meta">
                                         <time class="comment-time" th:text="${commons.fmtdate(comment.created)}"></time>
                                         <span class="comment-reply">
-                                            <a rel="nofollow" th:onclick="'javascript:TaleComment.reply(\''+${comment.coid}+'\')'">回复</a>
+                                            <a rel="nofollow" th:onclick="'javascript:TaleComment.reply(\''+${comment.coid}+'\',\''+'@'+${comment.author}+'\')'">回复</a>
                                         </span>
                                     </div>
                                 </div>
+
+                                <th:block th:if="${comment.commentsList.size() != 0}">
+                                    <th:block th:each="childComments :${comment.commentsList}">
+                                        <div class="comment-view">
+                                            <div class="comment-header">
+                                                <img class="avatar"
+                                                     th:src="@{${commons.gravatar(childComments.ip)}(d='wavatar',s='40')}"
+                                                     th:title="${childComments.author}"
+                                                     width="80" height="80"/>
+                                                <span class="comment-author">
+                                                    <a th:href="${childComments.url}" target="_blank" rel="external nofollow" th:text="${childComments.author}"></a>
+                                                </span>
+                                            </div>
+                                            <div class="comment-content">
+                                                <span class="comment-author-at">
+                                                    <!--<a href="#comment-884">@zzz</a>-->
+                                                </span>
+                                                <p th:utext="${commons.article(childComments.content)}"></p>
+                                            </div>
+                                            <div class="comment-meta">
+                                                <time class="comment-time" th:text="${commons.fmtdate(childComments.created)}"></time>
+                                                <span class="comment-reply">
+                                                    <a rel="nofollow" th:onclick="'javascript:TaleComment.reply(\''+${comment.coid}+'\',\''+'@'+${childComments.author}+'\')'">回复</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </th:block>
+
                             </div>
                         </li>
                     </th:block>

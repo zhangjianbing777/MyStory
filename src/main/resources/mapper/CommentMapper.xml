@@ -17,6 +17,23 @@
         <result column="type" jdbcType="VARCHAR" property="type" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="parent" jdbcType="VARCHAR" property="parent" />
+        <collection property="commentsList" select="getChildsCommentsByParent" column="{parent=coid}" ofType="com.nmys.story.model.entity.Comments">
+            <id column="coid" jdbcType="INTEGER" property="coid" />
+            <result column="cid" jdbcType="INTEGER" property="cid" />
+            <result column="created" jdbcType="INTEGER" property="created" />
+            <result column="author" jdbcType="VARCHAR" property="author" />
+            <result column="author_id" jdbcType="INTEGER" property="author_id" />
+            <result column="owner_id" jdbcType="INTEGER" property="owner_id" />
+            <result column="created" jdbcType="INTEGER" property="created" />
+            <result column="mail" jdbcType="INTEGER" property="mail" />
+            <result column="url" jdbcType="INTEGER" property="url" />
+            <result column="ip" jdbcType="VARCHAR" property="ip" />
+            <result column="agent" jdbcType="VARCHAR" property="agent" />
+            <result column="content" jdbcType="VARCHAR" property="content" />
+            <result column="type" jdbcType="VARCHAR" property="type" />
+            <result column="status" jdbcType="VARCHAR" property="status" />
+            <result column="parent" jdbcType="VARCHAR" property="parent" />
+        </collection>
     </resultMap>
 
 
@@ -78,10 +95,14 @@
     </select>
 
     <select id="getCommentsListByContentId" resultMap="BaseResultMap">
-        SELECT * FROM t_comments WHERE cid = #{cid} and status = #{status} order by created desc
+        SELECT * FROM t_comments WHERE cid = #{cid} and status = #{status} and parent = '0' order by created desc
     </select>
 
     <select id="getNotAuditComments" resultMap="BaseResultMap">
         SELECT * from t_comments WHERE status = 'not_audit'
+    </select>
+
+    <select id="getChildsCommentsByParent" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE status = 'approved' and parent = #{parent} order by created asc
     </select>
 </mapper>

@@ -15,8 +15,9 @@
                 }
                 return el;
             },
-            reply: function (coid) {
+            reply: function (coid,author) {
                 $('#comment-form input[name=coid]').val(coid);
+                $('#comment-form textarea[name=text]').val(author+" ");
                 $("html,body").animate({scrollTop: $('div.comment-container').offset().top}, 500);
                 $('#comment-form #textarea').focus();
             },
