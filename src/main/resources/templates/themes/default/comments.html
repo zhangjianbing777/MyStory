@@ -71,7 +71,7 @@
 
                                 <th:block th:if="${comment.commentsList.size() != 0}">
                                     <th:block th:each="childComments :${comment.commentsList}">
-                                        <div class="comment-view">
+                                        <div class="comment-view" th:id="'comment-'+${childComments.coid}" style="margin-left: 50px">
                                             <div class="comment-header">
                                                 <img class="avatar"
                                                      th:src="@{${commons.gravatar(childComments.ip)}(d='wavatar',s='40')}"
