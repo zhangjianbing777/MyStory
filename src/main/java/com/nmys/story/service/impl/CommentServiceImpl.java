@@ -63,11 +63,6 @@ public class CommentServiceImpl implements ICommentService {
     public PageInfo<Comments> getCommentsListByContentId(Integer contentId, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
         List<Comments> list = commentMapper.getCommentsListByContentId(contentId, "approved");
-//        list.forEach(Comment -> {
-//            Integer coid = Comment.getCoid();
-//            List<Comments> childsComments = commentMapper.getChildsCommentsByParent(coid);
-//
-//        });
         PageInfo<Comments> pageInfo = new PageInfo(list);
         return pageInfo;
     }
@@ -96,7 +91,7 @@ public class CommentServiceImpl implements ICommentService {
         if (null == comments.getCid()) {
             return "评论文章不能为空";
         }
-        Contents contents = contentService.getContentById(comments.getCid());//.getContents(String.valueOf(comments.getCid()));
+        Contents contents = contentService.getContentById(comments.getCid());
         if (null == contents) {
             return "不存在的文章";
         }

@@ -353,30 +353,25 @@ public class IndexController extends BaseController {
 
         Comments comments = new Comments();
 
-//        String authorPosition = "";
-//        try {
-//            authorPosition = IPKit.getSimplePositionInfo(ip);
-//        } catch (Exception e) {
-//            logger.error("评论人姓名地理位置出错" + e.getMessage());
-//        }
-//        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
-//            comments.setAuthor(authorPosition + "网友");
-//        } else {
-//            comments.setAuthor(author);
-//        }
-        comments.setAuthor(author);
+        String authorPosition = "";
+        try {
+            authorPosition = IPKit.getIpInformationFromTaoBao(ip);
+        } catch (Exception e) {
+            logger.error("评论人姓名地理位置出错" + e.getMessage());
+        }
+        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
+            comments.setAuthor(authorPosition + "网友");
+            // 存储地理位置
+            comments.setAgent(authorPosition);
+        } else {
+            comments.setAuthor(author);
+        }
         comments.setCid(cid);
         comments.setIp(ip);
         comments.setUrl(url);
         comments.setContent(text);
         comments.setMail(mail);
         comments.setParent(null == coid ? 0 : coid);
-        // 获取用户地理位置信息
-//        try {
-//            comments.setAgent(IPKit.getPositionInfo(ip));
-//        } catch (Exception e) {
-//            logger.error("评论功能获取用户地理信息失败" + e.getMessage());
-//        }
         try {
             String result = commentService.insertComment(comments);
             // 此处增加cookie是为了不让用户再次输入评论头部
