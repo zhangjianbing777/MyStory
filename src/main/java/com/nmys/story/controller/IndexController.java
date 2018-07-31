@@ -365,6 +365,8 @@ public class IndexController extends BaseController {
             comments.setAgent(authorPosition);
         } else {
             comments.setAuthor(author);
+            // 存储地理位置
+            comments.setAgent(authorPosition);
         }
         comments.setCid(cid);
         comments.setIp(ip);
