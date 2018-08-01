@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <jmxConfigurator />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 典型的日志pattern -->
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 按时间滚动的策略 -->
+    <appender name="defaultLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>D:/mystorylog/mystory.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>D:/mystorylog/mystory.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留 30天数据，默认无限-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- project default level -->
+    <logger name="com.story" level="DEBUG" />
+
+    <!-- apache logger -->
+    <logger name="org.apache" level="INFO" />
+
+    <logger name="org.springframework" level="INFO" />
+
+    <!-- 将级别设置成DEBUG，则会打印sql语句，太占用内存啦 -->
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="defaultLogFile" />
+    </root>
+
+</configuration>
