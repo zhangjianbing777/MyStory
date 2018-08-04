@@ -101,22 +101,11 @@
                         </li>
                     </th:block>
                 </ol>
-                <div class="lists-navigator clearfix">
-                    <ol class="page-navigator">
-                        <th:block th:if="${comments.hasPreviousPage}">
-                            <li class="prev"><a th:href="'?cp='+${comments.prePage}+'#comments'">Previous</a></li>
-                        </th:block>
-                        <th:block th:each="navIndex : ${comments.navigatepageNums}">
-                            <li th:class="${comments.pageNum}==${navIndex}?'current':''"><a
-                                    th:href="'?cp='+${navIndex}+'#comments'" th:text="${navIndex}"></a>
-                            </li>
-                        </th:block>
-                        <th:block th:if="${comments.hasNextPage}">
-                            <li class="next"><a th:href="'?cp='+${comments.nextPage}+'#comments'">Next</a></li>
-                        </th:block>
-                    </ol>
 
+                <div class="lists-navigator clearfix">
+                    <div th:replace="comm/macros::pageNav(${comments},'Previous','Next','article/'+${article.cid})"></div>
                 </div>
+
             </div>
         </div>
     </div>

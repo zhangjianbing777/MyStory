@@ -24,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -139,9 +140,10 @@ public class IndexController extends BaseController {
      * Return java.lang.String
      * Date 2018/5/11 15:54
      */
-    @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
+    @GetMapping(value = {"article/{cid}/{coid}", "article/{cid}/{coid}.html"})
     public String getArticle(HttpServletRequest request,
-                             @PathVariable String cid) {
+                             @PathVariable String cid,
+                             @PathVariable String coid) {
         Contents contents = contentService.getContentById(Integer.parseInt(cid));
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
@@ -149,7 +151,7 @@ public class IndexController extends BaseController {
         request.setAttribute("article", contents);
         request.setAttribute("is_post", true);
         // 评论
-        completeArticle(request, contents);
+        completeArticle(coid, request, contents);
         // 15分钟内重复点击不会更新文章浏览量
         if (!checkHitsFrequency(request, String.valueOf(contents.getCid()))) {
             // 更新文章点击量
@@ -410,20 +412,21 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * Description: 公共方法
-     * author: itachi
-     * Date: 2018/5/12 下午8:26
+     * Description: 文章详情页面评论分页
+     * author: 70KG
+     * Date: 2018/8/4 下午10:58
+     * From: www.nmyswls.com
      */
-    private void completeArticle(HttpServletRequest request, Contents contents) {
+    private void completeArticle(String coid, HttpServletRequest request, Contents contents) {
         // 允许评论
         if (contents.getAllowComment() == 1) {
-            String cp = request.getParameter("cp");
-            if (StringUtils.isBlank(cp)) {
-                cp = "1";
-            }
-            request.setAttribute("cp", cp);
+//            String cp = request.getParameter("cp");
+//            if (StringUtils.isBlank(cp)) {
+//                cp = "1";
+//            }
+//            request.setAttribute("cp", cp);
             // 每页6条评论
-            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(cp), 6);
+            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(coid), 6);
             request.setAttribute("comments", commentsPaginator);
         }
     }
