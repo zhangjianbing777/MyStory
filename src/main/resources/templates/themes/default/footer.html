@@ -97,7 +97,7 @@
                 <h3 class="meta-title">最新评论</h3>
                 <th:block th:each="comment:${commons.getComments()}">
                     <li>
-                        <a th:href="${commons.site_url('/article/')}+${comment.cid}+'#comment-'+${comment.coid}" target="_blank" th:text="${comment.author}+'：'+${comment.content}"></a>
+                        <a th:href="${commons.site_url('/article/')}+${comment.cid}+'/1'+'#comment-'+${comment.coid}" target="_blank" th:text="${comment.author}+'：'+${comment.content}"></a>
                     </li>
                 </th:block>
             </div>
