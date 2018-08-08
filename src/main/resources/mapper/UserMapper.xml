@@ -14,6 +14,10 @@
         <result column="group_name" jdbcType="VARCHAR" property="group_name" />
     </resultMap>
 
+    <sql id="Base_Column_List">
+        username, password, email, home_url, screen_name, created, activated, logged, group_name
+    </sql>
+
     <insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="uid">
         INSERT INTO t_users (uid, username, password,
                              email, home_url, screen_name,
