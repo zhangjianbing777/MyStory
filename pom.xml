@@ -16,11 +16,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sqlite.version>3.15.1</sqlite.version>
-        <blade-mvc.version>2.0.6-BETA</blade-mvc.version>
-        <blade-jdbc.version>0.2.2-RELEASE</blade-jdbc.version>
-        <blade-tpl.verion>0.1.2</blade-tpl.verion>
-        <blade-validator>0.0.2</blade-validator>
+        <!--<sqlite.version>3.15.1</sqlite.version>-->
+        <!--<blade-mvc.version>2.0.6-BETA</blade-mvc.version>-->
+        <!--<blade-jdbc.version>0.2.2-RELEASE</blade-jdbc.version>-->
+        <!--<blade-tpl.verion>0.1.2</blade-tpl.verion>-->
+        <!--<blade-validator>0.0.2</blade-validator>-->
         <commonmark.version>0.10.0</commonmark.version>
         <rome.version>1.0</rome.version>
         <emoji.version>3.2.0</emoji.version>
@@ -28,6 +28,13 @@
         <fastjson.version>1.2.47</fastjson.version>
         <mysql-connector>5.1.45</mysql-connector>
         <pagehelper.version>1.2.3</pagehelper.version>
+        <lang3.version>3.5</lang3.version>
+        <qiniu.version>7.2.12</qiniu.version>
+        <shiro.version>1.4.0</shiro.version>
+        <jasypt.version>2.0.0</jasypt.version>
+        <durd.version>1.0.18</durd.version>
+        <lombok.version>1.16.18</lombok.version>
+
         <docker.image.prefix>springboot</docker.image.prefix>
     </properties>
 
@@ -101,20 +108,27 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>${lang3.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.18</version>
+            <version>${durd.version}</version>
         </dependency>
 
         <!-- 最新七牛 -->
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
-            <version>7.2.12</version>
+            <version>${qiniu.version}</version>
+        </dependency>
+
+        <!-- shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-starter</artifactId>
+            <version>${shiro.version}</version>
         </dependency>
 
 
@@ -149,7 +163,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>${lombok.version}</version>
             <!-- 仅在编译和测试的时候 -->
             <scope>provided</scope>
         </dependency>
@@ -158,7 +172,7 @@
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
+            <version>${jasypt.version}</version>
         </dependency>
 
     </dependencies>
