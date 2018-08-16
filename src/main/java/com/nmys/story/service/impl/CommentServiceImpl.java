@@ -122,4 +122,10 @@ public class CommentServiceImpl implements ICommentService {
     public List<Comments> getNotAuditComments() {
         return commentMapper.getNotAuditComments();
     }
+
+    @Override
+    @Transactional
+    public void updateComment(Comments comObj) {
+        commentMapper.updateComment(comObj);
+    }
 }

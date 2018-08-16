@@ -55,28 +55,55 @@
         UPDATE t_comments SET status = 'approved' WHERE cid = #{id}
     </update>
 
+    <update id="updateComment" parameterType="com.nmys.story.model.entity.Comments">
+        update t_comments
+        <set>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=INTEGER},
+            </if>
+            <if test="author_id != null">
+                author_id = #{author_id,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="owner_id != null">
+                owner_id = #{owner_id,jdbcType=INTEGER},
+            </if>
+            <if test="mail != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                agent = #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="parent != null">
+                parent = #{parent,jdbcType=INTEGER},
+            </if>
+        </set>
+        where coid = #{coid,jdbcType=INTEGER}
+    </update>
+
     <delete id="delCommentById">
         DELETE FROM t_comments WHERE coid = #{id}
     </delete>
-
-    <!--<insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="uid">-->
-        <!--INSERT INTO t_users (uid, username, password,-->
-        <!--email, home_url, screen_name,-->
-        <!--created, activated, logged,-->
-        <!--group_name)-->
-        <!--VALUES (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},-->
-        <!--#{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},-->
-        <!--#{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},-->
-        <!--#{group_name,jdbcType=VARCHAR})-->
-    <!--</insert>-->
-
-    <!--<select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">-->
-        <!--SELECT * FROM t_users WHERE username = #{username} and password = #{password}-->
-    <!--</select>-->
-
-    <!--<select id="selectUserByUsername" resultMap="BaseResultMap">-->
-        <!--SELECT * FROM t_users WHERE username = #{username}-->
-    <!--</select>-->
 
     <select id="selectCommentCount" resultType="java.lang.Integer">
         SELECT count(*) FROM t_comments

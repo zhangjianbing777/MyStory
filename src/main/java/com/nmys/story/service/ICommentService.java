@@ -107,4 +107,12 @@ public interface ICommentService {
      */
     List<Comments> getNotAuditComments();
 
+    /**
+     * Description: 更新评论
+     * Author:70KG
+     * Param [comObj]
+     * Return void
+     * Date 2018/8/16 16:58
+     */
+    void updateComment(Comments comObj);
 }

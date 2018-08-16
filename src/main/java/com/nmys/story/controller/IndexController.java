@@ -338,22 +338,7 @@ public class IndexController extends BaseController {
         text = EmojiParser.parseToAliases(text);
 
         Comments comments = new Comments();
-
-        String authorPosition = "";
-        try {
-            authorPosition = IPKit.getIpInformationFromTaoBao(ip);
-        } catch (Exception e) {
-            logger.error("评论人姓名地理位置出错" + e.getMessage());
-        }
-        if (StringUtils.isBlank(author) && StringUtils.isNotBlank(authorPosition)) {
-            comments.setAuthor(authorPosition + "网友");
-            // 存储地理位置
-            comments.setAgent(authorPosition);
-        } else {
-            comments.setAuthor(author);
-            // 存储地理位置
-            comments.setAgent(authorPosition);
-        }
+        comments.setAuthor(author);
         comments.setCid(cid);
         comments.setIp(ip);
         comments.setUrl(url);
@@ -373,6 +358,20 @@ public class IndexController extends BaseController {
             if (!WebConstant.SUCCESS_RESULT.equals(result)) {
                 return RestResponseBo.fail(result);
             }
+
+            /** 开启一个线程来获取地理位置信息 **/
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        String authorPosition = IPKit.getIpInformationFromTaoBao(ip);
+//                        commentService.
+//                    } catch (Exception e) {
+//                        logger.error("获取地理位置的线程发生异常" + e.getMessage());
+//                    }
+//                }
+//            }).start();
+
             return RestResponseBo.ok();
         } catch (Exception e) {
             String msg = "评论发布失败";
