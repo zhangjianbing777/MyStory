@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="comments">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="comments(pageType)">
 <body>
 <div th:if="${article}!=null">
     <div th:id="${article.cid ?: 0}" class="comment-container">
@@ -103,7 +103,7 @@
                 </ol>
 
                 <div class="lists-navigator clearfix">
-                    <div th:replace="comm/macros::pageNav(${comments},'Previous','Next','article/'+${article.cid},'#comments')"></div>
+                    <div th:replace="comm/macros::pageNav(${comments},'Previous','Next',${pageType},'#comments')"></div>
                 </div>
 
             </div>

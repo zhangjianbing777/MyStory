@@ -87,27 +87,6 @@ public class IndexController extends BaseController {
             cache.hset(Types.VISIT_COUNT, val, 1, WebConstant.VISIT_COUNT_TIME);
             // 入库
             visitService.updateCountById(times + 1);
-            // ...
-
-//            Logs log = new Logs();
-//            log.setAction("访客访问");
-//            // 记录访问时间
-//            log.setCreated(DateKit.getCurrentUnixTime());
-//            // ip地址
-//            log.setIp(IPKit.getIpAddrByRequest(request));
-
-            // 由于免费接口有次数限制，尚未找到替换方案，故去掉
-//            try {
-//                log.setData(IPKit.getPositionInfo(IPKit.getIpAddrByRequest(request)));
-//            } catch (Exception e) {
-//                logger.error("首页获取访客地理位置失败" + e.getMessage());
-//            }
-
-//            try {
-//                logService.visitSetLog(log);
-//            } catch (Exception e) {
-//                logger.error("前台首页记录日志失败" + e.getMessage());
-//            }
         }
     }
 
@@ -136,7 +115,7 @@ public class IndexController extends BaseController {
     /**
      * Description:文章详情页
      * Author:70kg
-     * Param [request, cid]
+     * Param [cid：文章id, coid：评论页码]
      * Return java.lang.String
      * Date 2018/5/11 15:54
      */
@@ -230,13 +209,22 @@ public class IndexController extends BaseController {
 //        return this.render("category");
 //    }
 
+
+    @GetMapping(value = "/{pagename}")
+    public String page(@PathVariable String pagename,
+                       HttpServletRequest request) {
+        return page(pagename, "1", request);
+    }
+
     /**
      * Description: 自定义页面,如：前台关于页面
      * author: itachi
      * Date: 2018/5/13 上午10:04
      */
-    @GetMapping(value = "/{pagename}")
-    public String page(@PathVariable String pagename, HttpServletRequest request) {
+    @GetMapping(value = "/{pagename}/{coid}")
+    public String page(@PathVariable String pagename,
+                       @PathVariable String coid,
+                       HttpServletRequest request) {
         // 根据文章缩略名来查询
         Contents contents = contentService.getContentBySlug(pagename);
         if (null == contents) {
@@ -244,12 +232,8 @@ public class IndexController extends BaseController {
         }
         // 该文章是否允许评论
         if (contents.getAllowComment() == 1) {
-            String cp = request.getParameter("cp");
-            if (StringUtils.isBlank(cp)) {
-                cp = "1";
-            }
             // 评论集合
-            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(cp), 6);
+            PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(coid), 6);
             request.setAttribute("comments", commentsPaginator);
         }
         request.setAttribute("article", contents);

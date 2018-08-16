@@ -15,6 +15,7 @@ import com.nmys.story.service.IVisitService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.UUID;
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -313,7 +314,21 @@ public final class Commons {
         int cid = contents.getCid();
         int size = cid % 20;
         size = size == 0 ? 1 : size;
-        return "/user/img/rand/" + size + ".jpg";
+        return "/user/img/picture/" + size + ".jpg";
+    }
+
+//    public static String show_thumb(Contents contents) {
+//        int cid = contents.getCid();
+//        int size = cid % 20;
+//        size = size == 0 ? 1 : size;
+//        return "http://image.nmyswls.com/article/picture/" + size + ".jpg";
+//    }
+
+    public static void main(String[] args) {
+        int cid = 1111;
+        int size = cid % 20;
+        size = size == 0 ? 1 : size;
+        System.out.println(size);
     }
 
 
