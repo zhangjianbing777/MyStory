@@ -509,4 +509,9 @@ public class IndexController extends BaseController {
         return this.render("page-category");
     }
 
+    @GetMapping(value = "searchPage")
+    public String m1(){
+        return "themes/front/search";
+    }
+
 }

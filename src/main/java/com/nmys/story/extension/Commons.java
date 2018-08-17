@@ -278,7 +278,11 @@ public final class Commons {
         int pos = value.indexOf("<!--more-->");
         if (pos != -1) {
             String html = value.substring(0, pos);
-            return TaleUtils.htmlToText(TaleUtils.mdToHtml(html));
+            String text = TaleUtils.htmlToText(TaleUtils.mdToHtml(html));
+            if (text.length() > len) {
+                return text.substring(0, len);
+            }
+            return text;
         } else {
             String text = TaleUtils.htmlToText(TaleUtils.mdToHtml(value));
             if (text.length() > len) {
@@ -309,8 +313,8 @@ public final class Commons {
      */
     public static String show_thumb(Contents contents) {
         int cid = contents.getCid();
-        int size = cid % 20;
-        size = size == 0 ? 1 : size;
+        int size = cid % 40;
+        size = size == 0 ? 10 : size;
         return "/user/img/picture/" + size + ".jpg";
     }
 
@@ -320,13 +324,6 @@ public final class Commons {
 //        size = size == 0 ? 1 : size;
 //        return "http://image.nmyswls.com/article/picture/" + size + ".jpg";
 //    }
-
-    public static void main(String[] args) {
-        int cid = 1111;
-        int size = cid % 20;
-        size = size == 0 ? 1 : size;
-        System.out.println(size);
-    }
 
 
     /**

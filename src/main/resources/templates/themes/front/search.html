@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:yh="http://www.thymeleaf.org">
+<head>
+	<!--<meta charset="UTF-8">-->
+	<!--<meta name="viewport"-->
+		  <!--content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+	<!--<title>Search Page - LiNPX</title>-->
+	<!--<meta name="keywords" content="">-->
+	<!--<meta name="description" content="👇 The following tabs can help you!">-->
+	<!--<link href="https://www.linpx.com/usr/themes/pinghsu/style.min.css?20170331" rel="stylesheet">-->
+</head>
+<div th:replace="themes/front/header::header('查找标签',null)"></div>
+<body class="bg-grey" gtools_scp_screen_capture_injected="true"> <!--[if lt IE 8]>
+<!--<div class="browsehappy" role="dialog"> 当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a
+		href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
+</div> <![endif]&ndash;&gt;
+<header id="header" class="header bg-white animated headroom&#45;&#45;not-top headroom&#45;&#45;not-bottom slideDown">
+	<div class="navbar-container"><a href="https://www.linpx.com/" class="navbar-logo"> <img
+			src="https://www.linpx.com/usr/themes/pinghsu/images/logo.png" alt="LiNPX"> </a>
+		<div class="navbar-menu"><a href="https://www.linpx.com/archives.html">Archives</a> <a
+				href="https://www.linpx.com/links.html">Links</a> <a href="https://www.linpx.com/about.html">About</a>
+		</div>
+		<a href="https://www.linpx.com/search.html" class="navbar-search"> <span class="icon-search"></span> </a>
+		<div class="navbar-mobile-menu" onclick=""><span class="icon-menu cross"><span class="middle"></span></span>
+			<ul>
+				<li><a href="https://www.linpx.com/archives.html">Archives</a></li>
+				<li><a href="https://www.linpx.com/links.html">Links</a></li>
+				<li><a href="https://www.linpx.com/about.html">About</a></li>
+			</ul>
+		</div>
+	</div>
+</header>-->
+<div class="main-content page-page">
+	<div class="search-page">
+
+		<form id="search" class="search-form" method="post" action="https://www.linpx.com/" role="search">
+			<span class="search-box clearfix">
+				<input id="input" class="input" name="s" required="true" placeholder="Search..." maxlength="30" autocomplete="off" type="text">
+				<button type="submit" class="spsubmit">
+					<i class="icon-search"></i>
+				</button>
+			</span>
+		</form>
+
+		<div class="search-tags">
+				<p>👇 The following tabs can help you!</p>
+			<a href="https://www.linpx.com/tag/JavaScript/" class=" bg-white"># JavaScript(25)</a>
+			<a href="https://www.linpx.com/tag/%E7%AC%94%E8%AE%B0/" class=" bg-white"># 笔记(17)</a>
+			<a href="https://www.linpx.com/tag/%E6%95%99%E7%A8%8B/" class=" bg-white"># 教程(12)</a>
+			<a href="https://www.linpx.com/tag/Typecho/" class=" bg-white"># Typecho(11)</a>
+			<a href="https://www.linpx.com/tag/CentOS/" class=" bg-white"># CentOS(10)</a>
+			<a href="https://www.linpx.com/tag/Nginx/" class=" bg-white"># Nginx(9)</a>
+			<a href="https://www.linpx.com/tag/%E9%85%8D%E7%BD%AE/" class=" bg-white"># 配置(8)</a>
+			<a href="https://www.linpx.com/tag/webpack/" class=" bg-white"># webpack(8)</a>
+			<a href="https://www.linpx.com/tag/HTTPS/" class=" bg-white"># HTTPS(6)</a>
+			<a href="https://www.linpx.com/tag/%E5%A4%8D%E4%B9%A0%E5%9B%9E%E9%A1%BE/" class=" bg-white"># 复习回顾(6)</a>
+			<a href="https://www.linpx.com/tag/HTTP/" class=" bg-white"># HTTP(6)</a>
+			<a href="https://www.linpx.com/tag/SSL/" class=" bg-white"># SSL(5)</a>
+			<a href="https://www.linpx.com/tag/SSserver/" class=" bg-white"># SSserver(5)</a>
+			<a href="https://www.linpx.com/tag/CSS/" class=" bg-white"># CSS(4)</a>
+			<a href="https://www.linpx.com/tag/Shadowsocks/" class=" bg-white"># Shadowsocks(4)</a>
+			<a href="https://www.linpx.com/tag/Pinghsu/" class=" bg-white"># Pinghsu(4)</a>
+			<a href="https://www.linpx.com/tag/Linux/" class=" bg-white"># Linux(3)</a>
+			<a href="https://www.linpx.com/tag/TpCache/" class=" bg-white"># TpCache(3)</a>
+			<a href="https://www.linpx.com/tag/Theme/" class=" bg-white"># Theme(3)</a>
+			<a href="https://www.linpx.com/tag/%E7%BC%93%E5%AD%98/" class=" bg-white"># 缓存(3)</a>
+			<a href="https://www.linpx.com/tag/HTML/" class=" bg-white"># HTML(2)</a>
+			<a href="https://www.linpx.com/tag/%E5%8D%9A%E5%AE%A2/" class=" bg-white"># 博客(2)</a>
+			<a href="https://www.linpx.com/tag/ECC/" class=" bg-white"># ECC(2)</a>
+			<a href="https://www.linpx.com/tag/Lpisme/" class=" bg-white"># Lpisme(2)</a>
+			<a href="https://www.linpx.com/tag/HSTS/" class=" bg-white"># HSTS(2)</a>
+			<a href="https://www.linpx.com/tag/OpenSSL/" class=" bg-white"># OpenSSL(2)</a>
+			<a
+					href="https://www.linpx.com/tag/ChaCha20-Poly1305/" class=" bg-white"># ChaCha20-Poly1305(2)</a> <a
+					href="https://www.linpx.com/tag/%E5%8D%87%E7%BA%A7/" class=" bg-white"># 升级(2)</a> <a
+					href="https://www.linpx.com/tag/%E5%87%BD%E6%95%B0/" class=" bg-white"># 函数(2)</a> <a
+					href="https://www.linpx.com/tag/ngx_pagespeed/" class=" bg-white"># ngx_pagespeed(2)</a> <a
+					href="https://www.linpx.com/tag/%E6%9F%AF%E9%87%8C%E5%8C%96/" class=" bg-white"># 柯里化(2)</a> <a
+					href="https://www.linpx.com/tag/react/" class=" bg-white"># React(2)</a> <a
+					href="https://www.linpx.com/tag/SASS/" class=" bg-white"># SASS(2)</a> <a
+					href="https://www.linpx.com/tag/Node-js/" class=" bg-white"># Node.js(2)</a> <a
+					href="https://www.linpx.com/tag/tensorflow-js/" class=" bg-white"># tensorflow.js(2)</a> <a
+					href="https://www.linpx.com/tag/PHP/" class=" bg-white"># PHP(1)</a> <a
+					href="https://www.linpx.com/tag/Markdown/" class=" bg-white"># Markdown(1)</a> <a
+					href="https://www.linpx.com/tag/Command/" class=" bg-white"># Command(1)</a> <a
+					href="https://www.linpx.com/tag/%E6%97%A5%E5%BF%97/" class=" bg-white"># 日志(1)</a> <a
+					href="https://www.linpx.com/tag/Vim/" class=" bg-white"># Vim(1)</a> <a
+					href="https://www.linpx.com/tag/%E8%AF%84%E8%AE%BA/" class=" bg-white"># 评论(1)</a> <a
+					href="https://www.linpx.com/tag/Cookie/" class=" bg-white"># Cookie(1)</a> <a
+					href="https://www.linpx.com/tag/Let-s-Encrypt/" class=" bg-white"># Let’s Encrypt(1)</a> <a
+					href="https://www.linpx.com/tag/wget/" class=" bg-white"># wget(1)</a> <a
+					href="https://www.linpx.com/tag/UA/" class=" bg-white"># UA(1)</a> <a
+					href="https://www.linpx.com/tag/curl/" class=" bg-white"># curl(1)</a> <a
+					href="https://www.linpx.com/tag/CSR/" class=" bg-white"># CSR(1)</a> <a
+					href="https://www.linpx.com/tag/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%8F%91/" class=" bg-white">#
+				证书签发(1)</a> <a href="https://www.linpx.com/tag/ECC%E8%AF%81%E4%B9%A6/" class=" bg-white"># ECC证书(1)</a>
+			<a href="https://www.linpx.com/tag/%E4%B8%B2%E8%81%94%E8%AF%81%E4%B9%A6%E9%93%BE/" class=" bg-white">#
+				串联证书链(1)</a>
+			<div class="search-tags-hr bg-deepgrey"></div>
+		</div>
+	</div>
+</div>
+
+<!--<footer id="footer" class="footer bg-white">
+	<div class="footer-social">
+		<div class="footer-container clearfix">
+			<div class="social-list"><a class="social weibo" target="blank" href="https://weibo.com/lauzexu">WEIBO</a>
+				<a class="social zhihu" target="blank" href="https://www.zhihu.com/people/chakhsu/">ZHIHU</a> <a
+						class="social rss" target="blank" href="https://www.linpx.com/feed/">RSS</a> <a
+						class="social github" target="blank" href="https://github.com/chakhsu">GITHUB</a> <a
+						class="social twitter" target="blank" href="https://twitter.com/chakhsu_lau">TWITTER</a></div>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<div class="footer-container">
+			<div class="meta-item meta-copyright">
+				<div class="meta-copyright-info"><a href="https://www.linpx.com/" class="info-logo"> <img
+						src="https://www.linpx.com/usr/themes/pinghsu/images/logo-hsuping.png" alt="LiNPX"> </a>
+					<div class="info-text"><p id="chakhsu">I work with Node.js.</p>
+						<p>Theme is <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a> by <a
+								href="https://www.linpx.com/" target="_blank">Chakhsu</a></p>
+						<p>Powered by <a href="http://www.typecho.org" target="_blank" rel="nofollow">Typecho</a></p>
+						<p>© 2018 <a href="https://www.linpx.com/">LiNPX</a></p></div>
+				</div>
+			</div>
+			<div class="meta-item meta-posts"><h3 class="meta-title">RECENT POSTS</h3>
+				<li><a href="https://www.linpx.com/p/the-core-concept-of-tensorflowjs.html">TensorFlow.js 的核心概念</a></li>
+				<li><a href="https://www.linpx.com/p/you-want-to-know-that-everything-about-tensorflowjs-is-here.html">记录一下关于
+					tensorflow.js 的了解</a></li>
+				<li>
+					<a href="https://www.linpx.com/p/two-installation-methods-of-elasticsearch.html">Elasticsearch两种安装方式</a>
+				</li>
+				<li><a href="https://www.linpx.com/p/webpack-best-practice-summary-three.html">Webpack 最佳实践总结(三)</a>
+				</li>
+				<li><a href="https://www.linpx.com/p/webpack-best-practice-summary-two.html">Webpack 最佳实践总结(二)</a></li>
+				<li><a href="https://www.linpx.com/p/webpack-best-practices-summary-1.html">Webpack 最佳实践总结(一)</a></li>
+				<li><a href="https://www.linpx.com/p/jaxvascxript-thread-and-some-understanding-of-the-process.html">JavaScript的线程与进程的一些了解</a>
+				</li>
+				<li><a href="https://www.linpx.com/p/some-understanding-of-front-end-communication-protocols.html">前端通信协议的一些了解</a>
+				</li>
+			</div>
+			<div class="meta-item meta-comments"><h3 class="meta-title">RECENT COMMENTS</h3>
+				<li><a href="https://www.linpx.com/about.html/comment-page-1#comment-2590">SenLief :
+					您好，我想问一下，主题能够用分类创建独立页面...</a></li>
+				<li>
+					<a href="https://www.linpx.com/p/the-move-to-change-the-domain-name-to-start-blog-revision.html/comment-page-1#comment-2589">8983365
+						: 喜欢你的主题，能送我一份么？谢谢邮箱：137...</a></li>
+				<li><a href="https://www.linpx.com/about.html/comment-page-1#comment-2588">米虫博客 :
+					接上文，哈哈，点击一下别的地方去焦了……这个...</a></li>
+				<li><a href="https://www.linpx.com/about.html/comment-page-1#comment-2587">米虫博客 :
+					主题超赞，已经应用，前来报道……手机访问右上...</a></li>
+				<li>
+					<a href="https://www.linpx.com/p/jaxvascxript-thread-and-some-understanding-of-the-process.html/comment-page-1#comment-2586">青蛙
+						: 测试一下呢</a></li>
+				<li><a href="https://www.linpx.com/p/pinghsu-a-typecho-theme.html/comment-page-1#comment-2585">米虫IT :
+					主题非常赞，对于一个从wordpress转手...</a></li>
+				<li><a href="https://www.linpx.com/about.html/comment-page-1#comment-2584">周末 : 评论样式搬走啦</a></li>
+				<li><a href="https://www.linpx.com/about.html/comment-page-1#comment-2583">周末 : 评论很好看啊</a></li>
+			</div>
+		</div>
+	</div>
+</footer>-->
+
+
+<div id="instantclick" style="opacity: 0;">
+	<div id="instantclick-bar" class="instantclick-bar" style="transform: translate(100%);"></div>
+</div>
+
+<div th:replace="themes/front/footer::footer"></div>
+
+</body>
+</html>
