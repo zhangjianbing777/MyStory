@@ -6,7 +6,6 @@ import com.nmys.story.controller.BaseController;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.ICommentService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

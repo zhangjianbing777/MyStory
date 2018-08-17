@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:yh="http://www.thymeleaf.org">
-<div th:replace="themes/default/header::header(${article.title},${article.tags})"></div>
+<div th:replace="themes/front/header::header(${article.title},${article.tags})"></div>
 <body>
 <article class="main-content post-page" itemscope="" itemtype="http://schema.org/Article">
     <div class="post-header">
@@ -25,7 +25,7 @@
     </div>
 </article>
 <!-- 文章评论分页，需要带上文章的prefix+文章id -->
-<div th:replace="themes/default/comments::comments('article/'+${article.cid})"></div>
-<div th:replace="themes/default/footer::footer"></div>
+<div th:replace="themes/front/comments::comments('article/'+${article.cid})"></div>
+<div th:replace="themes/front/footer::footer"></div>
 </body>
 </html>

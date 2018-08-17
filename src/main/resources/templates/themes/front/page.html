@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:replace="themes/default/header::header(${article.title},null)"></div>
+<div th:replace="themes/front/header::header(${article.title},null)"></div>
 <body>
 <article class="main-content post-page">
     <div class="post-header">
@@ -14,7 +14,7 @@
     <div id="post-content" class="post-content" th:utext="${commons.article(article.content)}"></div>
 </article>
 <!-- 此处是自定义的页面类型，如：about页面 -->
-<div th:replace="themes/default/comments::comments(${article.slug})"></div>
-<div th:replace="themes/default/footer::footer"></div>
+<div th:replace="themes/front/comments::comments(${article.slug})"></div>
+<div th:replace="themes/front/footer::footer"></div>
 </body>
 </html>

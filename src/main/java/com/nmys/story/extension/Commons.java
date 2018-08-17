@@ -3,7 +3,6 @@ package com.nmys.story.extension;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
@@ -15,12 +14,10 @@ import com.nmys.story.service.IVisitService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.nmys.story.utils.UUID;
-import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -40,7 +37,7 @@ import java.util.regex.Pattern;
 @Component
 public final class Commons {
 
-    public static String THEME = "themes/default";
+    public static String THEME = "themes/front";
 
     private static IOptionService optionService;
 

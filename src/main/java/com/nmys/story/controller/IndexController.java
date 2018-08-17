@@ -6,13 +6,13 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Archive;
 import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
-import com.nmys.story.model.entity.*;
+import com.nmys.story.model.entity.Comments;
+import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.*;
-import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping(value = "/")
     public String index(HttpServletRequest request,
-                        @RequestParam(value = "limit", defaultValue = "9") int limit) {
+                        @RequestParam(value = "limit", defaultValue = "12") int limit) {
         // 访问次数统计(自定义注解方式？？？)
         visitCount(request);
         return this.index(request, 1, limit);
@@ -101,7 +100,7 @@ public class IndexController extends BaseController {
     @GetMapping(value = "page/{p}")
     public String index(HttpServletRequest request,
                         @PathVariable int p,
-                        @RequestParam(value = "limit", defaultValue = "9") int limit) {
+                        @RequestParam(value = "limit", defaultValue = "12") int limit) {
         p = p < 0 || p > WebConstant.MAX_PAGE ? 1 : p;
         PageInfo<Contents> articles = contentService.getContentsByPageInfo(p, limit);
         request.setAttribute("articles", articles);
