@@ -207,8 +207,6 @@ public class IndexController extends BaseController {
 //        request.setAttribute("archives", list);
 //        return this.render("category");
 //    }
-
-
     @GetMapping(value = "/{pagename}")
     public String page(@PathVariable String pagename,
                        HttpServletRequest request) {
@@ -510,8 +508,20 @@ public class IndexController extends BaseController {
     }
 
     @GetMapping(value = "searchPage")
-    public String m1(){
+    public String m1() {
         return "themes/front/search";
+    }
+
+    /**
+     * Description: 灵魂画师
+     * Author:70KG
+     * Param []
+     * Return java.lang.String
+     * Date 2018/8/18 15:12
+     */
+    @GetMapping(value = "soulPainter.html")
+    public String soulPainter() {
+        return "themes/painter/soulpainter";
     }
 
 }
