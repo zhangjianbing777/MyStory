@@ -107,18 +107,18 @@
                            th:class="${active}=='category'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-tags" aria-hidden="true"></i><span> 分类/标签 </span></a>
                     </li>
-                    <li th:class="${active}=='attach'?'active':''">
-                        <a th:href="@{/admin/attach}"
-                           th:class="${active}=='attach'?'waves-effect active':'waves-effect'"><i
-                                class="fa fa-cloud-upload" aria-hidden="true"></i><span> 文件管理 </span></a>
-                    </li>
+                    <!--<li th:class="${active}=='attach'?'active':''">-->
+                        <!--<a th:href="@{/admin/attach}"-->
+                           <!--th:class="${active}=='attach'?'waves-effect active':'waves-effect'"><i-->
+                                <!--class="fa fa-cloud-upload" aria-hidden="true"></i><span> 文件管理 </span></a>-->
+                    <!--</li>-->
                     <li th:class="${active}=='links'?'active':''">
                         <a th:href="@{/admin/links}" th:class="${active}=='links'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-link" aria-hidden="true"></i><span> 友链管理 </span></a>
                     </li>
-                    <li th:class="${active}=='setting'?'active':''">
+                    <li th:class="${active}=='settings'?'active':''">
                         <a th:href="@{/admin/setting}"
-                           th:class="${active}=='setting'?'waves-effect active':'waves-effect'"><i
+                           th:class="${active}=='settings'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-gear" aria-hidden="true"></i><span> 系统设置 </span></a>
                     </li>
                 </ul>

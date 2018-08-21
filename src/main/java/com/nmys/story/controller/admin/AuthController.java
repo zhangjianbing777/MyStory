@@ -3,12 +3,17 @@ package com.nmys.story.controller.admin;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
 import com.nmys.story.exception.TipException;
+import com.nmys.story.model.bo.ResponseBo;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IUserService;
+import com.nmys.story.utils.MD5Utils;
 import com.nmys.story.utils.TaleUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,48 +59,127 @@ public class AuthController extends BaseController {
                                   HttpServletRequest request,
                                   HttpServletResponse response) {
 
-        Integer error_count = cache.get("login_error_count");
-        error_count = null == error_count ? 0 : error_count;
+
+
+
+        // 密码MD5加密
+        password = MD5Utils.encrypt(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        // 获取Subject对象
+        Subject subject = SecurityUtils.getSubject();
         try {
-            Users user = userService.userLogin(username, password);
-            if (null == user) {
-                // 在缓存中记录失败次数,超过5次5分钟再试
-                error_count += 1;
-                cache.set("login_error_count", error_count, 300);
-                if (null != error_count && error_count >= 5) {
-                    return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
-                }
-                int times = 5 - error_count;
-                return RestResponseBo.fail("密码错误!您还有" + times + "次机会!");
-            }
-            // 将登录的user放入session中
+            subject.login(token);
+            Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+            // 放入指定的session中
             request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
-            // 默认超时时间为30分钟
-            // request.getSession().setMaxInactiveInterval(60);
-
-            // 若勾选记住密码，将用户的id加密以后存到cookie中
-            if (StringUtils.isNotBlank(remeber_me)) {
-                TaleUtils.setCookie(response, user.getUid());
-            }
-            if (null != error_count && error_count >= 5) {
-                return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
-            }
-
-            // 。。。。记录一下用户登录的日志
-
-        } catch (Exception e) {
-            error_count += 1;
-            cache.set("login_error_count", error_count, 300);
-            String msg = "登录失败";
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                log.error(msg, e);
-            }
-            return RestResponseBo.fail(msg);
+            return RestResponseBo.ok();
+        } catch (UnknownAccountException e) {
+            return RestResponseBo.fail(e.getMessage());
+        } catch (IncorrectCredentialsException e) {
+            return RestResponseBo.fail(e.getMessage());
+        } catch (LockedAccountException e) {
+            return RestResponseBo.fail(e.getMessage());
+        } catch (AuthenticationException e) {
+            return RestResponseBo.fail("认证失败！");
         }
-        return RestResponseBo.ok();
+
+
+
+
+
+//        Integer error_count = cache.get("login_error_count");
+//        error_count = null == error_count ? 0 : error_count;
+//        try {
+//            Users user = userService.userLogin(username, password);
+//            if (null == user) {
+//                // 在缓存中记录失败次数,超过5次5分钟再试
+//                error_count += 1;
+//                cache.set("login_error_count", error_count, 300);
+//                if (null != error_count && error_count >= 5) {
+//                    return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
+//                }
+//                int times = 5 - error_count;
+//                return RestResponseBo.fail("密码错误!您还有" + times + "次机会!");
+//            }
+//            // 将登录的user放入session中
+//            request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
+//            // 默认超时时间为30分钟
+//            // request.getSession().setMaxInactiveInterval(60);
+//
+//            // 若勾选记住密码，将用户的id加密以后存到cookie中
+//            if (StringUtils.isNotBlank(remeber_me)) {
+//                TaleUtils.setCookie(response, user.getUid());
+//            }
+//            if (null != error_count && error_count >= 5) {
+//                return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
+//            }
+//
+//            // 。。。。记录一下用户登录的日志
+//
+//        } catch (Exception e) {
+//            error_count += 1;
+//            cache.set("login_error_count", error_count, 300);
+//            String msg = "登录失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponseBo.fail(msg);
+//        }
+//        return RestResponseBo.ok();
     }
+
+//    @PostMapping("/login")
+//    @ResponseBody
+//    public RestResponseBo doLogin(@RequestParam String username,
+//                                  @RequestParam String password,
+//                                  @RequestParam(required = false) String remeber_me,
+//                                  HttpServletRequest request,
+//                                  HttpServletResponse response) {
+//
+//        Integer error_count = cache.get("login_error_count");
+//        error_count = null == error_count ? 0 : error_count;
+//        try {
+//            Users user = userService.userLogin(username, password);
+//            if (null == user) {
+//                // 在缓存中记录失败次数,超过5次5分钟再试
+//                error_count += 1;
+//                cache.set("login_error_count", error_count, 300);
+//                if (null != error_count && error_count >= 5) {
+//                    return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
+//                }
+//                int times = 5 - error_count;
+//                return RestResponseBo.fail("密码错误!您还有" + times + "次机会!");
+//            }
+//            // 将登录的user放入session中
+//            request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
+//            // 默认超时时间为30分钟
+//            // request.getSession().setMaxInactiveInterval(60);
+//
+//            // 若勾选记住密码，将用户的id加密以后存到cookie中
+//            if (StringUtils.isNotBlank(remeber_me)) {
+//                TaleUtils.setCookie(response, user.getUid());
+//            }
+//            if (null != error_count && error_count >= 5) {
+//                return RestResponseBo.fail("您输入密码已经错误超过5次，请5分钟后尝试");
+//            }
+//
+//            // 。。。。记录一下用户登录的日志
+//
+//        } catch (Exception e) {
+//            error_count += 1;
+//            cache.set("login_error_count", error_count, 300);
+//            String msg = "登录失败";
+//            if (e instanceof TipException) {
+//                msg = e.getMessage();
+//            } else {
+//                log.error(msg, e);
+//            }
+//            return RestResponseBo.fail(msg);
+//        }
+//        return RestResponseBo.ok();
+//    }
 
 
     /**

@@ -30,23 +30,24 @@ public class SecurityController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseBo login(String username, String password) {
-        // 密码MD5加密
-        password = MD5Utils.encrypt(username, password);
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        // 获取Subject对象
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(token);
-            return ResponseBo.ok();
-        } catch (UnknownAccountException e) {
-            return ResponseBo.error(e.getMessage());
-        } catch (IncorrectCredentialsException e) {
-            return ResponseBo.error(e.getMessage());
-        } catch (LockedAccountException e) {
-            return ResponseBo.error(e.getMessage());
-        } catch (AuthenticationException e) {
-            return ResponseBo.error("认证失败！");
-        }
+//        // 密码MD5加密
+//        password = MD5Utils.encrypt(username, password);
+//        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+//        // 获取Subject对象
+//        Subject subject = SecurityUtils.getSubject();
+//        try {
+//            subject.login(token);
+//            return ResponseBo.ok();
+//        } catch (UnknownAccountException e) {
+//            return ResponseBo.error(e.getMessage());
+//        } catch (IncorrectCredentialsException e) {
+//            return ResponseBo.error(e.getMessage());
+//        } catch (LockedAccountException e) {
+//            return ResponseBo.error(e.getMessage());
+//        } catch (AuthenticationException e) {
+//            return ResponseBo.error("认证失败！");
+//        }
+        return null;
     }
 
     @RequestMapping("/")

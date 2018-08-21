@@ -50,41 +50,41 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        // 请求uri
-        String uri = request.getRequestURI();
-
-        // 获取访问用户的信息
-        logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
-        // 获取来访用户的IP地址
-        logger.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
-
-        // 查看session中是否有登录用户
-        Users user = TaleUtils.getLoginUser(request);
-        if (null == user) {
-            // 用户不走登录,首先查看cookie中是否有用户信息
-            Integer uid = TaleUtils.getCookieUid(request);
-            // 有
-            if (null != uid) {
-                // 这里还是有安全隐患,cookie是可以伪造的
-                user = userService.selectUserById(uid);
-                request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
-            }
-        }
-
-        // 用户session没有,cookie也没有
-        if (uri.startsWith("/admin") && !uri.startsWith("/admin/login") && null == user) {
-            response.sendRedirect(request.getContextPath() + "/admin/login");
-            return false;
-        }
-
-        //设置get请求的token
-        if (request.getMethod().equals("GET")) {
-            // 紧凑格式的 UUID
-            String csrf_token = UUID.UU64();
-            // 默认存储30分钟
-            cache.hset(Types.CSRF_TOKEN, csrf_token, uri, 30 * 60);
-            request.setAttribute("_csrf_token", csrf_token);
-        }
+//        // 请求uri
+//        String uri = request.getRequestURI();
+//
+//        // 获取访问用户的信息
+//        logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
+//        // 获取来访用户的IP地址
+//        logger.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
+//
+//        // 查看session中是否有登录用户
+//        Users user = TaleUtils.getLoginUser(request);
+//        if (null == user) {
+//            // 用户不走登录,首先查看cookie中是否有用户信息
+//            Integer uid = TaleUtils.getCookieUid(request);
+//            // 有
+//            if (null != uid) {
+//                // 这里还是有安全隐患,cookie是可以伪造的
+//                user = userService.selectUserById(uid);
+//                request.getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
+//            }
+//        }
+//
+//        // 用户session没有,cookie也没有
+//        if (uri.startsWith("/admin") && !uri.startsWith("/admin/login") && null == user) {
+//            response.sendRedirect(request.getContextPath() + "/admin/login");
+//            return false;
+//        }
+//
+//        //设置get请求的token
+//        if (request.getMethod().equals("GET")) {
+//            // 紧凑格式的 UUID
+//            String csrf_token = UUID.UU64();
+//            // 默认存储30分钟
+//            cache.hset(Types.CSRF_TOKEN, csrf_token, uri, 30 * 60);
+//            request.setAttribute("_csrf_token", csrf_token);
+//        }
         return true;
     }
 
