@@ -6,6 +6,7 @@ import com.nmys.story.controller.BaseController;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.ICommentService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class CommentController extends BaseController {
                         @RequestParam(defaultValue = "10") int limit,
                         HttpServletRequest request) {
         // 获取登录人
-        Users user = this.user(request);
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
         PageHelper.startPage(page,limit);
         // 查询非登录人的评论
         List<Comments> commentsList = commentService.selectCommentsByAuthorId(user.getUid());

@@ -15,6 +15,7 @@ import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,6 @@ public class IndexController extends BaseController {
     private SiteService siteService;
 
     @Autowired
-    private ICommentService commentService;
-
-    @Autowired
-    private IContentService contentService;
-
-    @Autowired
     private IUserService userService;
 
     /**
@@ -58,16 +53,10 @@ public class IndexController extends BaseController {
         // 获取最新的5条评论
         List<Comments> comments = siteService.recentComments(10);
         List<Contents> contents = siteService.getContens(Types.RECENT_ARTICLE, 10);
-//        Statistics     statistics = siteService.getStatistics();
         Statistics statistics = new Statistics();
-//        // 取最新的20条日志
-//        Page<Logs> logsPage = new Logs().page(1, 20, "id desc");
-//        List<Logs> logs     = logsPage.getRows();
-//
         request.setAttribute("comments", comments);
         request.setAttribute("articles", contents);
         request.setAttribute("statistics", statistics);
-//        request.attribute("logs", logs);
         return "admin/index";
     }
 
@@ -80,7 +69,9 @@ public class IndexController extends BaseController {
      * Date 2018/5/14 18:08
      */
     @GetMapping(value = "profile")
-    public String profile() {
+    public String profile(HttpServletRequest request) {
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+        request.setAttribute("user", user);
         return "admin/profile";
     }
 
@@ -93,21 +84,17 @@ public class IndexController extends BaseController {
                                       @RequestParam String email,
                                       HttpServletRequest request,
                                       HttpSession session) {
-        Users users = this.user(request);
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
         if (StringUtils.isNotBlank(screenName) && StringUtils.isNotBlank(email)) {
             Users temp = new Users();
-            temp.setUid(users.getUid());
+            temp.setUid(user.getUid());
             temp.setScreen_name(screenName);
             temp.setEmail(email);
             userService.updateUser(temp);
-            // 更新日志暂时去掉
-            // logService.insertLog(LogActions.UP_INFO, GsonUtils.toJsonString(temp), request.getRemoteAddr(), this.getUid(request));
-
             // 更新session中的数据
-            Users original= (Users)session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
-            original.setScreen_name(screenName);
-            original.setEmail(email);
-            session.setAttribute(WebConstant.LOGIN_SESSION_KEY,original);
+            user.setScreen_name(screenName);
+            user.setEmail(email);
+            SecurityUtils.getSubject().getSession().setAttribute(WebConstant.LOGIN_SESSION_KEY, user);
         }
         return RestResponseBo.ok();
     }
@@ -125,7 +112,7 @@ public class IndexController extends BaseController {
                                 @RequestParam String password,
                                 HttpServletRequest request,
                                 HttpSession session) {
-        Users users = this.user(request);
+        Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(password)) {
             return RestResponseBo.fail("请确认信息输入完整");
         }
@@ -146,11 +133,11 @@ public class IndexController extends BaseController {
             userService.updateUser(temp);
 
             //更新session中的数据
-            Users original= (Users)session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
+            Users original = (Users) session.getAttribute(WebConstant.LOGIN_SESSION_KEY);
             original.setPassword(pwd);
-            session.setAttribute(WebConstant.LOGIN_SESSION_KEY,original);
+            session.setAttribute(WebConstant.LOGIN_SESSION_KEY, original);
             return RestResponseBo.ok();
-        } catch (Exception e){
+        } catch (Exception e) {
             String msg = "密码修改失败";
             if (e instanceof TipException) {
                 msg = e.getMessage();

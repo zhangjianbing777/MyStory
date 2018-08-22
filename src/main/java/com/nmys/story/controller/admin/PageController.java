@@ -8,6 +8,7 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class PageController extends BaseController {
                                       @RequestParam(required = false) Integer allowPing,
                                       HttpServletRequest request) {
 
-        Users users = this.user(request);
+        Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         Contents contents = new Contents();
         contents.setTitle(title);
         contents.setContent(content);
@@ -101,7 +102,7 @@ public class PageController extends BaseController {
                                         @RequestParam String status, @RequestParam String slug,
                                         @RequestParam(required = false) Integer allowComment, @RequestParam(required = false) Integer allowPing, HttpServletRequest request) {
 
-        Users users = this.user(request);
+        Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         Contents contents = new Contents();
         contents.setCid(cid);
         contents.setTitle(title);

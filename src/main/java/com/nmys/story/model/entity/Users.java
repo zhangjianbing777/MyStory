@@ -42,4 +42,7 @@ public class Users {
     // 用户组
     private String group_name;
 
+    /** 用户状态：0：锁定，1：正常 **/
+    private String status;
+
 }

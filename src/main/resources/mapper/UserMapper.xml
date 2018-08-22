@@ -12,6 +12,7 @@
         <result column="activated" jdbcType="INTEGER" property="activated" />
         <result column="logged" jdbcType="INTEGER" property="logged" />
         <result column="group_name" jdbcType="VARCHAR" property="group_name" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
     </resultMap>
 
     <sql id="Base_Column_List">

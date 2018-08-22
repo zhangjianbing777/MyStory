@@ -13,6 +13,7 @@ import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class ArticleController extends BaseController {
     @ResponseBody
     public RestResponseBo publishArticle(Contents contents, HttpServletRequest request) {
         // 登录人
-        Users users = this.user(request);
+        Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         // 作者
         contents.setAuthorId(users.getUid());
         // 类型
@@ -121,7 +122,7 @@ public class ArticleController extends BaseController {
     @PostMapping(value = "/modify")
     @ResponseBody
     public RestResponseBo modifyArticle(Contents contents, HttpServletRequest request) {
-        Users users = this.user(request);
+        Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         int time = DateKit.getCurrentUnixTime();
         contents.setModified(time);
         contents.setAuthorId(users.getUid());

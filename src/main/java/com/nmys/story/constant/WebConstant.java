@@ -74,4 +74,14 @@ public class WebConstant {
      */
     public static String ADMIN_NAME = "70KG";
 
+    /**
+     * 后台会员状态正常
+     */
+    public static String STATUS_1 = "1";
+
+    /**
+     * 后台会员状态锁定
+     */
+    public static String STATUS_0 = "0";
+
 }
