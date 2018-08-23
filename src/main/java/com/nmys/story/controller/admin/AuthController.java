@@ -66,7 +66,7 @@ public class AuthController extends BaseController {
         try {
             subject.login(token);
             // 30分钟失效
-            subject.getSession().setTimeout(30*60*1000);
+            subject.getSession().setTimeout(30 * 60 * 1000);
             return RestResponseBo.ok();
         } catch (UnknownAccountException e) {
             return RestResponseBo.fail(e.getMessage());
@@ -155,5 +155,21 @@ public class AuthController extends BaseController {
 //            log.error("注销失败", e);
 //        }
 //    }
+
+    /**
+     * Description: 重写logout方法，shiro默认跳到首页
+     * author: 70KG
+     * Date: 2018/8/23 下午9:07
+     * From: www.nmyswls.com
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        // 如果已经登录，则跳转到管理首页
+        if (subject != null) {
+            subject.logout();
+        }
+        return "redirect:/admin/login";
+    }
 
 }
