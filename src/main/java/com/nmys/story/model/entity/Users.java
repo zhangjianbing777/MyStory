@@ -10,7 +10,7 @@ import lombok.Data;
  * Date 2018/5/17 10:14
  */
 @Data
-public class Users {
+public class Users extends BaseEntity {
 
     // user表主键
     private Integer uid;
@@ -42,7 +42,9 @@ public class Users {
     // 用户组
     private String group_name;
 
-    /** 用户状态：0：锁定，1：正常 **/
+    /**
+     * 用户状态：0：锁定，1：正常
+     **/
     private String status;
 
 }

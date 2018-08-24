@@ -60,7 +60,7 @@ public class AuthController extends BaseController {
                                   HttpServletResponse response) {
         // 密码MD5加密
         password = MD5Utils.encrypt(username, password);
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, StringUtils.isNotBlank(remeber_me));
         // 获取Subject对象
         Subject subject = SecurityUtils.getSubject();
         try {
