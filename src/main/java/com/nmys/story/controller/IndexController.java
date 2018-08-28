@@ -507,8 +507,10 @@ public class IndexController extends BaseController {
         return this.render("page-category");
     }
 
-    @GetMapping(value = "searchPage")
-    public String m1() {
+    @GetMapping(value = "/about/searchPage")
+    public String searchTags(HttpServletRequest request) {
+        List<Metas> tagList = metaService.getMetasByType("tag");
+        request.setAttribute("tagList", tagList);
         return "themes/front/search";
     }
 
