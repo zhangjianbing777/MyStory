@@ -47,6 +47,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/archives/**", "anon");
         filterChainDefinitionMap.put("/search/**", "anon");
         filterChainDefinitionMap.put("/tag/**", "anon");
+        filterChainDefinitionMap.put("/comment/**", "anon");
         filterChainDefinitionMap.put("/soulPainter.html/**", "anon");
 
         // druid数据源监控页面不拦截

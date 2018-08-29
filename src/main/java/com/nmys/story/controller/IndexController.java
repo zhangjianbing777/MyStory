@@ -282,14 +282,8 @@ public class IndexController extends BaseController {
                                   @RequestParam String text,
                                   @RequestParam String _csrf_token) {
 
-        String ref = request.getHeader("Referer");
-        if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
-            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
-        }
-
-        // ?!?!?!?!?!?!?!
-//        String token = cache.hget(Types.CSRF_TOKEN, _csrf_token);
-//        if (StringUtils.isBlank(token)) {
+//        String ref = request.getHeader("Referer");
+//        if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
 //            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
 //        }
 
@@ -301,17 +295,9 @@ public class IndexController extends BaseController {
             return RestResponseBo.fail("姓名过长~");
         }
 
-//        if (StringUtils.isNotBlank(author) && WebConstant.ADMIN_NAME.equals(author.toUpperCase().trim())) {
-//            return RestResponseBo.fail("此名称不可用哦~");
-//        }
-
         if (StringUtils.isNotBlank(mail) && !TaleUtils.isEmail(mail)) {
             return RestResponseBo.fail("请输入正确的邮箱格式~");
         }
-
-//        if (StringUtils.isNotBlank(url) && !PatternKit.isURL(url)) {
-//            return RestResponseBo.fail("请输入正确的URL格式");
-//        }
 
         if (text.length() > 200) {
             return RestResponseBo.fail("请输入200个字符以内的评论~");
@@ -400,11 +386,6 @@ public class IndexController extends BaseController {
     private void completeArticle(String coid, HttpServletRequest request, Contents contents) {
         // 允许评论
         if (contents.getAllowComment() == 1) {
-//            String cp = request.getParameter("cp");
-//            if (StringUtils.isBlank(cp)) {
-//                cp = "1";
-//            }
-//            request.setAttribute("cp", cp);
             // 每页6条评论
             PageInfo<Comments> commentsPaginator = commentService.getCommentsListByContentId(contents.getCid(), Integer.parseInt(coid), 6);
             request.setAttribute("comments", commentsPaginator);
