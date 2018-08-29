@@ -42,6 +42,7 @@ public class ShiroConfiguration {
         // 前台页面不拦截
         filterChainDefinitionMap.put("/article/**", "anon");
         filterChainDefinitionMap.put("/about/**", "anon");
+        filterChainDefinitionMap.put("/page/**", "anon");
         filterChainDefinitionMap.put("/links/**", "anon");
         filterChainDefinitionMap.put("/archives/**", "anon");
         filterChainDefinitionMap.put("/search/**", "anon");
