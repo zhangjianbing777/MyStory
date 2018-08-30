@@ -50,13 +50,13 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-//        // 请求uri
-//        String uri = request.getRequestURI();
-//
-//        // 获取访问用户的信息
-//        logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
-//        // 获取来访用户的IP地址
-//        logger.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
+        // 请求uri
+        String uri = request.getRequestURI();
+
+        // 获取访问用户的信息
+        logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
+        // 获取来访用户的IP地址
+        logger.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
 //
 //        // 查看session中是否有登录用户
 //        Users user = TaleUtils.getLoginUser(request);
