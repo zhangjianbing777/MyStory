@@ -1,15 +1,25 @@
 package com.nmys.story.shiro;
 
 import com.nmys.story.constant.WebConstant;
+import com.nmys.story.mapper.UserPermissionMapper;
+import com.nmys.story.mapper.UserRoleMapper;
+import com.nmys.story.model.entity.Permission;
+import com.nmys.story.model.entity.Role;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * description
@@ -24,6 +34,12 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private UserPermissionMapper userPermissionMapper;
+
     /**
      * Description: 用户授权
      * Author:70KG
@@ -33,7 +49,28 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        return null;
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+        String userName = user.getUsername();
+
+        System.out.println("获取用户：" + userName + "的权限信息-----ShiroRealm.doGetAuthorizationInfo");
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+
+        // 获取用户角色集
+        List<Role> roleList = userRoleMapper.findByUserName(userName);
+        Set<String> roleSet = new HashSet<>();
+        for (Role r : roleList) {
+            roleSet.add(r.getName());
+        }
+        simpleAuthorizationInfo.setRoles(roleSet);
+
+        // 获取用户权限集
+        List<Permission> permissionList = userPermissionMapper.findByUserName(userName);
+        Set<String> permissionSet = new HashSet<>();
+        for (Permission p : permissionList) {
+            permissionSet.add(p.getName());
+        }
+        simpleAuthorizationInfo.setStringPermissions(permissionSet);
+        return simpleAuthorizationInfo;
     }
 
     /**
