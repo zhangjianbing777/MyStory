@@ -14,7 +14,6 @@ import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +137,13 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Description: 删除文章
+     * Author:70KG
+     * Param [cid, request]
+     * Return RestResponseBo
+     * Date 2018/9/4 17:52
+     */
     @RequestMapping(value = "/delete")
     @ResponseBody
     public RestResponseBo delete(@RequestParam int cid, HttpServletRequest request) {

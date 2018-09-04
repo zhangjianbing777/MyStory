@@ -9,8 +9,6 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
-import com.nmys.story.service.ICommentService;
-import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;

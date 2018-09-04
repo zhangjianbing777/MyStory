@@ -7,12 +7,12 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.IMetaService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -48,10 +48,9 @@ public class LinksController extends BaseController {
      * Description:保存友链
      * Author:70kg
      * Param [title, url, logo, mid, sort]
-     * Return com.nmys.story.model.bo.RestResponseBo
+     * Return RestResponseBo
      * Date 2018/5/14 12:39
      */
-//    @RequiresRoles("admin")
     @RequiresPermissions("add")
     @PostMapping(value = "save")
     @ResponseBody
@@ -86,10 +85,10 @@ public class LinksController extends BaseController {
      * Description:删除友链
      * Author:70kg
      * Param [mid]
-     * Return com.nmys.story.model.bo.RestResponseBo
+     * Return RestResponseBo
      * Date 2018/5/14 12:39
      */
-    @RequiresPermissions("add")
+    @RequiresPermissions("delete")
     @RequestMapping(value = "delete")
     @ResponseBody
     public RestResponseBo delete(@RequestParam int mid) {

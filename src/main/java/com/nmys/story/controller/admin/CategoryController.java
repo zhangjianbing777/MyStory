@@ -6,6 +6,7 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.IMetaService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class CategoryController extends BaseController {
         return "admin/category";
     }
 
+    @RequiresPermissions("add")
     @PostMapping(value = "save")
     @ResponseBody
     public RestResponseBo saveCategory(@RequestParam String cname, @RequestParam Integer mid) {
@@ -53,7 +55,8 @@ public class CategoryController extends BaseController {
         return RestResponseBo.ok();
     }
 
-    @RequestMapping(value = "delete")
+    @RequiresPermissions("delete")
+    @PostMapping(value = "delete")
     @ResponseBody
     public RestResponseBo delete(@RequestParam int mid) {
         try {
