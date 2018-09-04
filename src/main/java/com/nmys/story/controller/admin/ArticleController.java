@@ -103,7 +103,6 @@ public class ArticleController extends BaseController {
      * Return java.lang.String
      * Date 2018/5/17 14:49
      */
-    @RequiresPermissions("user:add")
     @GetMapping(value = "/{cid}")
     public String editArticle(@PathVariable String cid, HttpServletRequest request) {
         Contents contents = contentService.getContentById(Integer.parseInt(cid));

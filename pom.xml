@@ -29,11 +29,19 @@
         <jasypt.version>2.0.0</jasypt.version>
         <durd.version>1.0.18</durd.version>
         <lombok.version>1.16.18</lombok.version>
+        <thymeleaf-shiro.version>2.0.0</thymeleaf-shiro.version>
 
         <docker.image.prefix>springboot</docker.image.prefix>
     </properties>
 
     <dependencies>
+
+        <!-- thymeleaf-shiro标签的使用 -->
+        <dependency>
+            <groupId>com.github.theborakompanioni</groupId>
+            <artifactId>thymeleaf-extras-shiro</artifactId>
+            <version>${thymeleaf-shiro.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>

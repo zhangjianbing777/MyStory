@@ -67,7 +67,7 @@ public class ShiroRealm extends AuthorizingRealm {
         List<Permission> permissionList = userPermissionMapper.findByUserName(userName);
         Set<String> permissionSet = new HashSet<>();
         for (Permission p : permissionList) {
-            permissionSet.add(p.getName());
+            permissionSet.add(p.getDescription());
         }
         simpleAuthorizationInfo.setStringPermissions(permissionSet);
         return simpleAuthorizationInfo;

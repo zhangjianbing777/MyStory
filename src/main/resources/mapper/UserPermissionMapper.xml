@@ -5,14 +5,14 @@
     <resultMap id="permission" type="com.nmys.story.model.entity.Permission">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findByUserName" resultMap="permission">
         SELECT
             p.id,
             p.url,
-            p.name
+            p.description
         FROM t_role r
             LEFT JOIN t_user_role ur ON (r.id = ur.rid)
             LEFT JOIN t_users u ON (u.uid = ur.user_id)

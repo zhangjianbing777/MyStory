@@ -6,6 +6,8 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.IMetaService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,8 @@ public class LinksController extends BaseController {
      * Return com.nmys.story.model.bo.RestResponseBo
      * Date 2018/5/14 12:39
      */
+//    @RequiresRoles("admin")
+    @RequiresPermissions("add")
     @PostMapping(value = "save")
     @ResponseBody
     public RestResponseBo saveLink(@RequestParam String title,
@@ -85,6 +89,7 @@ public class LinksController extends BaseController {
      * Return com.nmys.story.model.bo.RestResponseBo
      * Date 2018/5/14 12:39
      */
+    @RequiresPermissions("add")
     @RequestMapping(value = "delete")
     @ResponseBody
     public RestResponseBo delete(@RequestParam int mid) {

@@ -1,5 +1,6 @@
 package com.nmys.story.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.DependsOn;
 import java.util.LinkedHashMap;
 
 /**
- * description
+ * description：shiro总配置类
  *
  * @author 70KG
  * @date 2018/8/20
@@ -92,8 +93,7 @@ public class ShiroConfiguration {
     /**
      * Description:cookie对象
      * Author:70KG
-     * Param []
-     * Return org.apache.shiro.web.servlet.SimpleCookie
+     * Return SimpleCookie
      * Date 2018/8/24
      */
     public SimpleCookie rememberMeCookie() {
@@ -107,8 +107,7 @@ public class ShiroConfiguration {
     /**
      * Description:创建cookie管理对象
      * Author:70KG
-     * Param []
-     * Return org.apache.shiro.web.mgt.CookieRememberMeManager
+     * Return CookieRememberMeManager
      * Date 2018/8/24
      */
     public CookieRememberMeManager rememberMeManager() {
@@ -121,6 +120,13 @@ public class ShiroConfiguration {
 
 
 
+    /**
+     * Description: 开启@RequiresPermissions，@RequiresRoles，@RequiresGuest，@RequiresUser，@RequiresAuthentication等注解的使用
+     * Author:70KG
+     * Param []
+     * Return DefaultAdvisorAutoProxyCreator
+     * Date 2018/9/4 13:05
+     */
     @Bean
     @DependsOn({"lifecycleBeanPostProcessor"})
     public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
@@ -128,11 +134,23 @@ public class ShiroConfiguration {
         advisorAutoProxyCreator.setProxyTargetClass(true);
         return advisorAutoProxyCreator;
     }
+
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+    /**
+     * Description: thymeleaf-shiro标签的使用
+     * Author:70KG
+     * Return ShiroDialect
+     * Date 2018/9/4 13:19
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
 }

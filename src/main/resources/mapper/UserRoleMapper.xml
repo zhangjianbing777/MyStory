@@ -5,14 +5,14 @@
     <resultMap id="role" type="com.nmys.story.model.entity.Role">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="memo" property="memo" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findByUserName" resultMap="role">
         SELECT
             r.id,
             r.name,
-            r.memo
+            r.description
         FROM t_role r
             LEFT JOIN t_user_role ur ON (r.id = ur.rid)
             LEFT JOIN t_users u ON (u.uid = ur.user_id)

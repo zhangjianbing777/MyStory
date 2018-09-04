@@ -18,6 +18,6 @@ public class Permission extends BaseEntity {
     private String url;
 
     /** url描述 **/
-    private String name;
+    private String description;
 
 }

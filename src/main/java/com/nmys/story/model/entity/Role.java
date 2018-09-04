@@ -18,6 +18,6 @@ public class Role extends BaseEntity{
     private String name;
 
     /** 角色描述 **/
-    private String memo;
+    private String description;
 
 }
