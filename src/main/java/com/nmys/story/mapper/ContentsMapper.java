@@ -63,7 +63,7 @@ public interface ContentsMapper {
      * author: itachi
      * Date: 2018/5/13 下午2:28
      */
-    List<Contents> getContentsConditions(@Param("type") String type);
+    List<Contents> getContentsConditions(@Param("type") String type, @Param("userId") Integer userId);
 
     /**
      * Description: 保存文章

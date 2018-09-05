@@ -41,7 +41,7 @@ public class CategoryController extends BaseController {
         return "admin/category";
     }
 
-    @RequiresPermissions("add")
+    @RequiresPermissions("create")
     @PostMapping(value = "save")
     @ResponseBody
     public RestResponseBo saveCategory(@RequestParam String cname, @RequestParam Integer mid) {

@@ -177,7 +177,12 @@
     </select>
 
     <select id="getContentsConditions" resultMap="BaseResultMap">
-        SELECT * FROM t_contents WHERE type = #{type} order by created desc
+        SELECT * FROM t_contents WHERE type = #{type}
+        <if test="userId != -1">
+            and author_id = #{userId,jdbcType=INTEGER}
+        </if>
+
+        order by created desc
     </select>
 
     <select id="selectContentByConditions" resultType="java.lang.Long">

@@ -51,7 +51,7 @@ public class LinksController extends BaseController {
      * Return RestResponseBo
      * Date 2018/5/14 12:39
      */
-    @RequiresPermissions("add")
+    @RequiresPermissions("create")
     @PostMapping(value = "save")
     @ResponseBody
     public RestResponseBo saveLink(@RequestParam String title,

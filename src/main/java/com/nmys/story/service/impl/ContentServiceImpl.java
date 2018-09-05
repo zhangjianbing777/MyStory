@@ -7,6 +7,7 @@ import com.nmys.story.mapper.ContentsMapper;
 import com.nmys.story.mapper.MetaMapper;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.service.IRelationshipService;
@@ -14,6 +15,7 @@ import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,8 +69,11 @@ public class ContentServiceImpl implements IContentService {
 
     @Override
     public PageInfo<Contents> getContentsConditions(String type, Integer page, Integer limit) {
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+        Integer userId = user.getId();
+
         PageHelper.startPage(page, limit);
-        List<Contents> list = contentsMapper.getContentsConditions(type);
+        List<Contents> list = contentsMapper.getContentsConditions(type, userId == 1 ? -1 : userId);
         PageInfo<Contents> pageInfo = new PageInfo(list);
         return pageInfo;
     }
@@ -140,7 +145,7 @@ public class ContentServiceImpl implements IContentService {
         // limit9999
         PageHelper.startPage(page, limit);
         // 查询出所有类型为page的文章
-        List<Contents> list = contentsMapper.getContentsConditions(Types.PAGE);
+        List<Contents> list = contentsMapper.getContentsConditions(Types.PAGE, 1);
         PageInfo<Contents> pageInfo = new PageInfo(list);
         return pageInfo;
     }
