@@ -15,7 +15,7 @@
             r.description
         FROM t_role r
             LEFT JOIN t_user_role ur ON (r.id = ur.rid)
-            LEFT JOIN t_users u ON (u.uid = ur.user_id)
+            LEFT JOIN t_users u ON (u.id = ur.user_id)
         WHERE u.username = #{userName}
     </select>
 

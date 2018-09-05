@@ -85,7 +85,7 @@ public class IndexController extends BaseController {
         Users user = (Users) SecurityUtils.getSubject().getPrincipal();
         if (StringUtils.isNotBlank(screenName) && StringUtils.isNotBlank(email)) {
             Users temp = new Users();
-            temp.setUid(user.getUid());
+            temp.setId(user.getId());
             temp.setScreen_name(screenName);
             temp.setEmail(email);
             userService.updateUser(temp);
@@ -124,7 +124,7 @@ public class IndexController extends BaseController {
 
         try {
             Users temp = new Users();
-            temp.setUid(users.getUid());
+            temp.setId(users.getId());
             // 用户名和密码加密
             String pwd = TaleUtils.MD5encode(users.getUsername() + password);
             temp.setPassword(pwd);

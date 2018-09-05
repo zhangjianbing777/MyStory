@@ -13,7 +13,7 @@ import lombok.Data;
 public class Users extends BaseEntity {
 
     // user表主键
-    private Integer uid;
+    private Integer id;
 
     // 用户名称
     private String username;

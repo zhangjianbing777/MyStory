@@ -82,7 +82,7 @@ public class ArticleController extends BaseController {
         // 登录人
         Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         // 作者
-        contents.setAuthorId(users.getUid());
+        contents.setAuthorId(users.getId());
         // 类型
         contents.setType(Types.ARTICLE);
         if (StringUtils.isBlank(contents.getCategories())) {
@@ -125,7 +125,7 @@ public class ArticleController extends BaseController {
         Users users = (Users) SecurityUtils.getSubject().getPrincipal();
         int time = DateKit.getCurrentUnixTime();
         contents.setModified(time);
-        contents.setAuthorId(users.getUid());
+        contents.setAuthorId(users.getId());
         contents.setType(Types.ARTICLE);
         String result = "";
         boolean flag = contentService.updateContent(contents);

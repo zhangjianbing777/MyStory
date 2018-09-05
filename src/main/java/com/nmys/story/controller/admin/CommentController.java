@@ -43,7 +43,7 @@ public class CommentController extends BaseController {
         Users user = (Users) SecurityUtils.getSubject().getPrincipal();
         PageHelper.startPage(page,limit);
         // 查询非登录人的评论
-        List<Comments> commentsList = commentService.selectCommentsByAuthorId(user.getUid());
+        List<Comments> commentsList = commentService.selectCommentsByAuthorId(user.getId());
         PageInfo<Comments> pageInfo = new PageInfo(commentsList);
         request.setAttribute("comments", pageInfo);
         return "admin/comment_list";

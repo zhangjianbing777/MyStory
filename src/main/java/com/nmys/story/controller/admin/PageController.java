@@ -80,7 +80,7 @@ public class PageController extends BaseController {
         if (null != allowPing) {
             contents.setAllowPing(allowPing);
         }
-        contents.setAuthorId(users.getUid());
+        contents.setAuthorId(users.getId());
         String result = contentsService.saveContent(contents);
         if (!WebConstant.SUCCESS_RESULT.equals(result)) {
             return RestResponseBo.fail(result);
@@ -116,7 +116,7 @@ public class PageController extends BaseController {
         if (null != allowPing) {
             contents.setAllowPing(allowPing);
         }
-        contents.setAuthorId(users.getUid());
+        contents.setAuthorId(users.getId());
         // 更新文章
         String result = "";
         boolean flag = contentsService.updateContent(contents);

@@ -9,6 +9,8 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,6 +76,8 @@ public class ShiroConfiguration {
         securityManager.setRealm(shiroRealm());
         // 将RememberMe交给SecurityManager管理
         securityManager.setRememberMeManager(rememberMeManager());
+        // 开启redis缓存
+        securityManager.setCacheManager(cacheManager());
         return securityManager;
     }
 
@@ -151,6 +155,23 @@ public class ShiroConfiguration {
     @Bean
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
+    }
+
+    /**
+     * Description: 开启redis缓存，用来缓存权限角色等信息
+     * Author:70KG
+     * Return RedisManager
+     * Date 2018/9/5 9:58
+     */
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        return redisManager;
+    }
+
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
     }
 
 }

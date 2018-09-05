@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nmys.story.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Users">
-        <id column="uid" jdbcType="INTEGER" property="uid" />
+        <id column="id" jdbcType="INTEGER" property="id" />
         <result column="username" jdbcType="VARCHAR" property="username" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="email" jdbcType="VARCHAR" property="email" />
@@ -19,12 +19,12 @@
         username, password, email, home_url, screen_name, created, activated, logged, group_name
     </sql>
 
-    <insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="uid">
-        INSERT INTO t_users (uid, username, password,
+    <insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_users (id, username, password,
                              email, home_url, screen_name,
                              created, activated, logged,
                              group_name)
-        VALUES (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},
                 #{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},
                 #{group_name,jdbcType=VARCHAR})
@@ -39,7 +39,7 @@
     </select>
 
     <select id="selectUserById" resultMap="BaseResultMap">
-        SELECT * FROM t_users WHERE uid = #{id}
+        SELECT * FROM t_users WHERE id = #{id}
     </select>
 
     <update id="updateUser" parameterType="com.nmys.story.model.entity.Users">
@@ -73,7 +73,7 @@
                 group_name = #{group_name,jdbcType=VARCHAR},
             </if>
         </set>
-        where uid = #{uid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
     </update>
 
 </mapper>

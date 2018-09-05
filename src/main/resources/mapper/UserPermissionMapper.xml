@@ -15,7 +15,7 @@
             p.description
         FROM t_role r
             LEFT JOIN t_user_role ur ON (r.id = ur.rid)
-            LEFT JOIN t_users u ON (u.uid = ur.user_id)
+            LEFT JOIN t_users u ON (u.id = ur.user_id)
             LEFT JOIN t_role_permission rp ON (rp.rid = r.id)
             LEFT JOIN t_permission p ON (p.id = rp.pid)
         WHERE u.username = #{userName}

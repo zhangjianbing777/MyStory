@@ -30,11 +30,18 @@
         <durd.version>1.0.18</durd.version>
         <lombok.version>1.16.18</lombok.version>
         <thymeleaf-shiro.version>2.0.0</thymeleaf-shiro.version>
+        <shiro-redis.version>3.1.0</shiro-redis.version>
 
         <docker.image.prefix>springboot</docker.image.prefix>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>${shiro-redis.version}</version>
+        </dependency>
 
         <!-- thymeleaf-shiro标签的使用 -->
         <dependency>
