@@ -8,6 +8,7 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.entity.Options;
 import com.nmys.story.service.IOptionService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class SettingController extends BaseController {
      */
     @PostMapping(value = "")
     @ResponseBody
+    @RequiresRoles("admin")
     public RestResponseBo saveSetting(@RequestParam(required = false) String site_theme,
                                       HttpServletRequest request) {
         try {
@@ -103,6 +105,7 @@ public class SettingController extends BaseController {
      */
     @PostMapping(value = "backup")
     @ResponseBody
+    @RequiresRoles("admin")
     public RestResponseBo backup(@RequestParam String bk_type,
                                  @RequestParam String bk_path,
                                  HttpServletRequest request) {

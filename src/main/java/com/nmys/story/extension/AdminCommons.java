@@ -1,6 +1,8 @@
 package com.nmys.story.extension;
 
 import com.nmys.story.model.entity.Metas;
+import com.nmys.story.model.entity.Users;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -12,6 +14,8 @@ import java.util.Random;
  */
 @Component
 public final class AdminCommons {
+
+    private static final String[] COLORS = {"default", "primary", "success", "info", "warning", "danger", "inverse", "purple", "pink"};
 
     /**
      * 判断category和cat的交集
@@ -31,13 +35,26 @@ public final class AdminCommons {
         return false;
     }
 
-    private static final String[] COLORS = {"default", "primary", "success", "info", "warning", "danger", "inverse", "purple", "pink"};
 
     public static String rand_color() {
         Random rand = new Random();
         int r = rand.nextInt(9);
-//        int r = StringKit.rand(0, COLORS.length - 1);
         return COLORS[r];
     }
+
+    /**
+     * Description: 获取登录人姓名
+     * Author:70KG
+     * Return java.lang.String
+     * Date 2018/9/7 15:32
+     */
+    public static String getLoginUserName() {
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+        if (null != user) {
+            return user.getUsername();
+        }
+        return "guy";
+    }
+
 
 }
