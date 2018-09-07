@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     public RestResponseBo handleAuthorizationException1() {
         Users user = (Users) SecurityUtils.getSubject().getPrincipal();
         logger.error("用户：" + user.getUsername() + "进行了一次无权限操作！");
-        return RestResponseBo.fail("抱歉！您无此权限。");
+        return RestResponseBo.fail("Sorry！您无此权限！");
     }
 
 

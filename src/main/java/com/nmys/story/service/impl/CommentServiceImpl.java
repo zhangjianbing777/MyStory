@@ -50,8 +50,12 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public boolean delCommentById(Integer id) {
-        return false;
+    public String delCommentById(Integer coid) {
+        boolean flag = commentMapper.delCommentById(coid);
+        if(flag){
+            return WebConstant.SUCCESS_RESULT;
+        }
+        return "系统异常，删除失败！";
     }
 
     @Override

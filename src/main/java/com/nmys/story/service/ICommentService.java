@@ -57,10 +57,10 @@ public interface ICommentService {
      * Description:根据id删除评论
      * Author:70kg
      * Param [id]
-     * Return boolean
+     * Return String
      * Date 2018/5/9 15:12
      */
-    boolean delCommentById(Integer id);
+    String delCommentById(Integer id);
 
     /**
      * Description:查询非自己的评论

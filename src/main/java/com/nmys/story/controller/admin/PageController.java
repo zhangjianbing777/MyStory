@@ -9,6 +9,7 @@ import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class PageController extends BaseController {
 
     @PostMapping(value = "publish")
     @ResponseBody
+    @RequiresRoles("admin")
     public RestResponseBo publishPage(@RequestParam String title,
                                       @RequestParam String content,
                                       @RequestParam String status,
@@ -97,6 +99,7 @@ public class PageController extends BaseController {
      */
     @PostMapping(value = "modify")
     @ResponseBody
+    @RequiresRoles("admin")
     public RestResponseBo modifyArticle(@RequestParam Integer cid, @RequestParam String title,
                                         @RequestParam String content,
                                         @RequestParam String status, @RequestParam String slug,
@@ -133,6 +136,7 @@ public class PageController extends BaseController {
 
     @RequestMapping(value = "delete")
     @ResponseBody
+    @RequiresRoles("admin")
     public RestResponseBo delete(@RequestParam int cid, HttpServletRequest request) {
         // 删除文章
         String result = contentsService.delContentById(cid);
