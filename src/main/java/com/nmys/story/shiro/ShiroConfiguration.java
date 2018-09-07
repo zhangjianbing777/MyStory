@@ -12,6 +12,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -26,6 +27,18 @@ import java.util.LinkedHashMap;
  */
 @Configuration
 public class ShiroConfiguration {
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
@@ -82,7 +95,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         // Shiro生命周期处理器
         return new LifecycleBeanPostProcessor();
     }
@@ -165,6 +178,13 @@ public class ShiroConfiguration {
      */
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setPassword(password);
+        redisManager.setTimeout(timeout);
+//        redisManager.getJedisPoolConfig().setMaxWaitMillis(-1);
+//        redisManager.getJedisPoolConfig().setMaxIdle(8);
+//        redisManager.getJedisPoolConfig().setMinIdle(0);
         return redisManager;
     }
 
