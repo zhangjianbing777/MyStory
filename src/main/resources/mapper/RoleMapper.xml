@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Role">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+
+    <select id="getRoleByRoleName" resultType="com.nmys.story.model.entity.Role">
+        SELECT * FROM t_role WHERE name = #{roleName}
+    </select>
+
+</mapper>

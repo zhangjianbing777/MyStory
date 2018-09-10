@@ -2,7 +2,10 @@ package com.nmys.story.controller.admin;
 
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
+import com.nmys.story.model.entity.Role;
 import com.nmys.story.model.entity.Users;
+import com.nmys.story.service.IRoleService;
+import com.nmys.story.service.IUserRoleService;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.MD5Utils;
@@ -28,13 +31,19 @@ public class RegistrationController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IRoleService roleService;
+
+    @Autowired
+    private IUserRoleService userRoleService;
+
     /**
      * Description: 注册页初始化
      * Author:70KG
      * Return String
      * Date 2018/9/10 10:02
      */
-//    @GetMapping("/registry")
+    @GetMapping("/registry")
     public String initRegist() {
         return "admin/registry";
     }
@@ -46,8 +55,8 @@ public class RegistrationController {
      * Return String
      * Date 2018/9/10 10:03
      */
-//    @PostMapping("/registry")
-//    @ResponseBody
+    @PostMapping("/registry")
+    @ResponseBody
     public RestResponseBo doRegist(@RequestParam String username, @RequestParam String password) {
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return RestResponseBo.fail("用户名或密码不能为空！");
@@ -57,6 +66,7 @@ public class RegistrationController {
             return RestResponseBo.fail("该用户已存在！");
         }
         try {
+            // 创建用户
             String encryptpwd = MD5Utils.encrypt(username, password);
             Users user = new Users();
             user.setUsername(username);
@@ -65,6 +75,11 @@ public class RegistrationController {
             user.setCreated(DateKit.getCurrentUnixTime());
             user.setScreen_name("MyStory普通用户");
             userService.saveUser(user);
+
+            // 给用户分配角色
+            Role role = roleService.getRoleByRoleName(WebConstant.USER_ROLE);
+            Users usertemp = userService.selectUserByUsername(username);
+            userRoleService.addRoleForUser(usertemp.getId().toString(),role.getId().toString());
         } catch (Exception e) {
             log.error("注册用户失败！" + e.getMessage());
             return RestResponseBo.fail("注册用户失败！");

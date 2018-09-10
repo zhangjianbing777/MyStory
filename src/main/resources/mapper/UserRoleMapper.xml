@@ -8,6 +8,15 @@
         <result column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <insert id="addRoleForUser">
+        INSERT INTO t_user_role (
+            user_id,
+            rid)
+        VALUES (
+            #{userId,jdbcType=INTEGER},
+            #{roleId,jdbcType=INTEGER})
+    </insert>
+
     <select id="findByUserName" resultMap="role">
         SELECT
             r.id,

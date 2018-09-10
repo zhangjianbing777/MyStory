@@ -123,14 +123,21 @@ public class ArticleController extends BaseController {
     @PostMapping(value = "/modify")
     @ResponseBody
     public RestResponseBo modifyArticle(Contents contents, HttpServletRequest request) {
+        // 得到详细信息的文章
+        Contents content = contentService.getContentById(contents.getCid());
         Users users = (Users) SecurityUtils.getSubject().getPrincipal();
+        String authorId = content.getAuthorId().toString();
+        // 非本人禁止修改
+        if (!authorId.equals(users.getId().toString())) {
+            return RestResponseBo.fail("抱歉，您无此权限！");
+        }
         int time = DateKit.getCurrentUnixTime();
         contents.setModified(time);
         contents.setAuthorId(users.getId());
         contents.setType(Types.ARTICLE);
         String result = "";
         boolean flag = contentService.updateContent(contents);
-        if(flag){
+        if (flag) {
             return RestResponseBo.ok();
         } else {
             result = "文章更新失败!";

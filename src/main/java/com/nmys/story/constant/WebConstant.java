@@ -84,4 +84,14 @@ public class WebConstant {
      */
     public static String STATUS_0 = "0";
 
+    /**
+     * 后台普通会员标识
+     */
+    public static String USER_ROLE = "user";
+
+    /**
+     * 后台管理员标识
+     */
+    public static String USER_ADMIN = "admin";
+
 }

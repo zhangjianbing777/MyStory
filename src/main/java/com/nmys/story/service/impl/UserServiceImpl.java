@@ -5,10 +5,10 @@ import com.nmys.story.mapper.UserMapper;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.utils.TaleUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author itachi
@@ -40,6 +40,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional
     public void saveUser(Users user) {
         userMapper.saveUser(user);
     }

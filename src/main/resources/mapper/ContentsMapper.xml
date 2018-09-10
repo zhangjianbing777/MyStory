@@ -8,7 +8,7 @@
         <result column="created" jdbcType="INTEGER" property="created" />
         <result column="modified" jdbcType="INTEGER" property="modified" />
         <result column="content" jdbcType="VARCHAR" property="content" />
-        <result column="authorId" jdbcType="INTEGER" property="authorId" />
+        <result column="author_id" jdbcType="INTEGER" property="authorId" />
         <result column="hits" jdbcType="INTEGER" property="hits" />
         <result column="type" jdbcType="VARCHAR" property="type" />
         <result column="fmt_type" jdbcType="VARCHAR" property="fmtType" />
