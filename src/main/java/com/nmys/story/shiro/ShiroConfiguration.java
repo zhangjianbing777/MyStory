@@ -58,6 +58,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/backadmin/**", "anon");
         filterChainDefinitionMap.put("/user/**", "anon");
 
+        // 后台页面不拦截
+        filterChainDefinitionMap.put("/admin/registry", "anon");
         // 前台页面不拦截
         filterChainDefinitionMap.put("/article/**", "anon");
         filterChainDefinitionMap.put("/about/**", "anon");
@@ -134,7 +136,6 @@ public class ShiroConfiguration {
         cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
         return cookieRememberMeManager;
     }
-
 
 
     /**

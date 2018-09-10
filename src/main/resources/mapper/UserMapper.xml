@@ -23,11 +23,11 @@
         INSERT INTO t_users (id, username, password,
                              email, home_url, screen_name,
                              created, activated, logged,
-                             group_name)
+                             group_name,status)
         VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},
                 #{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},
-                #{group_name,jdbcType=VARCHAR})
+                #{group_name,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
     </insert>
 
     <select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">
