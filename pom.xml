@@ -187,6 +187,38 @@
 
     </dependencies>
 
+    <profiles>
+
+        <!-- 开发环境 -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!-- 表示如果编译时没有指定环境，则以该环境为默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <deploy.type>dev</deploy.type>
+            </properties>
+        </profile>
+
+        <!-- 测试环境 -->
+        <!--<profile>-->
+            <!--<id>beta</id>-->
+            <!--<properties>-->
+                <!--<deploy.type>beta</deploy.type>-->
+            <!--</properties>-->
+        <!--</profile>-->
+
+        <!-- 生产环境 -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <deploy.type>prod</deploy.type>
+            </properties>
+        </profile>
+
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -214,6 +246,23 @@
             <!-- Docker maven plugin -->
 
         </plugins>
+
+        <!-- 加载资源文件的配置 -->
+        <resources>
+            <resource>
+                <!-- 指定配置文件所在的目录，${deploy.type}是一个参数变量，通过这个变量来决定加载哪个环境的配置文件 -->
+                <directory>src/main/resources.${deploy.type}</directory>
+                <!-- 排除.jsp文件，也就是不加载.jsp文件 -->
+                <excludes>
+                    <exclude>*.jsp</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+
     </build>
 
 
