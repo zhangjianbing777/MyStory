@@ -57,6 +57,9 @@ public class IndexController extends BaseController {
     @Autowired
     private ILogService logService;
 
+    @Autowired
+    private IMetaService metasService;
+
     /**
      * Description:博客首页
      * Author:70kg
@@ -488,10 +491,17 @@ public class IndexController extends BaseController {
         return this.render("page-category");
     }
 
+    /**
+     * Description: 首页Tag页面
+     * Author:70KG
+     * Param [request]
+     * Return String
+     * Date 2018/9/17 17:33
+     */
     @GetMapping(value = "/about/searchPage")
     public String searchTags(HttpServletRequest request) {
-        List<Metas> tagList = metaService.getMetasByType("tag");
-        request.setAttribute("tagList", tagList);
+        List<Metas> tags = metasService.getMetaList(Types.TAG, null, WebConstant.MAX_POSTS);
+        request.setAttribute("tagList", tags);
         return "themes/front/search";
     }
 

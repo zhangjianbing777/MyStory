@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:yh="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<!--<title>Search Page - LiNPX</title>-->
-	<!--<meta name="keywords" content="">-->
-	<!--<meta name="description" content="👇 The following tabs can help you!">-->
+	<!--<link th:href="@{/user/css/style.min.css}" rel="stylesheet">-->
 	<link href="https://www.linpx.com/usr/themes/pinghsu/style.min.css?20170331" rel="stylesheet">
 </head>
 <div th:replace="themes/front/header::header('查找标签',null)"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#searchPage-inp').keypress(function (e) {
+            var key = e.which; //e.which是按键的值
+            if (key == 13) {
+                var q = $(this).val();
+                if (q && q != '') {
+                    window.location.href = '/search/' + q;
+                }
+            }
+        });
+    });
+</script>
 <body class="bg-grey" gtools_scp_screen_capture_injected="true">
     <div class="main-content page-page" style="max-width: 700px">
         <div class="search-page">
 
-            <form id="search" class="search-form" method="post" action="https://www.nmyswls.com/" role="search">
+            <form class="search-form" role="search" onsubmit="return false;">
                 <span class="search-box clearfix">
-                    <input id="input" class="input" name="s" required="true" placeholder="Articles that searches for related content..." maxlength="30" autocomplete="off" type="text">
+                    <input id="searchPage-inp" class="input" required="true" name="s" placeholder="Articles that searches for related content..." maxlength="30" autocomplete="off" type="text">
                     <button type="submit" class="spsubmit">
                         <i class="icon-search"></i>
                     </button>
@@ -25,7 +36,7 @@
             <div class="search-tags">
                 <p>👇 The following tabs can help you!</p>
                 <th:block th:each="tag:${tagList}">
-                    <a th:href="@{'/tag/'+${tag.name}}" class=" bg-white" th:text="'# '+${tag.name}"># JavaScript(25)</a>
+                    <a th:href="@{'/tag/'+${tag.name}}" class=" bg-white" th:text="'# '+${tag.name}+'('+${tag.count}+')'"></a>
                 </th:block>
 
 
