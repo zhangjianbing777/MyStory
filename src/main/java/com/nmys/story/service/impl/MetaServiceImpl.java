@@ -137,7 +137,6 @@ public class MetaServiceImpl implements IMetaService {
     }
 
     @Override
-    @Transient
     public void saveMetas(Integer cid, String names, String type) {
         if (null == cid) {
             throw new TipException("项目关联id不能为空");

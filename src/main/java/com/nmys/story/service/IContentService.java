@@ -108,4 +108,12 @@ public interface IContentService {
      * Date 2018/6/4 17:11
      */
     PageInfo<Contents> searchContentByTitle(String title, int page, int limit);
+
+    /**
+     * Description: 修改文章标签关系表
+     * Author:70KG
+     * Param [cid, tags, categories] 本篇文章的id，文章的标签字符串数组，文章的分类
+     * Date 2018/9/20 17:53
+     */
+    void updateRelationsShips(Integer cid, String tags, String categories);
 }

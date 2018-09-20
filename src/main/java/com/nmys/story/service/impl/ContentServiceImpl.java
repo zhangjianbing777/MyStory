@@ -181,4 +181,15 @@ public class ContentServiceImpl implements IContentService {
         PageInfo<Contents> pageInfo = new PageInfo(list);
         return pageInfo;
     }
+
+    @Override
+    @Transactional
+    public void updateRelationsShips(Integer cid, String tags, String categories) {
+        // 首先清空一下文章id下的关系
+        relationshipService.delRelationshipByCId(cid);
+        // 更新标签
+        metaService.saveMetas(cid, tags, Types.TAG);
+        // 更新分类
+        metaService.saveMetas(cid, categories, Types.CATEGORY);
+    }
 }

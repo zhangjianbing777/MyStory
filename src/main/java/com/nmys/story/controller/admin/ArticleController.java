@@ -137,6 +137,8 @@ public class ArticleController extends BaseController {
         contents.setType(Types.ARTICLE);
         String result = "";
         boolean flag = contentService.updateContent(contents);
+        // 修改文章标签关系表
+        contentService.updateRelationsShips(contents.getCid(), contents.getTags(), contents.getCategories());
         if (flag) {
             return RestResponseBo.ok();
         } else {

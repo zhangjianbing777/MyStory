@@ -27,7 +27,7 @@
             <form class="search-form" role="search" onsubmit="return false;">
                 <span class="search-box clearfix">
                     <input id="searchPage-inp" class="input" required="true" name="s" placeholder="Articles that searches for related content..." maxlength="30" autocomplete="off" type="text">
-                    <button type="submit" class="spsubmit">
+                    <button class="spsubmit">
                         <i class="icon-search"></i>
                     </button>
                 </span>
@@ -36,7 +36,7 @@
             <div class="search-tags">
                 <p>👇 The following tabs can help you!</p>
                 <th:block th:each="tag:${tagList}">
-                    <a th:href="@{'/tag/'+${tag.name}}" class=" bg-white" th:text="'# '+${tag.name}+'('+${tag.count}+')'"></a>
+                    <a th:href="@{'/search/'+${tag.name}}" class=" bg-white" th:text="'# '+${tag.name}+'('+${tag.count}+')'"></a>
                 </th:block>
 
 
