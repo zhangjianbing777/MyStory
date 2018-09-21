@@ -3,10 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<!--<link th:href="@{/user/css/style.min.css}" rel="stylesheet">-->
-	<link href="https://www.linpx.com/usr/themes/pinghsu/style.min.css?20170331" rel="stylesheet">
 </head>
-<div th:replace="themes/front/header::header('search tags',null)"></div>
+<div th:replace="themes/front/header::header('Tags',null)"></div>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#searchPage-inp').keypress(function (e) {
@@ -38,96 +36,15 @@
                 <th:block th:each="tag:${tagList}">
                     <a th:href="@{'/search/'+${tag.name}}" class="bg-white" th:text="'# '+${tag.name}+'('+${tag.count}+')'"></a>
                 </th:block>
-
-
                 <div class="search-tags-hr bg-deepgrey"></div>
             </div>
         </div>
     </div>
 
-    <div id="instantclick" style="opacity: 0;">
-        <div id="instantclick-bar" class="instantclick-bar" style="transform: translate(100%);"></div>
-    </div>
+    <!--<div id="instantclick" style="opacity: 0;">-->
+        <!--<div id="instantclick-bar" class="instantclick-bar" style="transform: translate(100%);"></div>-->
+    <!--</div>-->
 
-    <!--<div th:replace="themes/front/footer::footer"></div>-->
-
-    <footer class="footer bg-white">
-        <div class="footer-social">
-            <div class="footer-container clearfix">
-                <div class="social-list">
-                    <th:block th:each="index:${commons.social()}">
-                        <th:block th:if="${index.value}!=null and ${index.value}!=''">
-                            <th:block th:switch="${index.key}">
-
-                                <th:block th:case="'weibo'">
-                                    <a class="social weibo" target="_blank" th:href="${index.value}">微博</a>
-                                </th:block>
-
-                                <th:block th:case="'zhihu'">
-                                    <a class="social zhihu" target="_blank" th:href="${index.value}">知乎</a>
-                                </th:block>
-
-                                <th:block th:case="'github'">
-                                    <a class="social github" target="_blank" th:href="${index.value}">Github</a>
-                                </th:block>
-
-                                <th:block th:case="'mayun'">
-                                    <a class="social twitter" target="_blank" th:href="${index.value}">码云</a>
-                                </th:block>
-
-                            </th:block>
-                        </th:block>
-                    </th:block>
-                </div>
-            </div>
-        </div>
-        <div class="footer-meta">
-            <div class="footer-container">
-
-                <div class="meta-item meta-copyright">
-                    <div class="meta-copyright-info">
-                        <a href="https://gitee.com/beijinglogic" target="_blank" class="info-logo">
-                            <img th:src="@{/user/img/logo.png}" th:alt="${commons.site_title()}"/>
-                        </a>
-                        <div class="info-text">
-                            <p>农码一生为了谁</p>
-                            <p>我曾七次鄙视自己的灵魂：</p>
-                            <p>第一次,当它空虚时，用爱欲来填充；</p>
-                            <p>第二次,当它本可进取时，却故作谦卑；</p>
-                            <p>第三次,当在困难和容易之间，它选择了容易；</p>
-                            <p>第四次,当它自由软弱，却把它认为是生命的坚韧；</p>
-                            <p>第五次,当它犯了错，却借由别人也会犯错来宽慰自己；</p>
-                            <p>第六次,当它侧身于生活的污泥中虽不甘心，却又畏首畏；</p>
-                            <p>第七次,当它鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副。</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="meta-item meta-comments">
-                    <h3 class="meta-title">最新评论</h3>
-                    <th:block th:each="comment:${commons.getComments()}">
-                        <li>
-                            <a th:href="${commons.site_url('/article/')}+${comment.cid}+'/1'+'#comment-'+${comment.coid}" target="_blank" th:text="${comment.author}+'：'+${comment.content}"></a>
-                        </li>
-                    </th:block>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- 备案信息展示 -->
-        <div style="width:300px;margin:0 auto; padding:10px 0;">
-            <a target="_blank" href="http://www.miitbeian.gov.cn" style="text-align: center;color:#939393;margin-left:18%;" th:text="${option.getValue()}"></a></br>
-            <a target="_blank" href="https://gitee.com/beijinglogic" style="text-align: center;color:#939393;margin-left:20%;">Powered By 70KG</a></br>
-            <a target="_blank" href="https://gitee.com/beijinglogic" style="text-align: center;color:#939393;margin-left:15%;" th:text="'本站总访问次数：'+${commons.getVisitCount()}+'次'"></a></br>
-            <a target="_blank" href="http://www.nmyswls.com" style="text-align: center;color:#939393;margin-left:6%;">&copy; 2018 版权所有 - 农码一生为了谁</a>
-            <!--<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42011502000211号</p></a>-->
-        </div>
-
-    </footer>
-
-
-
+    <div th:replace="themes/front/footer::footer"></div>
 </body>
 </html>
