@@ -4,6 +4,10 @@ import com.nmys.story.controller.BaseController;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.utils.MD5Utils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -26,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/admin")
+@Api(value = "用户登录登出Controller")
 public class AuthController extends BaseController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
@@ -39,17 +44,22 @@ public class AuthController extends BaseController {
      * Date: 2018/5/8 下午9:34
      */
     @GetMapping("/login")
+    @ApiOperation(value = "后台登录页面", notes = "后台登录页面初始化")
     public String login() {
         return "admin/login";
     }
 
     @PostMapping("/login")
+    @ApiOperation(value = "后台登录具体实现", notes = "后台登录具体实现")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "remeber_me", value = "记住我", required = false, dataType = "String")
+    })
     @ResponseBody
     public RestResponseBo doLogin(@RequestParam String username,
                                   @RequestParam String password,
-                                  @RequestParam(required = false) String remeber_me,
-                                  HttpServletRequest request,
-                                  HttpServletResponse response) {
+                                  @RequestParam(required = false) String remeber_me) {
         // 密码MD5加密
         password = MD5Utils.encrypt(username, password);
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, StringUtils.isNotBlank(remeber_me));
@@ -155,6 +165,7 @@ public class AuthController extends BaseController {
      * From: www.nmyswls.com
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ApiOperation(value = "后台用户注销", notes = "后台用户注销")
     public String logout() {
         Subject subject = SecurityUtils.getSubject();
         // 如果已经登录，则跳转到管理首页

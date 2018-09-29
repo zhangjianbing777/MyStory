@@ -31,6 +31,8 @@
         <lombok.version>1.16.18</lombok.version>
         <thymeleaf-shiro.version>2.0.0</thymeleaf-shiro.version>
         <shiro-redis.version>3.1.0</shiro-redis.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-ui.version>2.9.2</swagger-ui.version>
 
         <docker.image.prefix>springboot</docker.image.prefix>
     </properties>
@@ -141,6 +143,18 @@
             <version>${shiro.version}</version>
         </dependency>
 
+        <!-- springboot整合swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
 
         <!-- ========================================================== -->
 

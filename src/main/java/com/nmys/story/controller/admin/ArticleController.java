@@ -12,6 +12,10 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,7 +36,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/admin/article")
-@Transactional(rollbackFor = TipException.class)
+@Api(value = "后台文章管理Controller")
 public class ArticleController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -50,6 +54,11 @@ public class ArticleController extends BaseController {
      * Date: 2018/5/13 下午2:44
      */
     @GetMapping(value = "")
+    @ApiOperation(value = "后台文章管理列表", notes = "后台文章管理列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "起始页", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "每页条数", required = true, dataType = "Integer")
+    })
     public String index(@RequestParam(value = "page", defaultValue = "1") int page,
                         @RequestParam(value = "limit", defaultValue = "10") int limit,
                         HttpServletRequest request) {
@@ -104,6 +113,8 @@ public class ArticleController extends BaseController {
      * Date 2018/5/17 14:49
      */
     @GetMapping(value = "/{cid}")
+    @ApiOperation(value = "编辑文章", notes = "后台编辑文章")
+    @ApiImplicitParam(name = "cid", value = "文章id", required = true, dataType = "String", paramType = "path")
     public String editArticle(@PathVariable String cid, HttpServletRequest request) {
         Contents contents = contentService.getContentById(Integer.parseInt(cid));
         request.setAttribute("contents", contents);

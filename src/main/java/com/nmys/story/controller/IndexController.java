@@ -210,7 +210,7 @@ public class IndexController extends BaseController {
 //        request.setAttribute("archives", list);
 //        return this.render("category");
 //    }
-    @GetMapping(value = "/{pagename}")
+    @GetMapping(value = "/custom/{pagename}")
     public String page(@PathVariable String pagename,
                        HttpServletRequest request) {
         return page(pagename, "1", request);
