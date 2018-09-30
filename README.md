@@ -54,15 +54,15 @@
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/0930/112300_016c60b6_1705382.jpeg "menu.saveimg.savepath20180930112250.jpg")
 #### 运行环境
-- WEB服务器：`Tomcat`
-- 数据库服务器：`Mysql5.7`
-- 操作系统：`Windows、Linux`
+- WEB服务器： `Tomcat`
+- 数据库服务器： `Mysql5.7`
+- 操作系统： `Windows、Linux`
 #### 开发环境
  **建议开发者使用以下环境，这样避免版本带来的问题** 
-- IDE:`IntelliJ IDEA`
-- DB:`Mysql5.7 Redis(Window版本,Linux版本)`
-- JDK:`JAVA 8`
-- WEB:`Tomcat8 （采用springboot框架开发时,并没有用到额外的tomcat 用的框架自带的）`
+- IDE: `IntelliJ IDEA`
+- DB: `Mysql5.7 Redis(Window版本,Linux版本)`
+- JDK: `JAVA 8`
+- WEB: `Tomcat8 （采用springboot框架开发时,并没有用到额外的tomcat 用的框架自带的）`
 
 > QQ群：4060038
 
