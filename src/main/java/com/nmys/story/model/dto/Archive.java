@@ -1,5 +1,8 @@
 package com.nmys.story.model.dto;
 import com.nmys.story.model.entity.Contents;
+import lombok.Data;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +10,10 @@ import java.util.List;
  * author: itachi
  * Date: 2018/5/12 下午8:49
  */
-public class Archive {
+@Data
+public class Archive implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String date_str;
 

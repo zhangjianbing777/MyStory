@@ -1,7 +1,10 @@
 package com.nmys.story.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.mapper.ContentsMapper;
 import com.nmys.story.model.dto.Archive;
 import com.nmys.story.model.dto.Types;
@@ -9,12 +12,16 @@ import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.utils.DateKit;
 import com.nmys.story.utils.MapCache;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description:站点service
@@ -40,16 +47,24 @@ public class SiteService {
     @Autowired
     private ContentsMapper contentsMapper;
 
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
+
     /**
      * Description: 查询归档
      * author: itachi
      * Date: 2018/5/12 下午8:59
      */
     public List<Archive> getArchives() {
-        // 获取归档大类
-        List<Archive> archives = contentsMapper.selectArchive();
-        if (null != archives) {
-            for (Archive archive : archives) {
+        // 首先从redis中获取
+        String redisArchives = (String) redisTemplate.opsForValue().get("archives");
+        if (StringUtils.isNotBlank(redisArchives)) {
+            return JSONObject.parseArray(redisArchives, Archive.class);
+        }
+        // 从数据库中获取归档大类
+        List<Archive> databaseArchives = contentsMapper.selectArchive();
+        if (null != databaseArchives) {
+            for (Archive archive : databaseArchives) {
                 String date = archive.getDate();
                 Date sd = DateKit.dateFormat(date, "yyyy年MM月");
                 // 开始时间结束时间
@@ -60,7 +75,10 @@ public class SiteService {
                 archive.setArticles(contentList);
             }
         }
-        return archives;
+        String jsonStr = JSON.toJSONString(databaseArchives);
+        // 有效期暂定一天
+        redisTemplate.opsForValue().set("archives", jsonStr, WebConstant.ARCHIVE_EXPIRETIME, TimeUnit.DAYS);
+        return databaseArchives;
     }
 
 

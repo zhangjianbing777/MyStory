@@ -94,4 +94,9 @@ public class WebConstant {
      */
     public static String USER_ADMIN = "admin";
 
+    /**
+     * 前台文章归档页面数据有效期(天)
+     */
+    public static Integer ARCHIVE_EXPIRETIME = 1;
+
 }
