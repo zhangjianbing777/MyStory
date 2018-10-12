@@ -47,7 +47,7 @@ public class SiteService {
     @Autowired
     private ContentsMapper contentsMapper;
 
-    @Autowired
+    //@Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
     /**
@@ -57,10 +57,10 @@ public class SiteService {
      */
     public List<Archive> getArchives() {
         // 首先从redis中获取
-        String redisArchives = (String) redisTemplate.opsForValue().get("archives");
-        if (StringUtils.isNotBlank(redisArchives)) {
-            return JSONObject.parseArray(redisArchives, Archive.class);
-        }
+//        String redisArchives = (String) redisTemplate.opsForValue().get("archives");
+//        if (StringUtils.isNotBlank(redisArchives)) {
+//            return JSONObject.parseArray(redisArchives, Archive.class);
+//        }
         // 从数据库中获取归档大类
         List<Archive> databaseArchives = contentsMapper.selectArchive();
         if (null != databaseArchives) {
@@ -75,9 +75,9 @@ public class SiteService {
                 archive.setArticles(contentList);
             }
         }
-        String jsonStr = JSON.toJSONString(databaseArchives);
-        // 有效期暂定一天
-        redisTemplate.opsForValue().set("archives", jsonStr, WebConstant.ARCHIVE_EXPIRETIME, TimeUnit.DAYS);
+//        String jsonStr = JSON.toJSONString(databaseArchives);
+//        // 有效期暂定一天
+//        redisTemplate.opsForValue().set("archives", jsonStr, WebConstant.ARCHIVE_EXPIRETIME, TimeUnit.DAYS);
         return databaseArchives;
     }
 
