@@ -260,7 +260,7 @@ CREATE TABLE `t_users` (
 --  Records of `t_users`
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_users` VALUES ('1', 'admin', '123456', '449246146@qq.com', null, '老张', '1525759224', null, '1525759237', null), ('2', 'zhangsan', '123456', '449246146@qq.com', null, '老张', '1525759224', null, '1525759237', null);
+INSERT INTO `t_users` VALUES ('1', 'admin', '9400feec28101f42f299a0d95794a6a3', '449246146@qq.com', null, '老张', '1525759224', null, '1525759237', null), ('2', 'zhangsan', '123456', '449246146@qq.com', null, '老张', '1525759224', null, '1525759237', null);
 COMMIT;
 
 -- ----------------------------
