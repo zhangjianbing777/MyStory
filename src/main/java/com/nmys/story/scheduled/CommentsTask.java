@@ -1,8 +1,10 @@
 package com.nmys.story.scheduled;
 
+import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.service.ICommentService;
 import com.nmys.story.utils.IPKit;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +50,14 @@ public class CommentsTask {
             notAuditComments.forEach(comment -> {
                 String authorPosition = null;
                 try {
-                    // 调用淘宝免费接口获取ip信息
-                    authorPosition = IPKit.getIpInformationFromTaoBao(comment.getIp());
-                    comment.setAuthor(authorPosition + "网友");
-                    comment.setAgent(authorPosition);
-                    commentService.updateComment(comment);
+                    String author = comment.getAuthor();
+                    if (StringUtils.isNotBlank(author) && WebConstant.DEFAULT_AUTHOR.equals(author)) {
+                        // 调用淘宝免费接口获取ip信息
+                        authorPosition = IPKit.getIpInformationFromTaoBao(comment.getIp());
+                        comment.setAuthor(authorPosition + "网友");
+                        comment.setAgent(authorPosition);
+                        commentService.updateComment(comment);
+                    }
                 } catch (Exception e) {
                     logger.error("调用淘宝免费接口获取ip信息超时或更新ip信息失败" + e.getMessage());
                 }

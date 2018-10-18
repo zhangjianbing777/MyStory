@@ -69,6 +69,8 @@ public class WebConstant {
 
     public static String VISITOR = "访客访问";
 
+    public static String DEFAULT_AUTHOR = "热心网友";
+
     /**
      * 管理员昵称
      */
