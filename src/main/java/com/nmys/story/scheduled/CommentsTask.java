@@ -42,7 +42,7 @@ public class CommentsTask {
         }
     }
 
-    // 每天上午8点,中午12点,晚上7点触发
+    // 每天上午8点,中午12点,晚上7点触发，这个地方有一点点问题哈
     @Scheduled(cron = "0 0 8,12,19 * * ?")
     public void getAuthorPosition() {
         List<Comments> notAuditComments = commentService.getNotAuditComments();
