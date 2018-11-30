@@ -11,6 +11,24 @@
                     <div class="col-sm-12">
                         <h4 class="page-title">文章管理</h4>
                     </div>
+
+                    <!-- 文章列表搜索框 -->
+                    <div class="panel-body">
+                        <form id="articleSearch" class="form-inline" role="form" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="sr-only">文章标签</label>
+                                <input type="text" id="article_tag" name="article_tag" th:value="${article_tag}" class="form-control" placeholder="输入文章标签(选填)" required="required" aria-required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only">文章发布状态</label>
+                                <input type="text" id="article_status" name="article_status" th:value="${article_status}" class="form-control" placeholder="输入文章状态(选填)" required="required" aria-required="true"/>
+                            </div>
+                            <div onclick="articleSearch();" class="btn btn-success waves-effect waves-light m-l-10">搜索</div>
+                        </form>
+                    </div>
+
+
+
                     <div class="col-md-12">
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -87,6 +105,24 @@
         });
     }
     /*]]>*/
+</script>
+
+<script type="text/javascript">
+
+    function articleSearch() {
+        var tag = $("#article_tag").val();
+        var status = $("#article_status").val();
+        var url = "/admin/article";
+        if ("" != tag && "" != status) {
+            url = url + "?tag=" + tag + "&status=" + status;
+        } else if ("" != tag) {
+            url = url + "?tag=" + tag;
+        } else if ("" != status) {
+            url = url + "?status=" + status;
+        }
+        window.location.href = url;
+    }
+
 </script>
 </body>
 </html>

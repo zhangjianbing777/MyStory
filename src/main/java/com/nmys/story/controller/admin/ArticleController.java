@@ -12,11 +12,13 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
+import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -61,9 +63,32 @@ public class ArticleController extends BaseController {
     })
     public String index(@RequestParam(value = "page", defaultValue = "1") int page,
                         @RequestParam(value = "limit", defaultValue = "10") int limit,
+                        @RequestParam(value = "tag", required = false) String tag,
+                        @RequestParam(value = "status", required = false) String status,
                         HttpServletRequest request) {
-        // 根据特定条件来查询文章列表,type = 'post'
-        PageInfo<Contents> contentsPaginator = contentService.getContentsConditions(Types.ARTICLE, page, limit);
+        String flagStatus = null;
+        PageInfo<Contents> contentsPaginator = null;
+        String article_tag = (String) request.getAttribute("article_tag");
+        String article_status = (String) request.getAttribute("article_status");
+        if (StringUtils.isNotBlank(article_tag)) {
+            tag = article_tag;
+        }
+        if (StringUtils.isNotBlank(article_status)) {
+            status = article_status;
+        }
+        if (StringUtils.isNotBlank(tag) || StringUtils.isNotBlank(status)) {
+            if (StringUtils.isNotBlank(status) && WebConstant.DRAFTCHINESE.equals(status)) {
+                flagStatus = WebConstant.DRAFTENGLISG;
+            } else {
+                flagStatus = status;
+            }
+            contentsPaginator = contentService.getArticlesByConditions(Types.ARTICLE, tag, flagStatus, page, limit);
+            request.setAttribute("article_tag", tag);
+            request.setAttribute("article_status", status);
+        } else {
+            // 根据特定条件来查询文章列表,type = 'post'
+            contentsPaginator = contentService.getContentsConditions(Types.ARTICLE, page, limit);
+        }
         request.setAttribute("articles", contentsPaginator);
         return "admin/article_list";
     }

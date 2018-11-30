@@ -116,4 +116,6 @@ public interface IContentService {
      * Date 2018/9/20 17:53
      */
     void updateRelationsShips(Integer cid, String tags, String categories);
+
+    PageInfo<Contents> getArticlesByConditions(String article, String tag, String status, int page, int limit);
 }

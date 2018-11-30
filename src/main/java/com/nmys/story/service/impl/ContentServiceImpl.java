@@ -192,4 +192,14 @@ public class ContentServiceImpl implements IContentService {
         // 更新分类
         metaService.saveMetas(cid, categories, Types.CATEGORY);
     }
+
+    @Override
+    public PageInfo<Contents> getArticlesByConditions(String type, String tag, String status, int page, int limit) {
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+        Integer userId = user.getId();
+        PageHelper.startPage(page, limit);
+        List<Contents> list = contentsMapper.getarticlesByConditions(type, tag, status, userId == 1 ? -1 : userId);
+        PageInfo<Contents> pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
 }

@@ -200,4 +200,18 @@
         SELECT * FROM t_contents WHERE tags LIKE CONCAT('%',#{title},'%') AND type = #{type} and status = #{status}
     </select>
 
+    <select id="getarticlesByConditions" resultMap="BaseResultMap">
+        SELECT * FROM t_contents WHERE type = #{type}
+        <if test="status != null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != -1">
+            and author_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="tag != null">
+            and tags like CONCAT('%',#{tag,jdbcType=VARCHAR},'%')
+        </if>
+        order by created desc
+    </select>
+
 </mapper>

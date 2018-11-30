@@ -101,4 +101,8 @@ public class WebConstant {
      */
     public static Integer ARCHIVE_EXPIRETIME = 1;
 
+    public static String DRAFTENGLISG = "draft";
+
+    public static String DRAFTCHINESE = "草稿";
+
 }

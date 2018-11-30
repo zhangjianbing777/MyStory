@@ -40,7 +40,18 @@
 
             <th:block th:each="nav : ${pageInfo.navigatepageNums}">
                 <li th:class="${nav==pageInfo.pageNum}?'active':''">
-                    <a th:href="@{'?page='+${nav}}" th:text="${nav}"></a>
+                    <th:block th:if="${article_tag != null && article_status != null}">
+                        <a th:href="@{'?page='+${nav}+'&tag='+${article_tag}+'&status='+${article_status}}" th:text="${nav}"></a>
+                    </th:block>
+                    <th:block th:if="${article_tag != null && article_status == null}">
+                        <a th:href="@{'?page='+${nav}+'&tag='+${article_tag}}" th:text="${nav}"></a>
+                    </th:block>
+                    <th:block th:if="${article_tag == null && article_status != null}">
+                        <a th:href="@{'?page='+${nav}+'&status='+${article_status}}" th:text="${nav}"></a>
+                    </th:block>
+                    <th:block th:if="${article_tag == null && article_status == null}">
+                        <a th:href="@{'?page='+${nav}}" th:text="${nav}"></a>
+                    </th:block>
                 </li>
             </th:block>
 
