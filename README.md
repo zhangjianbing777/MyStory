@@ -62,7 +62,7 @@
 - IDE: `IntelliJ IDEA`
 - DB: `Mysql5.7 Redis(Window版本,Linux版本)`
 - JDK: `JAVA 8`
-- WEB: `Tomcat8 （采用springboot框架开发时,并没有用到额外的tomcat 用的框架自带的）`
+- WEB容器: `Tomcat8+ （采用springboot框架开发时,并没有用到额外的tomcat 用的框架自带的）`
 
 > QQ群：4060038
 
