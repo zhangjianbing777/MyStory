@@ -165,7 +165,7 @@ public final class Commons {
      * Date 2018/7/24 13:38
      */
     public static String gravatar(String ip) {
-        String avatarUrl = "http://www.gravatar.com/avatar/";
+        String avatarUrl = "https://www.gravatar.com/avatar/";
         if (StringUtils.isBlank(ip)) {
             ip = "449246146@qq.com";
         }
