@@ -11,7 +11,6 @@ import java.net.URL;
 
 public class QiniuFileServerConstants {
 
-
     /** 七牛服务器秘钥accesskey **/
     public static final String ACCESSKEY = "";
     /** 七牛服务器秘钥secretkey **/
