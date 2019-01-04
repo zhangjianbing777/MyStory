@@ -71,7 +71,7 @@
 
 > QQ群：4060038
 
-> 邮箱：zhangjianbing777@gmail.com
+> 邮箱：zhangjianbing777@163.com
 
 #### 使用说明
 
