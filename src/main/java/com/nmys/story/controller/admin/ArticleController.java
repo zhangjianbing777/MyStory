@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,6 +199,18 @@ public class ArticleController extends BaseController {
         if (!WebConstant.SUCCESS_RESULT.equals(result)) {
             return RestResponseBo.fail(result);
         }
+        return RestResponseBo.ok();
+    }
+
+    /**
+     * Description: 图片上传
+     * Author:70KG
+     * Date 2019/1/4
+     */
+    @PostMapping(value = "/uploadImage")
+    @ResponseBody
+    // @RequiresRoles("admin")
+    public RestResponseBo uploadImage() {
         return RestResponseBo.ok();
     }
 

@@ -1,6 +1,7 @@
 package com.nmys.story.utils;
 
 import com.google.gson.Gson;
+import com.nmys.story.constant.DateConst;
 import com.nmys.story.constant.QiniuFileServerConstants;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -11,24 +12,29 @@ import com.qiniu.util.Auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
+/**
+ * created by 70KG
+ */
 public class UploadUtil {
 
     private static final Logger log = LoggerFactory.getLogger(UploadUtil.class);
 
     /**
-     * 将pdf文件上传到bucket
+     * 将文件上传到bucket
      */
     public static String upload(String localFilePath) {
-        //1.构建一个带指定区域对象的配置类
+        // 构建一个带指定区域对象的配置类
         Configuration cfg = new Configuration(QiniuFileServerConstants.ZONE_AREA);
         UploadManager manage = new UploadManager(cfg);
-        //生成上传凭证,然后准备上传
-        //默认不指定key的情况下,以文件内容的hash值作为文件名
-        String key = null;
-        //1.进行身份认证
+        // 生成上传凭证,然后准备上传
+        // 默认不指定key的情况下,以文件内容的hash值作为文件名
+        String key = DateKit.date2Str(new Date(), DateConst.MILLISECOND);
+        // 进行身份认证
         Auth upAuth = Auth.create(QiniuFileServerConstants.ACCESSKEY, QiniuFileServerConstants.SECRETKEY);
+        // 生成token
         String upToken = upAuth.uploadToken(QiniuFileServerConstants.BUCKET);
-
         try {
             Response response = manage.put(localFilePath, key, upToken);
             //解析上传成功的结果
@@ -36,7 +42,7 @@ public class UploadUtil {
             return putRet.key;
         } catch (QiniuException e) {
             Response r = e.response;
-            log.info("七牛上传文件失败!" + r.toString());
+            log.error("七牛上传文件失败!" + r.toString());
         }
         return "";
     }
@@ -57,6 +63,11 @@ public class UploadUtil {
             log.error(e.getMessage(), e);
             return "";
         }
+    }
+
+    public String defineFileUrl(String path, String fileName) {
+        String resLocation = path + fileName;
+        return resLocation;
     }
 
 }

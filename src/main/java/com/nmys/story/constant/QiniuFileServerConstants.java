@@ -11,14 +11,18 @@ import java.net.URL;
 
 public class QiniuFileServerConstants {
 
-    //七牛服务器秘钥accesskey
-    public static final String ACCESSKEY = "vrIpp1KAvepU2ebWCjQ6yMsSweHE8Eze6k2ev5yw";
-    //七牛服务器秘钥secretkey
-    public static final String SECRETKEY = "-n2iu5J7IOJgbCDOrdB5pN0s-kPhb6YF0qVhsieY";
-    //七牛服务器中对应的存储空间名字
+    /** 七牛服务器秘钥accesskey **/
+    public static final String ACCESSKEY = "";
+    /** 七牛服务器秘钥secretkey **/
+    public static final String SECRETKEY = "";
+    /** 七牛服务器中对应的存储空间名字 **/
     public static final String BUCKET = "mystory";
-    //测试的域名地址
+    /** 测试的域名地址 **/
     public static final String DOMIAN_NAME = "www.nmyswls.com";
+    /** 文章详情的路径 **/
+    public static final String LOCATION_1 = "nmyswls/article/image";
+    /** 其它图片的路径 **/
+    public static final String LOCATION_2 = "nmyswls/other/image";
 
 
     /**
