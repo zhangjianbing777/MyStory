@@ -42,6 +42,11 @@ public class DateKit {
     public DateKit() {
     }
 
+    /**
+     * Description: 判断是否是今日
+     * Param [date]
+     * Return boolean
+     */
     public static boolean isToday(Date date) {
         Date now = new Date();
         boolean result = true;
@@ -115,7 +120,6 @@ public class DateKit {
                 return format.format(date);
             }
         }
-
         return "";
     }
 
@@ -128,18 +132,21 @@ public class DateKit {
         return day >= 1L;
     }
 
+    /**
+     * Description: 获取昨天日期(2019-01-06 00:00:00)
+     * Param [date]
+     * Return Date
+     */
     public static Date getYesterday() {
         Date date = new Date();
         long time = date.getTime() / 1000L - 86400L;
         date.setTime(time * 1000L);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
         try {
             date = format.parse(format.format(date));
         } catch (Exception var5) {
             System.out.println(var5.getMessage());
         }
-
         return date;
     }
 
@@ -172,21 +179,29 @@ public class DateKit {
         }
     }
 
+    /**
+     * Description: 获取明天日期(2019-01-08 00:00:00)
+     * Param [date]
+     * Return Date
+     */
     public static Date getTomorrow() {
         Date date = new Date();
         long time = date.getTime() / 1000L + 86400L;
         date.setTime(time * 1000L);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
         try {
             date = format.parse(format.format(date));
         } catch (Exception var5) {
             System.out.println(var5.getMessage());
         }
-
         return date;
     }
 
+    /**
+     * Description: 获取明天日期(2018-12-31 10:15:19)
+     * Param [date]
+     * Return Date
+     */
     public static Date getBeforeDate(String range) {
         Calendar today = Calendar.getInstance();
         if ("week".equalsIgnoreCase(range)) {
@@ -196,7 +211,6 @@ public class DateKit {
         } else {
             today.clear();
         }
-
         return today.getTime();
     }
 
