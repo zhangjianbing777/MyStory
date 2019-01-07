@@ -1,17 +1,12 @@
 package com.nmys.story.interceptor;
 
-import com.nmys.story.constant.WebConstant;
 import com.nmys.story.extension.AdminCommons;
 import com.nmys.story.extension.Commons;
-import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Options;
-import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IOptionService;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.MapCache;
-import com.nmys.story.utils.TaleUtils;
-import com.nmys.story.utils.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
