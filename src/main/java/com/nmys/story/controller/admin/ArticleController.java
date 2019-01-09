@@ -217,34 +217,11 @@ public class ArticleController extends BaseController {
      */
     @RequestMapping(value = "/uploadImage")
     @ResponseBody
-    public Map<String, Object> fileUpload(@RequestParam(value = "filedata") MultipartFile file, HttpServletRequest request) throws IOException {
+    public Map<String, Object> fileUpload(@RequestParam(value = "filedata") MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         Map<String, Object> map = UploadUtil.upload(inputStream);
-//        if (file.isEmpty()) {
-//            map.put("message", "文件不能为空");
-//            return map;
-//        }
-//        if (!isTrue) {
-//            map.put("message", "选择正确的文件格式");
-//            return map;
-//        }
-//        if (file.getSize()>file_size) {
-//            map.put("message", "文件大小不能超过2M");
-//            return map;
-//        }
-//        try {
-//            FileUtils.copyInputStreamToFile(file.getInputStream(), new File("你想存放的位置"));
-//            map.put("message", "Y");// 文件上传成功
-//        } catch (IOException e) {
-//            map.put("message", "N");// 文件上传失败
-//        }
-//        String path = fileString.substring(resourceDir.length());//
-//        path = path + fileType;
-//        path = path.replace("\\", "/");
-        map.put("fileName", "okkkkkk");
         return map;
     }
-
 
 
 }

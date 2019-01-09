@@ -12,17 +12,17 @@ import java.net.URL;
 public class QiniuFileServerConstants {
 
     /** 七牛服务器秘钥accesskey **/
-    public static final String ACCESSKEY = "";
+    public static final String ACCESSKEY = "qiniu_accesskey";
     /** 七牛服务器秘钥secretkey **/
-    public static final String SECRETKEY = "";
+    public static final String SECRETKEY = "qiniu_secretkey";
     /** 七牛服务器中对应的存储空间名字 **/
-    public static final String BUCKET = "mystory";
+    public static final String BUCKET = "qiniu_bucket";
     /** 测试的域名地址 **/
-    public static final String DOMIAN_NAME = "www.nmyswls.com";
+    public static final String DOMIAN_NAME = "qiniu_domain";
     /** 文章详情的路径 **/
-    public static final String LOCATION_1 = "nmyswls/article/image/";
+    public static final String LOCATION_1 = "article_image_location";
     /** 其它图片的路径 **/
-    public static final String LOCATION_2 = "nmyswls/other/image/";
+    public static final String LOCATION_2 = "other_image_location";
 
 
     /**

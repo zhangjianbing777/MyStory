@@ -3,6 +3,8 @@ package com.nmys.story.utils;
 import com.google.gson.Gson;
 import com.nmys.story.constant.DateConst;
 import com.nmys.story.constant.QiniuFileServerConstants;
+import com.nmys.story.model.entity.Options;
+import com.nmys.story.service.IOptionService;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -11,40 +13,60 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * created by 70KG
  */
+@Component
 public class UploadUtil {
 
     private static final Logger log = LoggerFactory.getLogger(UploadUtil.class);
+
+    private static IOptionService optionService;
+
+    public void setOptionService(@Autowired IOptionService optionService) {
+        this.optionService = optionService;
+    }
+
+    private static final Map<String, String> optionMap = new HashMap<>();
 
     /**
      * 将文件上传到bucket
      */
     public static Map<String, Object> upload(InputStream inputStream) {
+        if (optionMap.isEmpty()) {
+            List<Options> list = optionService.getOptions();
+            for (Options option : list) {
+                optionMap.put(option.getName(), option.getValue());
+            }
+        }
+
+
         // 构建一个带指定区域对象的配置类
         Configuration cfg = new Configuration(QiniuFileServerConstants.ZONE_AREA);
         UploadManager manage = new UploadManager(cfg);
         // 生成上传凭证,然后准备上传
         // 默认不指定key的情况下,以文件内容的hash值作为文件名
-        String key = QiniuFileServerConstants.LOCATION_1 + DateKit.date2Str(new Date(), DateConst.MILLISECOND);
+        String key = optionMap.get(QiniuFileServerConstants.LOCATION_1) + DateKit.date2Str(new Date(), DateConst.MILLISECOND);
         // 进行身份认证
-        Auth upAuth = Auth.create(QiniuFileServerConstants.ACCESSKEY, QiniuFileServerConstants.SECRETKEY);
+        Auth upAuth = Auth.create(optionMap.get(QiniuFileServerConstants.ACCESSKEY), optionMap.get(QiniuFileServerConstants.SECRETKEY));
         // 生成token
-        String upToken = upAuth.uploadToken(QiniuFileServerConstants.BUCKET);
+        String upToken = upAuth.uploadToken(optionMap.get(QiniuFileServerConstants.BUCKET));
         try {
             Response response = manage.put(inputStream, key, upToken, null, null);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             Map<String, Object> map = new HashMap();
-            map.put("fileUrl", putRet.key);
+            // -- image.nmyswls.com/nmyswls/article/image/xxxxxxxxxx
+            map.put("fileUrl", optionMap.get(QiniuFileServerConstants.DOMIAN_NAME) + putRet.key);
             map.put("fileNameHash", putRet.hash);
             map.put("upToken", upToken);
             return map;

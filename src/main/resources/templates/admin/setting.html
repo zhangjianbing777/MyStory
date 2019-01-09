@@ -42,11 +42,50 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">博客主题</label>
+                                        <label class="col-md-3 control-label">七牛ACCESSKEY</label>
                                         <div class="col-md-9">
-                                            <select name="site_theme" class="form-control">
-                                                <option value="default" th:selected="${options.site_theme=='default'}?true:false">默认主题</option>
-                                            </select>
+                                            <input type="password" class="form-control" name="qiniu_accesskey" placeholder="ACCESSKEY"
+                                                   th:value="${options.qiniu_accesskey}" required="required" aria-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">七牛SECRETKEY</label>
+                                        <div class="col-md-9">
+                                            <input type="password" class="form-control" name="qiniu_secretkey" placeholder="SECRETKEY"
+                                                   th:value="${options.qiniu_secretkey}" required="required" aria-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">七牛DOMAIN</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="qiniu_domain" placeholder="例如：image.nmyswls.com/ 以斜杠结尾"
+                                                   th:value="${options.qiniu_domain}" required="required" aria-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">七牛BUCKET</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="qiniu_bucket" placeholder="七牛存储空间的名字"
+                                                   th:value="${options.qiniu_bucket}" required="required" aria-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">文章图片地址</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="article_image_location" placeholder="自定义图片路径，如：nmyswls/article/image/ 以斜杠结尾"
+                                                   th:value="${options.article_image_location}" required="required" aria-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">其它图片地址</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="other_image_location" placeholder="自定义图片路径"
+                                                   th:value="${options.other_image_location}" required="required" aria-required="true"/>
                                         </div>
                                     </div>
 
