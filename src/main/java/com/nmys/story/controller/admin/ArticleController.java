@@ -12,6 +12,7 @@ import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
+import com.nmys.story.utils.UploadUtil;
 import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,15 +23,22 @@ import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description: 后台文章管理
@@ -207,11 +215,36 @@ public class ArticleController extends BaseController {
      * Author:70KG
      * Date 2019/1/4
      */
-    @PostMapping(value = "/uploadImage")
+    @RequestMapping(value = "/uploadImage")
     @ResponseBody
-    // @RequiresRoles("admin")
-    public RestResponseBo uploadImage() {
-        return RestResponseBo.ok();
+    public Map<String, Object> fileUpload(@RequestParam(value = "filedata") MultipartFile file, HttpServletRequest request) throws IOException {
+        InputStream inputStream = file.getInputStream();
+        Map<String, Object> map = UploadUtil.upload(inputStream);
+//        if (file.isEmpty()) {
+//            map.put("message", "文件不能为空");
+//            return map;
+//        }
+//        if (!isTrue) {
+//            map.put("message", "选择正确的文件格式");
+//            return map;
+//        }
+//        if (file.getSize()>file_size) {
+//            map.put("message", "文件大小不能超过2M");
+//            return map;
+//        }
+//        try {
+//            FileUtils.copyInputStreamToFile(file.getInputStream(), new File("你想存放的位置"));
+//            map.put("message", "Y");// 文件上传成功
+//        } catch (IOException e) {
+//            map.put("message", "N");// 文件上传失败
+//        }
+//        String path = fileString.substring(resourceDir.length());//
+//        path = path + fileType;
+//        path = path.replace("\\", "/");
+        map.put("fileName", "okkkkkk");
+        return map;
     }
+
+
 
 }

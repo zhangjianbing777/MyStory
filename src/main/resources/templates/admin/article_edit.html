@@ -8,6 +8,7 @@
 <link th:href="@{/backadmin/css/multi-select.css}" rel="stylesheet"/>
 <link th:href="@{/backadmin/css/select2.min.css}" rel="stylesheet"/>
 <link th:href="@{/backadmin/plugins/md/css/style.css}" rel="stylesheet"/>
+
 <style>
     #tags_tagsinput {
         background-color: #fafafa;
@@ -112,11 +113,15 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 col-sm-4">
-                                <button type="button" class="btn btn-primary waves-effect waves-light" onclick="uploadImage();">
-                                    上传图片
-                                </button>
+                            <div class="form-group col-md-3 col-sm-4"></div>
+
+                            <!-- dropone -->
+                            <div class="filed">
+                                <label></label>
+                                <div id="file" class="dropzone"></div>
                             </div>
+                            <label></label>
+                            <!-- dropone -->
 
                             <div class="clearfix"></div>
 
@@ -155,10 +160,43 @@
 <script th:src="@{/backadmin/js/toggles.min.js}"></script>
 <script th:src="@{/backadmin/js/article.js}"></script>
 
+<link th:href="@{/backadmin/dropzonejs/dropzone.min.css}" rel="stylesheet"/>
+<script th:src="@{/backadmin/dropzonejs/dropzone.min.js}"></script>
+
+
 <script type="text/javascript">
-    function uploadImage() {
-        alert(1111);
-    }
+    Dropzone.autoDiscover = false;
+    var dropz = new Dropzone("#file", {
+        url: "uploadImage", //必须填写
+        method: "post",  //也可用put
+        paramName: "filedata", //默认为file
+        maxFiles: 10,//一次性上传的文件数量上限
+        maxFilesize: 20, //MB
+        acceptedFiles: ".jpg,.gif,.png", //上传的类型
+        previewsContainer: "#file", //显示的容器
+        parallelUploads: 3,
+        addRemoveLinks: true, // 开启删除的按钮
+        dictMaxFilesExceeded: "您最多只能上传10个文件！",
+        dictResponseError: '文件上传失败!',
+        dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
+        dictFallbackMessage: "浏览器不受支持",
+        dictFileTooBig: "文件过大上传文件最大支持.",
+        dictRemoveFile: "Remove",
+        dictDefaultMessage: "点击空白处上传图片(支持多图)",
+        //previewTemplate: document.querySelector('#preview-template').innerHTML,//设置显示模板
+        init: function () {
+            this.on("success", function (file,serverResponse) {
+                alert(serverResponse.fileName);
+            });
+            this.on("addedfile", function (file) {
+
+            });
+            this.on("removedfile", function (file) {
+
+            });
+        }
+    });
+
 </script>
 
 </body>

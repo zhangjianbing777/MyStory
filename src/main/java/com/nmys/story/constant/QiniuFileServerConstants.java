@@ -20,9 +20,9 @@ public class QiniuFileServerConstants {
     /** 测试的域名地址 **/
     public static final String DOMIAN_NAME = "www.nmyswls.com";
     /** 文章详情的路径 **/
-    public static final String LOCATION_1 = "nmyswls/article/image";
+    public static final String LOCATION_1 = "nmyswls/article/image/";
     /** 其它图片的路径 **/
-    public static final String LOCATION_2 = "nmyswls/other/image";
+    public static final String LOCATION_2 = "nmyswls/other/image/";
 
 
     /**

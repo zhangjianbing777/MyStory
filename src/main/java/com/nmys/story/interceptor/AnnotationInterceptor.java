@@ -34,7 +34,7 @@ public class AnnotationInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) {
-        System.out.println("11111111111");
+
     }
 
 }
