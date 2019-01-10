@@ -19,6 +19,7 @@
 - 数据库连接池：`Alibaba Druid 1.0.2`
 - 日志管理：`SLF4J 1.7、Log4j`
 - 前端样式：`Tale`
+- 上传框架：`DropZoneJs`
 
 #### 安装教程
 
@@ -28,6 +29,11 @@
 4. 数据库文件放在sql中,直接导入到数据库中即可,数据库名字为story
 5. 编译没错后,直接运行Application文件即可,访问地址为:localhost即可(默认端口为80)
 6. 访问后台“/admin”或者“/admin/login”,用户名:admin 密码:123456
+8. 七牛相关配置：
+- 进入后台设置页面，添加ACCESSKEY和SECRETKEY
+- DOMAIN：为七牛的默认外链域名，注意后面应该有斜杠
+- BUCKET：是七牛存储的空间名字
+- 文章图片地址：因为七牛没有文件夹系统，但可以分层，这个地址就是除了domain，后面自己定义的名字
 7. 如果部署到Linux或者安装过程中碰到问题，请加技术交流(4060038)
 
 #### 说明
@@ -58,6 +64,10 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/0930/112131_0c900467_1705382.jpeg "menu.saveimg.savepath20180930112106.jpg")
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/0930/112300_016c60b6_1705382.jpeg "menu.saveimg.savepath20180930112250.jpg")
+
+ **文章发布页面新增自动上传七牛云存储，支持多图、拖拽、删除，操作更便捷** 
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0110/145735_b03101b7_1705382.jpeg "menu.saveimg.savepath20190110145648.jpg")
+
 #### 运行环境
 - WEB服务器： `Tomcat`
 - 数据库服务器： `Mysql5.7`
