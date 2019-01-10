@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018/9/10
  */
 @Controller
-@RequestMapping("/admin")
+// @RequestMapping("/admin") 关闭注册功能
 public class RegistrationController {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);

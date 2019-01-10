@@ -10,4 +10,8 @@ public interface LogMapper {
     void visitSetLog(Logs log);
 
     List<Logs> searchVisitLogByAction(@Param("action") String action);
+
+    List<Logs> getLogsByAction(@Param("action") String action);
+
+    void deleteLogById(@Param("id") Integer id);
 }

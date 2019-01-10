@@ -125,7 +125,7 @@
                         </a>
                     </li>
 
-                    <li th:class="${active}=='settings'?'active':''">
+                    <li shiro:hasRole="admin" th:class="${active}=='settings'?'active':''">
                         <a th:href="@{/admin/setting}" th:class="${active}=='settings'?'waves-effect active':'waves-effect'">
                             <i class="fa fa-gear" aria-hidden="true"></i><span> 系统设置 </span>
                         </a>

@@ -1,12 +1,13 @@
-package com.nmys.story.utils;
+package com.nmys.story.service;
 
 import com.google.gson.Gson;
 import com.nmys.story.constant.DateConst;
 import com.nmys.story.constant.QiniuFileServerConstants;
 import com.nmys.story.model.entity.Options;
-import com.nmys.story.service.IOptionService;
+import com.nmys.story.utils.DateKit;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
@@ -14,7 +15,8 @@ import com.qiniu.util.Auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -23,33 +25,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 七牛云上传服务类
  * created by 70KG
  */
-@Component
-public class UploadUtil {
+@Service
+public class UploadService {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadUtil.class);
-
-    private static IOptionService optionService;
-
-    public void setOptionService(@Autowired IOptionService optionService) {
-        this.optionService = optionService;
-    }
+    private static final Logger log = LoggerFactory.getLogger(UploadService.class);
 
     private static final Map<String, String> optionMap = new HashMap<>();
+
+    @Autowired
+    private IOptionService optionService;
 
     /**
      * 将文件上传到bucket
      */
-    public static Map<String, Object> upload(InputStream inputStream) {
+    public Map<String, Object> upload(InputStream inputStream) {
         if (optionMap.isEmpty()) {
             List<Options> list = optionService.getOptions();
             for (Options option : list) {
                 optionMap.put(option.getName(), option.getValue());
             }
         }
-
-
         // 构建一个带指定区域对象的配置类
         Configuration cfg = new Configuration(QiniuFileServerConstants.ZONE_AREA);
         UploadManager manage = new UploadManager(cfg);
@@ -69,15 +67,16 @@ public class UploadUtil {
             map.put("fileUrl", optionMap.get(QiniuFileServerConstants.DOMIAN_NAME) + putRet.key);
             map.put("fileNameHash", putRet.hash);
             map.put("upToken", upToken);
+            log.info("==========七牛上传文件成功==========");
             return map;
         } catch (QiniuException e) {
             Response r = e.response;
-            log.error("七牛上传文件失败!" + r.toString());
+            log.error("==========七牛上传文件失败==========" + r.toString());
         }
         return null;
     }
 
-    public static String getURL(String key) {
+    public String getURL(String key) {
         //1.构建公开空间访问链接
         try {
             String url = "";
@@ -98,6 +97,17 @@ public class UploadUtil {
     public String defineFileUrl(String path, String fileName) {
         String resLocation = path + fileName;
         return resLocation;
+    }
+
+    /**
+     * 删除七牛上的图片
+     */
+    public void deleteQiniuPicByKey(String path) throws QiniuException {
+        String key = path.substring(optionMap.get(QiniuFileServerConstants.DOMIAN_NAME).length(), path.length());
+        Auth upAuth = Auth.create(optionMap.get(QiniuFileServerConstants.ACCESSKEY), optionMap.get(QiniuFileServerConstants.SECRETKEY));
+        Configuration cfg = new Configuration(QiniuFileServerConstants.ZONE_AREA);
+        BucketManager manage = new BucketManager(upAuth, cfg);
+        manage.delete(optionMap.get(QiniuFileServerConstants.BUCKET), key);
     }
 
 }

@@ -55,18 +55,18 @@
     /*<![CDATA[*/
     var tale = new $.tale();
 
-    function delComment(coid) {
+    function delComment(log_id) {
         tale.alertConfirm({
-            title: '确定删除该评论吗?',
+            title: '确定删除该日志吗?',
             then: function () {
                 tale.post({
-                    url: '/admin/comments/delete',
-                    data: {coid: coid},
+                    url: '/admin/logs/deleteLog',
+                    data: {log_id: log_id},
                     success: function (result) {
                         if (result && result.success) {
-                            tale.alertOkAndReload('评论删除成功');
+                            tale.alertOkAndReload('日志删除成功');
                         } else {
-                            tale.alertError(result.msg || '评论删除失败');
+                            tale.alertError(result.msg || '日志删除失败');
                         }
                     }
                 });

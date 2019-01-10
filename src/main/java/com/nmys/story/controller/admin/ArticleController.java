@@ -3,40 +3,35 @@ package com.nmys.story.controller.admin;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
-import com.nmys.story.exception.TipException;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
+import com.nmys.story.model.entity.Logs;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
+import com.nmys.story.service.ILogService;
 import com.nmys.story.service.IMetaService;
 import com.nmys.story.utils.DateKit;
-import com.nmys.story.utils.UploadUtil;
-import io.netty.util.internal.StringUtil;
+import com.nmys.story.service.UploadService;
+import com.qiniu.common.QiniuException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +43,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/article")
 @Api(value = "后台文章管理Controller")
+@Slf4j
 public class ArticleController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -57,6 +53,12 @@ public class ArticleController extends BaseController {
 
     @Autowired
     private IMetaService metaService;
+
+    @Autowired
+    private UploadService uploadService;
+
+    @Autowired
+    private ILogService logService;
 
 
     /**
@@ -219,8 +221,45 @@ public class ArticleController extends BaseController {
     @ResponseBody
     public Map<String, Object> fileUpload(@RequestParam(value = "filedata") MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
-        Map<String, Object> map = UploadUtil.upload(inputStream);
+        Map<String, Object> map = uploadService.upload(inputStream);
+        try {
+            /* 记录日志 */
+            Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+            Logs log = new Logs();
+            log.setAction(WebConstant.USER_ACTION_1);
+            log.setAuthor_id(user.getId());
+            log.setCreated(DateKit.getCurrentUnixTime());
+            log.setData((String) map.get("fileUrl"));
+            logService.setUserLog(log);
+        } catch (Exception e) {
+            log.error("上传图片记录日志出错" + e.getMessage());
+        }
         return map;
+    }
+
+    /**
+     * 删除七牛上的图片
+     */
+    @RequestMapping(value = "/deletePicture")
+    @ResponseBody
+    public RestResponseBo deletePicture(@RequestParam("path") String path) {
+        try {
+            uploadService.deleteQiniuPicByKey(path);
+
+            /* 记录删除日志 */
+            Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+            Logs logObj = new Logs();
+            logObj.setAction(WebConstant.USER_ACTION_2);
+            logObj.setAuthor_id(user.getId());
+            logObj.setCreated(DateKit.getCurrentUnixTime());
+            logObj.setData(path);
+            logService.setUserLog(logObj);
+            log.info("==========删除七牛图片SUCCESS==========");
+            return RestResponseBo.ok();
+        } catch (QiniuException e) {
+            log.error("==========删除七牛图片FAIL==========" + e.getMessage());
+            return RestResponseBo.fail();
+        }
     }
 
 

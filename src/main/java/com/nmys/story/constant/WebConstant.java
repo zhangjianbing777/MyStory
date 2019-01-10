@@ -105,4 +105,8 @@ public class WebConstant {
 
     public static String DRAFTCHINESE = "草稿";
 
+    public static String USER_ACTION_1 = "上传图片";
+
+    public static String USER_ACTION_2 = "删除图片";
+
 }

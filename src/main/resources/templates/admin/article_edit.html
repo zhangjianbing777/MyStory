@@ -193,6 +193,21 @@
 
             });
             this.on("removedfile", function (file) {
+                var path = $(file.previewElement).find('[data-dz-name]').html();
+
+                $.ajax({
+                    type: 'post',
+                    url: 'deletePicture',
+                    data: {path: path},
+                    async: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result && result.success) {
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                });
 
             });
         }
