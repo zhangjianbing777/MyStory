@@ -151,7 +151,23 @@ CREATE TABLE `t_options` (
 --  Records of `t_options`
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_options` VALUES ('allow_install', '', 'æ˜¯å¦å…è®¸é‡æ–°å®‰è£…åšå®¢'), ('site_description', '农码一生个人博客', null), ('site_keywords', '个人博客，70KG', null), ('site_record', '京6666', null), ('site_theme', 'default', null), ('site_title', '农码一生为了谁-MyStory', null), ('site_url', 'http://localhost:8081', null), ('social_github', '', null), ('social_mayun', null, null), ('social_twitter', '', null), ('social_weibo', '', null), ('social_zhihu', '', null);
+INSERT INTO `t_options` VALUES ('article_image_location', 'nmyswls/article/image/', null);
+INSERT INTO `t_options` VALUES ('other_image_location', 'nmyswls/other/image/', null);
+INSERT INTO `t_options` VALUES ('qiniu_accesskey', '', null);
+INSERT INTO `t_options` VALUES ('qiniu_bucket', '', null);
+INSERT INTO `t_options` VALUES ('qiniu_domain', 'image.nmyswls.com/', null);
+INSERT INTO `t_options` VALUES ('qiniu_secretkey', '', null);
+INSERT INTO `t_options` VALUES ('site_description', '本站是70KG的技术分享博客。涵盖生活故事、专注Java后端技术、SpringBoot、SpringCloud、微服务架构、高可用架构、中间件使用、系统监控等相关的研究与知识分享。', null);
+INSERT INTO `t_options` VALUES ('site_keywords', '农码一生,农码一生为了谁,70KG,70KG个人博客,zhangjianbing,张建兵,springboot,springcloud,java,并发编程,jvm,架构,技术分享,技术干货,系统架构,个人网站,生活随笔,开发者,编程,代码,开源,IT网站,IT技术博客', null);
+INSERT INTO `t_options` VALUES ('site_record', '京ICP备18029773号', null);
+INSERT INTO `t_options` VALUES ('site_theme', 'default', null);
+INSERT INTO `t_options` VALUES ('site_title', '农码一生为了谁', null);
+INSERT INTO `t_options` VALUES ('site_url', 'https://www.nmyswls.com', null);
+INSERT INTO `t_options` VALUES ('social_github', '', null);
+INSERT INTO `t_options` VALUES ('social_mayun', 'https://gitee.com/beijinglogic', null);
+INSERT INTO `t_options` VALUES ('social_twitter', 'https://gitee.com/beijinglogic', null);
+INSERT INTO `t_options` VALUES ('social_weibo', 'https://weibo.com/beijinglogic', null);
+INSERT INTO `t_options` VALUES ('social_zhihu', '', null);
 COMMIT;
 
 -- ----------------------------
