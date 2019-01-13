@@ -150,8 +150,9 @@ code {
     background-color: #f7f7f7
 }
 
+/*修改代码字体大小*/
 pre code {
-    font-size: 13px;
+    font-size: 12px;
     display: block;
     overflow: auto;
     padding: 1.3em;
@@ -887,7 +888,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .post-page {
-    max-width: 700px;
+    max-width: 810px;
     padding: 130px 25px 20px
 }
 
@@ -899,7 +900,13 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
     position: relative;
-    margin: 20px 0
+    margin: 20px 0;
+    background: #406CA4 !important;
+    border-radius: 4px 4px 4px 4px !important;
+    padding: 5px 0 5px 20px;
+    color: #FFFFFF;
+    font-family: "微软雅黑", "宋体", "黑体", Arial;
+    box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5)
 }
 
 /*.post-content h1::before, .post-content h2::before, .post-content h3::before, .post-content h4::before, .post-content h5::before, .post-content h6::before {
@@ -952,7 +959,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     top: 0;
     left: -15px;
     content: '#';
-    color: ##b87733
+    color: #b87733
 }
 
 /* h6标题，橘 */
@@ -961,7 +968,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     top: 0;
     left: -15px;
     content: '#';
-    color: ##b87733
+    color: #b87733
 }
 
 .post-content pre {
@@ -1357,7 +1364,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     z-index: 0;
     top: 100px;
     display: inline-block;
-    text-align: left
+    text-align: left;
+    margin-left: 33px
 }
 
 #directory li, #directory ul {
