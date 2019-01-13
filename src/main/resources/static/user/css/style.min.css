@@ -902,12 +902,66 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     margin: 20px 0
 }
 
-.post-content h1::before, .post-content h2::before, .post-content h3::before, .post-content h4::before, .post-content h5::before, .post-content h6::before {
+/*.post-content h1::before, .post-content h2::before, .post-content h3::before, .post-content h4::before, .post-content h5::before, .post-content h6::before {
     position: absolute;
     top: 0;
     left: -15px;
     content: '#';
     color: #eb5055
+}*/
+
+/* h1标题，赤 */
+.post-content h1::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: #FF0000
+}
+
+/* h2标题，蓝 */
+.post-content h2::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: #0000FF
+}
+
+/* h3标题，绿 */
+.post-content h3::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: #00FFFF
+}
+
+/* h4标题，青 */
+.post-content h4::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: #00FFFF
+}
+
+/* h5标题，橘 */
+.post-content h5::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: ##b87733
+}
+
+/* h6标题，橘 */
+.post-content h6::before {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    content: '#';
+    color: ##b87733
 }
 
 .post-content pre {
