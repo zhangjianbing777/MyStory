@@ -1213,9 +1213,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
 }
 
+/* 文章归档页底色 */
 .archive-page .post-list-item-container .item-label {
     height: 95px;
-    background: #fff
+    background: #c7bfe6;
+    border-radius: 4px 4px 4px 4px !important
 }
 
 .archive-page .post-list-item-container .item-label .item-title a {
