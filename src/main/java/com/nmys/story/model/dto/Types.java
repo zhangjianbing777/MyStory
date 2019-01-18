@@ -10,6 +10,7 @@ package com.nmys.story.model.dto;
 public interface Types {
 
     String TAG = "tag";
+
     String CATEGORY = "category";
 
     String LINK = "link";
@@ -19,11 +20,17 @@ public interface Types {
 
     // 发布状态
     String PUBLISH = "publish";
+
     String PAGE = "page";
+
     String DRAFT = "draft";
+
     String IMAGE = "image";
+
     String FILE = "file";
+
     String CSRF_TOKEN = "csrf_token";
+
     String COMMENTS_FREQUENCY = "comments:frequency";
 
     // 文章点击的频率
@@ -36,6 +43,7 @@ public interface Types {
     String RANDOM_ARTICLE = "random_article";
 
     String RECENT_META = "recent_meta";
+
     String RANDOM_META = "random_meta";
 
     String C_STATISTICS = "sys:statistics";
@@ -43,6 +51,7 @@ public interface Types {
     String C_ARTICLE_HITS = "article:hits";
 
     String NEXT = "next";
+
     String PREV = "prev";
 
     /**

@@ -1,5 +1,7 @@
 package com.nmys.story.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
@@ -515,6 +517,10 @@ public class IndexController extends BaseController {
     @GetMapping(value = "soulPainter.html")
     public String soulPainter() {
         return "themes/painter/soulpainter";
+    }
+
+    public static void main(String[] args) {
+        JSONObject jsonObject = JSONUtil.createObj();
     }
 
 }
