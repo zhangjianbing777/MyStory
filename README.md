@@ -23,7 +23,7 @@
 
 #### 安装教程
 
-0. 首先查看[wiki](https://gitee.com/beijinglogic/MyStory.wiki.git)
+0. 首先查看[wiki](https://gitee.com/beijinglogic/MyStory/wikis/%E5%8D%9A%E5%AE%A2%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2%E7%BB%88%E6%9E%81%E6%95%99%E7%A8%8B?sort_id=1319273)
 1. 需要jdk1.8+
 2. maven环境，熟悉springboot
 3. down代码到本地
