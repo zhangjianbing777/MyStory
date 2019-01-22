@@ -37,7 +37,7 @@
    - 其它图片地址：暂时可以不填 
 8. 如果部署到Linux或者安装过程中碰到问题，请加技术交流(4060038)
 
-`博客安装终极教程：https://gitee.com/beijinglogic/MyStory.wiki.git`
+`博客安装终极教程：[https://gitee.com/beijinglogic/MyStory.wiki.git](http://)`
 
 #### 说明
 1. 最近深受百度统计的困扰特来说明，一定要把header中的百度统计代码替换成自己的
