@@ -23,6 +23,7 @@
 
 #### 安装教程
 
+0. 首先查看[wiki](https://gitee.com/beijinglogic/MyStory.wiki.git)
 1. 需要jdk1.8+
 2. maven环境，熟悉springboot
 3. down代码到本地
@@ -36,8 +37,6 @@
    - 文章图片地址：因为七牛没有文件夹系统，但可以分层，这个地址就是除了domain，后面自己定义的名字，也该有斜杠
    - 其它图片地址：暂时可以不填 
 8. 如果部署到Linux或者安装过程中碰到问题，请加技术交流(4060038)
-
-`博客安装终极教程：[https://gitee.com/beijinglogic/MyStory.wiki.git](http://)`
 
 #### 说明
 1. 最近深受百度统计的困扰特来说明，一定要把header中的百度统计代码替换成自己的
