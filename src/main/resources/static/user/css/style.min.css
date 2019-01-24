@@ -1542,8 +1542,17 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     margin: 0 20px
 }
 
+.comment-header .comment-by-author {
+    font-size: 13px;
+    line-height: 45px;
+    display: inline-block;
+    float: left;
+    margin: 0 20px
+}
+
 .comment-header .comment-by-author a {
-    color: #eb5055 !important
+    color: #eb5055 !important;
+    font-weight: bold;
 }
 
 .comment-content {

@@ -100,10 +100,8 @@ public class CommentServiceImpl implements ICommentService {
             return "不存在的文章";
         }
         comments.setOwner_id(contents.getAuthorId());
-        comments.setStatus("not_audit");
+        comments.setStatus(WebConstant.APPROVED);
         comments.setCreated(DateKit.getCurrentUnixTime());
-        // 非admin用户的评论都设置为0
-        comments.setAuthor_id(0);
         // 保存评论
         commentMapper.saveComment(comments);
 

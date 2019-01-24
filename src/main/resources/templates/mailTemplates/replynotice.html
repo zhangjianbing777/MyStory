@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>农码一生邮件回复</title>
+</head>
+<body>
+您好,收到来自农码一生博客的一封回复邮件，如有叨扰，请见谅谢谢。<br/>
+内容如下：<br/>
+<a th:text="${replyContent}"></a><br/>
+<a href="#" th:href="@{ https://www.nmyswls.com/article/{id}/1(id=${id}) }">点击查看回复</a>
+</body>
+</html>

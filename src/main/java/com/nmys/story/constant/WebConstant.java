@@ -109,4 +109,19 @@ public class WebConstant {
 
     public static String USER_ACTION_2 = "删除图片";
 
+    /**
+     * 访客码
+     */
+    public static Integer USER_VISITOR = 0;
+
+    /**
+     * 评论审核通过
+     */
+    public static String APPROVED = "approved";
+
+    /**
+     * 评论审核失败
+     */
+    public static String NOT_AUDIT = "not_audit";
+
 }

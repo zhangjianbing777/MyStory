@@ -11,11 +11,14 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Metas;
+import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.*;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,14 +262,20 @@ public class IndexController extends BaseController {
         return this.render("links");
     }
 
-
     /**
-     * Description: 前台注销操作
-     * author: itachi
-     * Date: 2018/5/12 下午6:36
+     * Description:前台文章详情页注销操作
+     * Author:70KG
+     * Date 2019/1/24
+     * Version v2.0
      */
-    public void logout(HttpSession session, HttpServletResponse response) {
-        TaleUtils.logout(session, response);
+    @GetMapping(value = "/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        // 如果已经登录，则跳转到管理首页
+        if (subject != null) {
+            subject.logout();
+        }
+        return this.redirectBack("index", THEME);
     }
 
 
@@ -287,10 +296,15 @@ public class IndexController extends BaseController {
                                   @RequestParam String text,
                                   @RequestParam String _csrf_token) {
 
-//        String ref = request.getHeader("Referer");
-//        if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
-//            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
-//        }
+        // if login
+        Comments comments = new Comments();
+        Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+
+
+        /*String ref = request.getHeader("Referer");
+        if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
+            return RestResponseBo.fail(ErrorCode.BAD_REQUEST);
+        }*/
 
         if (null == cid || StringUtils.isBlank(text)) {
             return RestResponseBo.fail("请输入完整后评论~");
@@ -307,37 +321,45 @@ public class IndexController extends BaseController {
         if (text.length() > 200) {
             return RestResponseBo.fail("请输入200个字符以内的评论~");
         }
-
         String ip = IPKit.getIpAddrByRequest(request);
-
         String val = ip + ":" + cid;
         Integer count = cache.hget(Types.COMMENTS_FREQUENCY, val);
         if (null != count && count > 0) {
             // 1分钟可评论一次
             return RestResponseBo.fail("您发表评论太快了，请过会再试");
         }
-
         author = TaleUtils.cleanXSS(author);
         text = TaleUtils.cleanXSS(text);
-
         // 评论人的姓名
         author = EmojiParser.parseToAliases(author);
         // 评论的内容
         text = EmojiParser.parseToAliases(text);
-
-        Comments comments = new Comments();
-        comments.setAuthor(author);
+        if (null != user) {
+            comments.setAuthor(user.getScreen_name());
+            comments.setMail(user.getEmail());
+            comments.setUrl(user.getHome_url());
+            // 评论所属作者id
+            comments.setAuthor_id(user.getId());
+        } else {
+            comments.setAuthor(author);
+            comments.setMail(mail);
+            comments.setUrl(url);
+            // 未登录，即游客评论
+            comments.setAuthor_id(WebConstant.USER_VISITOR);
+        }
         comments.setCid(cid);
         comments.setIp(ip);
-        comments.setUrl(url);
         comments.setContent(text);
-        comments.setMail(mail);
         comments.setParent(null == coid ? 0 : coid);
         try {
             String result = commentService.insertComment(comments);
             // 此处增加cookie是为了不让用户再次输入评论头部
-            cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
-            cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
+            if (StringUtils.isNotBlank(author)) {
+                cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
+            }
+            if (StringUtils.isNotBlank(mail)) {
+                cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
+            }
             if (StringUtils.isNotBlank(url)) {
                 cookie("tale_remember_url", URLEncoder.encode(url, "UTF-8"), 7 * 24 * 60 * 60, response);
             }
@@ -346,20 +368,6 @@ public class IndexController extends BaseController {
             if (!WebConstant.SUCCESS_RESULT.equals(result)) {
                 return RestResponseBo.fail(result);
             }
-
-            /** 开启一个线程来获取地理位置信息 **/
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        String authorPosition = IPKit.getIpInformationFromTaoBao(ip);
-//                        commentService.
-//                    } catch (Exception e) {
-//                        logger.error("获取地理位置的线程发生异常" + e.getMessage());
-//                    }
-//                }
-//            }).start();
-
             return RestResponseBo.ok();
         } catch (Exception e) {
             String msg = "评论发布失败";
