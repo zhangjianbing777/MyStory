@@ -19,13 +19,13 @@
                     <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
                     <input type="text" name="author" maxlength="12" id="author"
                            class="form-control input-control clearfix"
-                           placeholder="昵称 (*)"
+                           placeholder="昵称 (用来展示你的昵称)"
                     />
                     <input type="email" name="mail" id="mail" class="form-control input-control clearfix"
-                           placeholder="邮箱 (*)"
+                           placeholder="邮箱 (仅用来发送作者的回复邮件)"
                     />
                     <input type="url" name="url" id="url" class="form-control input-control clearfix"
-                           placeholder="网址 (http://)"
+                           placeholder="网址 (用来展示您网站的logo)"
                     />
                     <textarea name="text" id="textarea" class="form-control" placeholder="基佬~留下你的裤衩~"
                               required="required" minlength="5"

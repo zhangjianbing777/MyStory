@@ -110,7 +110,7 @@
     </select>
 
     <select id="selectCommentByid" resultMap="BaseResultMap">
-        SELECT * from t_comments WHERE cid = #{id}
+        SELECT * from t_comments WHERE coid = #{id}
     </select>
 
     <select id="selectNewComments" resultMap="BaseResultMap">

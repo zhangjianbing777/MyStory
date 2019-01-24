@@ -3,6 +3,7 @@ package com.nmys.story.controller;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
+import com.nmys.story.constant.MailConstant;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Archive;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -340,6 +342,12 @@ public class IndexController extends BaseController {
             comments.setUrl(user.getHome_url());
             // 评论所属作者id
             comments.setAuthor_id(user.getId());
+            // 作者回复后，发送邮件(如果是异步的会更好)
+            try {
+                sendReplyNoticeMail(coid, cid, text);
+            } catch (Exception e) {
+                logger.error("作者回复后，发送邮件发生异常", e.getMessage());
+            }
         } else {
             comments.setAuthor(author);
             comments.setMail(mail);
@@ -373,6 +381,29 @@ public class IndexController extends BaseController {
             String msg = "评论发布失败";
             logger.error(msg, e);
             return RestResponseBo.fail(msg);
+        }
+    }
+
+    /**
+     * Description: 发送邮件通知方法
+     * @param coid 当前评论的id
+     * @param cid 当前文章id
+     * @param text 评论的内容
+     * @author: Allen 70KG
+     * Date: 2019/1/24
+     * From: www.nmyswls.com
+     * Version v2.0
+     */
+    public void sendReplyNoticeMail(Integer coid, Integer cid, String text) {
+        if (null != coid) {
+            Comments currentComment = commentService.selectCommentByid(coid);
+            String currentCommentMail = currentComment.getMail();
+            if (StringUtils.isNotBlank(currentCommentMail)) {
+                Context context = new Context();
+                context.setVariable("id", cid);
+                context.setVariable("replyContent", text);
+                sendEmail(MailConstant.REPLY_NOTICE_TEMPLATE, currentCommentMail, MailConstant.MAIL_SUBJECT_1, context);
+            }
         }
     }
 

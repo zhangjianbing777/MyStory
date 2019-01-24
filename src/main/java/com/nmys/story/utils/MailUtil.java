@@ -53,9 +53,11 @@ public class MailUtil {
 
     /**
      * Description: 邮件发送
-     * Author:70KG
-     * Param [template, to, title, context]
-     * Return void
+     * @Author:70KG
+     * @param template thymeleaf模板的路径
+     * @param to 发送给谁
+     * @param title 邮件的主题
+     * @param context 邮件内容
      * Date 2019/1/24
      * Version v2.0
      */
