@@ -100,21 +100,20 @@ public class MetaServiceImpl implements IMetaService {
         if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(name)) {
             // 根据类型和名字来查询meta
             List<Metas> metaVos = metaMapper.selectMetaListByConditions(type, name);
-            Metas metas;
             if (metaVos.size() != 0) {
                 throw new TipException("已经存在该项");
             } else {
-                metas = new Metas();
-                metas.setName(name);
                 if (null != mid) {
                     // mid不为空,根据mid查询meta
                     Metas original = metaMapper.getMetaById(mid);
-                    metas.setMid(mid);
+                    original.setName(name);
                     // 更新meta
-                    metaMapper.updateMeta(metas);
+                    metaMapper.updateMeta(original);
                     // 更新原有文章的categories   -----  ?????????
 //                    contentService.updateCategory(original.getName(), name);
                 } else {
+                    Metas metas = new Metas();
+                    metas.setName(name);
                     metas.setType(type);
                     // 保存meta
                     metaMapper.saveMeta(metas);

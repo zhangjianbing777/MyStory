@@ -44,9 +44,9 @@ public class CategoryController extends BaseController {
     @RequiresPermissions("create")
     @PostMapping(value = "save")
     @ResponseBody
-    public RestResponseBo saveCategory(@RequestParam String cname, @RequestParam Integer mid) {
+    public RestResponseBo saveCategory(@RequestParam String cname, @RequestParam Integer mid, @RequestParam String metaType) {
         try {
-            metasService.saveMeta(Types.CATEGORY, cname, mid);
+            metasService.saveMeta(metaType, cname, mid);
         } catch (Exception e) {
             String msg = "分类保存失败";
             LOGGER.error(msg, e);

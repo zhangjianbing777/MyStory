@@ -117,6 +117,9 @@ public class ContentServiceImpl implements IContentService {
         } else {
             contents.setSlug(null);
         }
+        if (StringUtils.isBlank(contents.getTags())) {
+            return "文章标签必不能为空";
+        }
 
         // 文章内容
         contents.setContent(EmojiParser.parseToAliases(contents.getContent()));

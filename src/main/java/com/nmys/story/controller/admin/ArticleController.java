@@ -112,7 +112,9 @@ public class ArticleController extends BaseController {
     @GetMapping(value = "/publish")
     public String newArticle(HttpServletRequest request) {
         List<Metas> categories = metaService.getMetasByType(Types.CATEGORY);
+        List<Metas> tags = metaService.getMetasByType(Types.TAG);
         request.setAttribute("categories", categories);
+        request.setAttribute("tags", tags);
         return "admin/article_edit";
     }
 
@@ -155,7 +157,9 @@ public class ArticleController extends BaseController {
         Contents contents = contentService.getContentById(Integer.parseInt(cid));
         request.setAttribute("contents", contents);
         List<Metas> categories = metaService.getMetasByType(Types.CATEGORY);
+        List<Metas> tags = metaService.getMetasByType(Types.TAG);
         request.setAttribute("categories", categories);
+        request.setAttribute("tags", tags);
         request.setAttribute("active", "article");
         return "admin/article_edit";
     }
