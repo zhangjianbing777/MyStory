@@ -29,7 +29,7 @@ public class CommentsTask {
     private ICommentService commentService;
 
     // 每天上午9点,下午1点,晚上8点触发
-    @Scheduled(cron = "0 0 9,13,20 * * ?")
+    // @Scheduled(cron = "0 0 9,13,20 * * ?")
     public void autoCheckCommentsTrigger() {
         List<Comments> notAuditComments = commentService.getNotAuditComments();
         if (notAuditComments.size() != 0) {

@@ -106,11 +106,13 @@ public class MetaServiceImpl implements IMetaService {
                 if (null != mid) {
                     // mid不为空,根据mid查询meta
                     Metas original = metaMapper.getMetaById(mid);
+                    String primaryName = original.getName();
                     original.setName(name);
                     // 更新meta
                     metaMapper.updateMeta(original);
-                    // 更新原有文章的categories   -----  ?????????
-//                    contentService.updateCategory(original.getName(), name);
+                    // 更新所有原有文章的分类信息
+                    // TODO 此处会发生一个bug，就是在标签页修改原有标签后，前台首页的标签并未随之改变，是因为文章表t_content中的标签字段未做修改，以后再进行处理吧
+                    // contentService.updateCategory(primaryName);
                 } else {
                     Metas metas = new Metas();
                     metas.setName(name);
