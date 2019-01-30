@@ -205,4 +205,9 @@ public class ContentServiceImpl implements IContentService {
         PageInfo<Contents> pageInfo = new PageInfo(list);
         return pageInfo;
     }
+
+    @Override
+    public int getContentCount() {
+        return contentsMapper.getContentCount();
+    }
 }

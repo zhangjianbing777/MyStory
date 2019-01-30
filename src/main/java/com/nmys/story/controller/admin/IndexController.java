@@ -9,6 +9,8 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
+import com.nmys.story.service.ICommentService;
+import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
@@ -43,15 +45,25 @@ public class IndexController extends BaseController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ICommentService commentService;
+
+    @Autowired
+    private IContentService contentService;
+
     /**
      * 仪表盘
      */
     @GetMapping(value = {"/", "index"})
     public String index(HttpServletRequest request) {
-        // 获取最新的5条评论
+        // 获取最新的10条评论
         List<Comments> comments = siteService.recentComments(10);
         List<Contents> contents = siteService.getContens(Types.RECENT_ARTICLE, 10);
+        int commentCount = commentService.selectCommentCount();
+        int contentCount = contentService.getContentCount();
         Statistics statistics = new Statistics();
+        statistics.setComments(commentCount);
+        statistics.setArticles(contentCount);
         request.setAttribute("comments", comments);
         request.setAttribute("articles", contents);
         request.setAttribute("statistics", statistics);

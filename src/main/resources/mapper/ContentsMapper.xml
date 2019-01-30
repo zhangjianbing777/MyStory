@@ -214,4 +214,8 @@
         order by created desc
     </select>
 
+    <select id="getContentCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_contents WHERE status = 'publish'
+    </select>
+
 </mapper>

@@ -100,4 +100,6 @@ public interface ContentsMapper {
     List<Contents> searchContentByTitle(@Param("title") String title, @Param("type") String type, @Param("status") String publish);
 
     List<Contents> getarticlesByConditions(@Param("type") String type, @Param("tag") String tag, @Param("status") String status, @Param("userId") Integer userId);
+
+    int getContentCount();
 }

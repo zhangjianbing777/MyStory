@@ -118,4 +118,12 @@ public interface IContentService {
     void updateRelationsShips(Integer cid, String tags, String categories);
 
     PageInfo<Contents> getArticlesByConditions(String article, String tag, String status, int page, int limit);
+
+    /**
+     * Description: 查询文章数量
+     * @author: Allen 70KG
+     * Date: 2019/1/30
+     * From: https://www.nmyswls.com
+     */
+    int getContentCount();
 }
