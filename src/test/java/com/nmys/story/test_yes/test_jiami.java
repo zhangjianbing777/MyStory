@@ -1,4 +1,4 @@
-package com.nmys.story.test_jiami;
+package com.nmys.story.test_yes;
 
 import com.nmys.story.Application;
 import org.jasypt.encryption.StringEncryptor;
