@@ -1,0 +1,80 @@
+# 是否开启kafka和swagger
+zhangjianbing:
+  web:
+    logging:
+      kafka:
+        enabled: false # 是否推送日志到kafka
+        broker: 47.104.129.162:9092,47.104.129.163:9092,47.104.129.164:9092
+        env: prod
+    swagger:
+      enabled: false # 是否开启swagger，生产环境关闭
+      description: mystory简单描述
+      basePackage: com.nmys.story.controller
+      version: v1.0
+      contact:
+        name: ryan
+        url: https://www.zhangjianbing.com
+        email: zhangjianbing777@163.com
+
+# 日志存储位置，以及debug级别日志输出路径
+logging:
+  path: /data/mystory/logs
+  level:
+    ROOT: info
+    com:
+      nmys:
+        story:
+          mapper: debug
+
+
+# 数据库加密秘钥
+jasypt:
+  encryptor:
+    password: ryan
+
+# 指定mapper位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.nmys.story.mapper
+
+# 指定服务端口号，以及文件上传临时存储问题
+server:
+  port: 2457
+  tomcat:
+    basedir: /data/apps/temp
+spring:
+  application:
+    name: ryan-story
+  datasource:
+    url: jdbc:mysql://47.104.189.224:3306/story?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+    username: root
+    password: ENC(xxxxxx)
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    filters: stat,wall
+    initialSize: 5
+    maxActive: 20
+    maxPoolPreparedStatementPerConnectionSize: 20
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 300000
+    minIdle: 5
+    poolPreparedStatements: true
+    testOnBorrow: false
+    testOnReturn: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    validationQuery: SELECT 1 FROM DUAL
+  mail:
+    username: zhangjianbing777@163.com
+    password: xxxxxx
+    host: smtp.163.com
+    port: 25
+  redis:
+    host: 47.104.189.224
+    password: xxxxxx
+    port: 6380
+    timeout: 5000
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5

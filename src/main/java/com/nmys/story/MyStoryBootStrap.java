@@ -17,10 +17,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan("com.nmys.story.mapper")
 @EnableScheduling
 @ServletComponentScan
-public class Application {
+public class MyStoryBootStrap {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(MyStoryBootStrap.class, args);
     }
 
 }

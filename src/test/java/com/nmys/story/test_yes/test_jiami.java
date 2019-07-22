@@ -1,6 +1,6 @@
 package com.nmys.story.test_yes;
 
-import com.nmys.story.Application;
+import com.nmys.story.MyStoryBootStrap;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Description: SpringBoot的单元测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = MyStoryBootStrap.class)
 public class test_jiami {
 
     @Autowired

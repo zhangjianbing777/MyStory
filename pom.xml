@@ -34,11 +34,27 @@
         <swagger.version>2.9.2</swagger.version>
         <swagger-ui.version>2.9.2</swagger-ui.version>
         <hutool-version>4.4.1</hutool-version>
-
         <docker.image.prefix>springboot</docker.image.prefix>
+        <logback-kafka-appender.version>0.2.0-RC1</logback-kafka-appender.version>
+        <janino.version>2.7.8</janino.version>
     </properties>
 
     <dependencies>
+
+        <!-- 将日志输出到Kafka -->
+        <dependency>
+            <groupId>com.github.danielwegener</groupId>
+            <artifactId>logback-kafka-appender</artifactId>
+            <version>${logback-kafka-appender.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- 在xml中使用<if condition>的时候用到的jar包 -->
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${janino.version}</version>
+        </dependency>
 
         <!-- 邮件服务 -->
         <dependency>

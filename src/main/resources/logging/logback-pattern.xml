@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+
+    <!-- 日志展示规则，比如彩色日志、异常日志等 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!-- 自定义日志展示规则 -->
+    <conversionRule conversionWord="ip" converterClass="com.nmys.story.utils.IPAddressConverter" />
+    <conversionRule conversionWord="module" converterClass="com.nmys.story.utils.ModuleConverter" />
+
+    <!-- 上下文属性 -->
+    <springProperty scope="context" name="spring_application_name" source="spring.application.name" />
+    <springProperty scope="context" name="server_port" source="server.port" />
+    <!-- Kafka属性配置 -->
+    <springProperty scope="context" name="spring_application_name" source="spring.application.name" />
+    <springProperty scope="context" name="kafka_enabled" source="zhangjianbing.web.logging.kafka.enabled"/>
+    <springProperty scope="context" name="kafka_broker" source="zhangjianbing.web.logging.kafka.broker"/>
+    <springProperty scope="context" name="kafka_env" source="zhangjianbing.web.logging.kafka.env"/>
+
+    <!-- 日志输出的格式如下 -->
+    <!-- appID | module |  dateTime | level | requestID | traceID | requestIP | userIP | serverIP | serverPort | processID | thread | location | detailInfo-->
+
+    <!-- CONSOLE_LOG_PATTERN属性会在console-appender.xml文件中引用 -->
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(${spring_application_name}){cyan}|%clr(%module){blue}|%clr(%d{ISO8601}){faint}|%clr(%p)|%X{requestId}|%X{X-B3-TraceId:-}|%X{requestIp}|%X{userIp}|%ip|${server_port}|${PID}|%clr(%t){faint}|%clr(%.40logger{39}){cyan}.%clr(%method){cyan}:%L|%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!-- FILE_LOG_PATTERN属性会在logback-defaults.xml文件中引用 -->
+    <property name="FILE_LOG_PATTERN" value="${spring_application_name}|%module|%d{ISO8601}|%p|%X{requestId}|%X{X-B3-TraceId:-}|%X{requestIp}|%X{userIp}|%ip|${server_port}|${PID}|%t|%.40logger{39}.%method:%L|%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!--
+        将 org/springframework/boot/logging/logback/defaults.xml 文件下的默认logger写过来
+     -->
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+    <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+    <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+    <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+    <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+    <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+
+</included>

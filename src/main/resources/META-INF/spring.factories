@@ -1,0 +1,4 @@
+# Auto Configuration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nmys.story.autoconfigure.swagger.SwaggerAutoConfiguration,\
+com.nmys.story.autoconfigure.springcontext.SpringContextAutoConfiguration
