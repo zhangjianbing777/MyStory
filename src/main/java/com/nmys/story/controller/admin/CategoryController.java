@@ -6,6 +6,7 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.IMetaService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("admin/category")
+@Slf4j(topic = "CategoryController")
 public class CategoryController extends BaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired
     private IMetaService metasService;
@@ -49,7 +49,7 @@ public class CategoryController extends BaseController {
             metasService.saveMeta(metaType, cname, mid);
         } catch (Exception e) {
             String msg = "分类保存失败";
-            LOGGER.error(msg, e);
+            log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();
@@ -63,7 +63,7 @@ public class CategoryController extends BaseController {
             metasService.delMetaById(mid);
         } catch (Exception e) {
             String msg = "删除失败";
-            LOGGER.error(msg, e);
+            log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();

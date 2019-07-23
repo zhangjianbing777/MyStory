@@ -8,6 +8,7 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.ICommentService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("admin/comments")
+@Slf4j(topic = "CommentController")
 public class CommentController extends BaseController {
 
     @Autowired

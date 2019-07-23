@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 @Api(value = "用户登录登出Controller")
+@Slf4j(topic = "AuthController")
 public class AuthController extends BaseController {
 
     /**

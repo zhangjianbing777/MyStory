@@ -7,10 +7,9 @@ import com.nmys.story.model.bo.BackResponseBo;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.entity.Options;
 import com.nmys.story.service.IOptionService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +21,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/setting")
+@Slf4j(topic = "SettingController")
 public class SettingController extends BaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SettingController.class);
 
     @Autowired
     private IOptionService optionService;
@@ -120,7 +118,7 @@ public class SettingController extends BaseController {
             if (e instanceof TipException) {
                 msg = e.getMessage();
             } else {
-                LOGGER.error(msg, e);
+                log.error(msg, e);
             }
             return RestResponseBo.fail(msg);
         }

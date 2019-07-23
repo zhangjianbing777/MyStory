@@ -3,6 +3,7 @@ package com.nmys.story.controller.admin;
 import com.nmys.story.constant.MailConstant;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.controller.BaseController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ import org.thymeleaf.context.Context;
  */
 @Controller
 @RequestMapping("/article")
+@Slf4j(topic = "MailController")
 public class MailController extends BaseController {
 
 

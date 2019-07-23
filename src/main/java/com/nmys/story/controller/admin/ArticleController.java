@@ -43,7 +43,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/article")
 @Api(value = "后台文章管理Controller")
-@Slf4j
+@Slf4j(topic = "ArticleController")
 public class ArticleController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);

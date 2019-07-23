@@ -14,6 +14,7 @@ import com.nmys.story.service.IContentService;
 import com.nmys.story.service.IUserService;
 import com.nmys.story.service.SiteService;
 import com.nmys.story.utils.TaleUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -33,11 +34,11 @@ import java.util.List;
  * Return
  * Date 2018/5/9 10:10
  */
-@Controller("adminIndexController")
+@Controller("backStageController")
 @RequestMapping("/admin")
+@Slf4j(topic = "backStageController")
 public class IndexController extends BaseController {
 
-    private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private SiteService siteService;

@@ -1,13 +1,10 @@
 package com.nmys.story.controller;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
 import com.nmys.story.constant.MailConstant;
 import com.nmys.story.constant.WebConstant;
 import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Archive;
-import com.nmys.story.model.dto.ErrorCode;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Comments;
 import com.nmys.story.model.entity.Contents;
@@ -17,11 +14,10 @@ import com.nmys.story.service.*;
 import com.nmys.story.utils.IPKit;
 import com.nmys.story.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +26,6 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -41,10 +36,10 @@ import java.util.List;
  * Return
  * Date 2018/5/11 9:21
  */
-@Controller
+@Controller("frontStageController")
+@Slf4j(topic = "frontStageController")
 public class IndexController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private SiteService siteService;
@@ -60,9 +55,6 @@ public class IndexController extends BaseController {
 
     @Autowired
     private IVisitService visitService;
-
-    @Autowired
-    private ILogService logService;
 
     @Autowired
     private IMetaService metasService;
@@ -211,12 +203,6 @@ public class IndexController extends BaseController {
      * author: 70KG
      * Date: 2018/7/8 上午11:06
      */
-//    @GetMapping(value = "category")
-//    public String category(HttpServletRequest request) {
-//        List<Archive> list = siteService.getArchives();
-//        request.setAttribute("archives", list);
-//        return this.render("category");
-//    }
     @GetMapping(value = "/custom/{pagename}")
     public String page(@PathVariable String pagename,
                        HttpServletRequest request) {
@@ -346,7 +332,7 @@ public class IndexController extends BaseController {
             try {
                 sendReplyNoticeMail(coid, cid, text);
             } catch (Exception e) {
-                logger.error("作者回复后，发送邮件发生异常", e.getMessage());
+                log.error("作者回复后，发送邮件发生异常", e.getMessage());
             }
         } else {
             comments.setAuthor(author);
@@ -379,15 +365,16 @@ public class IndexController extends BaseController {
             return RestResponseBo.ok();
         } catch (Exception e) {
             String msg = "评论发布失败";
-            logger.error(msg, e);
+            log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
     }
 
     /**
      * Description: 发送邮件通知方法
+     *
      * @param coid 当前评论的id
-     * @param cid 当前文章id
+     * @param cid  当前文章id
      * @param text 评论的内容
      * @author: Allen 70KG
      * Date: 2019/1/24
@@ -556,10 +543,6 @@ public class IndexController extends BaseController {
     @GetMapping(value = "soulPainter.html")
     public String soulPainter() {
         return "themes/painter/soulpainter";
-    }
-
-    public static void main(String[] args) {
-        JSONObject jsonObject = JSONUtil.createObj();
     }
 
 }

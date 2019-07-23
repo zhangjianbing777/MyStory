@@ -8,10 +8,9 @@ import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Contents;
 import com.nmys.story.model.entity.Users;
 import com.nmys.story.service.IContentService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,15 +26,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller()
 @RequestMapping("admin/page")
+@Slf4j(topic = "PageController")
 public class PageController extends BaseController {
-
-    private static final Logger logger = LoggerFactory.getLogger(PageController.class);
 
     @Autowired
     private IContentService contentsService;
-
-//    @Resource
-//    private ILogService logService;
 
     @GetMapping(value = "")
     public String index(HttpServletRequest request) {
@@ -91,11 +86,11 @@ public class PageController extends BaseController {
     }
 
     /**
-     * Description:       
-     * Author:70kg  
-     * Param [cid, title, content, status, slug, allowComment, allowPing, request]  
+     * Description:
+     * Author:70kg
+     * Param [cid, title, content, status, slug, allowComment, allowPing, request]
      * Return com.nmys.story.model.bo.RestResponseBo
-     * Date 2018/5/17 16:08  
+     * Date 2018/5/17 16:08
      */
     @PostMapping(value = "modify")
     @ResponseBody
@@ -123,7 +118,7 @@ public class PageController extends BaseController {
         // 更新文章
         String result = "";
         boolean flag = contentsService.updateContent(contents);
-        if(flag){
+        if (flag) {
             result = "SUCCESS";
         } else {
             result = "FAIL";

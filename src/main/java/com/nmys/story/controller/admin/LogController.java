@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("admin/logs")
-@Slf4j
+@Slf4j(topic = "LogController")
 public class LogController extends BaseController {
 
     @Autowired

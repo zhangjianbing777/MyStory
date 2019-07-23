@@ -6,6 +6,7 @@ import com.nmys.story.model.bo.RestResponseBo;
 import com.nmys.story.model.dto.Types;
 import com.nmys.story.model.entity.Metas;
 import com.nmys.story.service.IMetaService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("admin/links")
+@Slf4j(topic = "LinksController")
 public class LinksController extends BaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LinksController.class);
 
     @Autowired
     private IMetaService metasService;
@@ -74,7 +74,7 @@ public class LinksController extends BaseController {
             }
         } catch (Exception e) {
             String msg = "友链保存失败";
-            LOGGER.error(msg, e);
+            log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();
@@ -96,7 +96,7 @@ public class LinksController extends BaseController {
             metaMapper.delMetaById(mid);
         } catch (Exception e) {
             String msg = "友链删除失败";
-            LOGGER.error(msg, e);
+            log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();
