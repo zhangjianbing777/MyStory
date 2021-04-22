@@ -25,7 +25,7 @@
         <pagehelper.version>1.2.3</pagehelper.version>
         <lang3.version>3.5</lang3.version>
         <qiniu.version>7.2.12</qiniu.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
         <jasypt.version>2.0.0</jasypt.version>
         <durd.version>1.0.18</durd.version>
         <lombok.version>1.16.18</lombok.version>
