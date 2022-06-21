@@ -21,7 +21,7 @@
         <emoji.version>3.2.0</emoji.version>
         <mybatis.version>1.3.2</mybatis.version>
         <fastjson.version>1.2.47</fastjson.version>
-        <mysql-connector>5.1.45</mysql-connector>
+        <mysql-connector>8.0.28</mysql-connector>
         <pagehelper.version>1.2.3</pagehelper.version>
         <lang3.version>3.5</lang3.version>
         <qiniu.version>7.2.12</qiniu.version>
